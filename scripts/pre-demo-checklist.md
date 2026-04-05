@@ -27,11 +27,25 @@ Never test against a stale container — you will get false 403s from old securi
 
 ## Database
 
-- [ ] All migrations applied through **V22** (meeting participant `COORDINATOR` role, etc.)
+- [ ] All migrations applied through **V25** (external consultation, `core.users.is_external`, paper `clean_copy_document_id`, etc.)
 - [ ] Demo seed loaded: `SELECT count(*) FROM core.meetings WHERE title LIKE '%MSC 108%'` → 1
 - [ ] Demo document has 2 versions: `SELECT count(*) FROM documents.document_versions WHERE document_id = '00000000-0000-0000-0000-000000000201'` → 2
 - [ ] Demo paper (optional): `SELECT paper_id, status FROM core.papers WHERE paper_id = '00000000-0000-0000-0000-000000000501'`
 - [ ] Demo meeting participants: `SELECT count(*) FROM core.meeting_participants WHERE meeting_id = '00000000-0000-0000-0000-000000000001'` → &gt; 0
+
+## External agency demo users (Phase 4)
+
+All password: `Agency@12345!`
+
+Create users in Keycloak once: `chmod +x scripts/create-keycloak-external-users.sh && ./scripts/create-keycloak-external-users.sh`
+
+| Username | Organisation |
+|---|---|
+| moefcc-rep | Ministry of Environment, Forest & Climate Change |
+| mea-rep | Ministry of External Affairs |
+| mod-rep | Ministry of Defence |
+| mos-rep | Ministry of Steel |
+| mopng-rep | Ministry of Petroleum & Natural Gas |
 
 ## Demo users (log in and verify)
 
@@ -54,5 +68,5 @@ Never test against a stale container — you will get false 403s from old securi
 - [ ] Dashboard shows role-specific “To-Do” (member pending tasks, DL approvals / team badge, CO assigned count) when API is up
 - [ ] Notification bell shows unread count from `GET /api/v1/notifications/unread-count`
 - [ ] Paper approval chain shows on `/papers/{id}/approval`
-- [ ] Phase 4–6 wireframe screens load with Sprint 3 banners (if applicable)
+- [ ] Paper external consultation (`/papers/{id}/consultation`) loads live agency status from the API when the paper has `cleanCopyDocumentId`
 - [ ] No console errors on dashboard, meeting detail, editor pages

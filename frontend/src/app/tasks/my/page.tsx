@@ -89,23 +89,27 @@ export default async function MyTasksPage() {
     </ul>
   );
 
+  const colHeader = (title: string) => (
+    <h2 className="mb-4 rounded-t-lg bg-[var(--navy-800)] px-4 py-2.5 text-base font-semibold text-white">{title}</h2>
+  );
+
   return (
-    <div>
+    <div className="bg-[var(--slate-50)] pb-8">
       <MyTasksHeader overdueCount={overdueCount} />
       {apiUnavailable && <ApiUnavailableBanner />}
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <section className="card card-body">
-          <h2 className="mb-4 text-base font-semibold text-slate-900">Pending</h2>
-          {col(pending)}
+        <section className="overflow-hidden rounded-lg border border-[var(--slate-200)] bg-white shadow-sm">
+          {colHeader('Pending')}
+          <div className="card-body">{col(pending)}</div>
         </section>
-        <section className="card card-body">
-          <h2 className="mb-4 text-base font-semibold text-slate-900">In progress</h2>
-          {col(inProgress)}
+        <section className="overflow-hidden rounded-lg border border-[var(--slate-200)] bg-white shadow-sm">
+          {colHeader('In progress')}
+          <div className="card-body">{col(inProgress)}</div>
         </section>
-        <section className="card card-body">
-          <h2 className="mb-4 text-base font-semibold text-slate-900">Completed</h2>
-          {col(completed)}
+        <section className="overflow-hidden rounded-lg border border-[var(--slate-200)] bg-white shadow-sm">
+          {colHeader('Completed')}
+          <div className="card-body">{col(completed)}</div>
         </section>
       </div>
     </div>

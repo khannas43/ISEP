@@ -3,25 +3,14 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
 import { getApiUrl } from '@/lib/api';
-
-const mockMetrics = [
-  { label: 'Members participated', value: '24', subtext: 'of 28 assigned' },
-  { label: 'Tasks completed', value: '87%', subtext: '41 of 47 tasks' },
-  { label: 'Papers finalised', value: '6', subtext: 'of 9 agenda items' },
-  { label: 'Avg approval cycle', value: '4.2 days', subtext: 'target: 5 days' },
-];
-
-const mockBars = [
-  { label: 'MSC 108', value: 92 },
-  { label: 'MEPC 82', value: 78 },
-  { label: 'HTW 11', value: 85 },
-];
+import { AnalyticsReportClient } from './AnalyticsReportClient';
 
 export default async function AnalyticsReportPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect('/login');
 
-  const accessToken = (session as { accessToken?: string }).accessToken;
+  const accessToken = (session as { accessToken?: string }).accessToken ?? '';
+
   let submissionsByBody: Array<{ bodyName: string; submissionsCount: number; meetingsCount: number }> = [];
   let taskStats = { total: 0, completed: 0, inProgress: 0, pending: 0 };
   if (accessToken) {
@@ -64,63 +53,21 @@ export default async function AnalyticsReportPage() {
           <div>
             <h1 className="page-title">Participation analytics</h1>
             <p className="page-subtitle">
-              Representative metrics for demo. Live analytics and exports arrive in Sprint 3.
+              Live meeting KPIs from the API: participation, tasks, and papers. Select a meeting to refresh metrics and
+              export.
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {mockMetrics.map((m) => (
-              <div key={m.label} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-                <p className="text-xs font-medium uppercase text-slate-500">{m.label}</p>
-                <p className="mt-1 text-2xl font-semibold text-slate-900">{m.value}</p>
-                <p className="mt-0.5 text-xs text-slate-500">{m.subtext}</p>
-              </div>
-            ))}
-          </div>
-
-          <div>
-            <h2 className="text-base font-semibold text-slate-900">Participation by committee (mock)</h2>
-            <div className="mt-3 space-y-3">
-              {mockBars.map((b) => (
-                <div key={b.label}>
-                  <div className="mb-1 flex justify-between text-sm text-slate-600">
-                    <span>{b.label}</span>
-                    <span>{b.value}%</span>
-                  </div>
-                  <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
-                    <div className="h-full rounded-full bg-blue-500" style={{ width: `${b.value}%` }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {['PDF', 'Excel', 'XML'].map((fmt) => (
-              <button
-                key={fmt}
-                type="button"
-                disabled
-                title="Export — Sprint 3 delivery"
-                className="cursor-not-allowed rounded border border-slate-200 px-3 py-1.5 text-sm text-slate-400"
-              >
-                Export {fmt}
-              </button>
-            ))}
-          </div>
-
-          <div className="rounded-lg border border-purple-200 bg-purple-50 p-3 text-sm text-purple-800">
-            <strong>Sprint 3 feature:</strong> Live analytics powered by meeting data, auto-generated MoM, and configurable
-            exports will be available in Sprint 3. Data shown is representative of final interface.
-          </div>
+          <AnalyticsReportClient accessToken={accessToken} />
         </div>
       </div>
 
       <div className="card">
         <div className="card-body">
-          <h2 className="text-base font-semibold text-slate-900">Live data snapshot</h2>
+          <h2 className="text-base font-semibold text-slate-900">Organisation snapshot</h2>
           <p className="mt-1 text-sm text-slate-600">
-            Submissions per committee and task counts from the API when available. Date range and drill-down in production.
+            Submissions per committee and task counts from the API when available. Date range and drill-down can extend
+            this view in production.
           </p>
 
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -137,8 +84,8 @@ export default async function AnalyticsReportPage() {
               <p className="mt-1 text-2xl font-semibold text-amber-600">{taskStats.inProgress}</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-4">
-              <p className="text-xs font-medium uppercase text-slate-500">Feedback submitted</p>
-              <p className="mt-1 text-2xl font-semibold text-slate-900">0</p>
+              <p className="text-xs font-medium uppercase text-slate-500">Pending</p>
+              <p className="mt-1 text-2xl font-semibold text-slate-900">{taskStats.pending}</p>
             </div>
           </div>
 

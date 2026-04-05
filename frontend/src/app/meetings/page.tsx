@@ -2,6 +2,7 @@
  * Meetings list page — paginated list with filters (body, status, search q).
  * Server component: fetches bodies (for filter dropdown) and meetings from API. Renders MeetingsListClient for sort/filter UI.
  */
+import Image from 'next/image';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
@@ -52,13 +53,21 @@ async function getMeetings(
 
 function meetingStatusBadge(s: string): string {
   const map: Record<string, string> = {
-    ACTIVE: 'badge badge-success',
-    CONCLUDED: 'badge badge-neutral',
-    ARCHIVED: 'badge badge-neutral',
-    CANCELLED: 'badge badge-danger',
-    PLANNED: 'badge badge-info',
+    ACTIVE: 'rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-800',
+    CONCLUDED: 'rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700',
+    ARCHIVED: 'rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700',
+    CANCELLED: 'rounded-full bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-800',
+    PLANNED: 'rounded-full bg-[var(--navy-100)] px-2 py-0.5 text-xs font-semibold text-[var(--navy-800)]',
   };
-  return map[s] ?? 'badge badge-neutral';
+  const key = (s || '').toUpperCase();
+  return map[key] ?? 'rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700';
+}
+
+function meetingListAccent(status: string | undefined): string {
+  const s = (status ?? '').toUpperCase();
+  if (s === 'ACTIVE') return 'var(--success)';
+  if (s === 'CONCLUDED' || s === 'ARCHIVED') return 'var(--slate-300)';
+  return 'var(--navy-400)';
 }
 
 type SortKey = 'title' | 'bodyName' | 'sessionNumber' | 'startDate' | 'location' | 'meetingType' | 'status';
@@ -181,17 +190,31 @@ export default async function MeetingsListPage({ searchParams }: Props) {
   return (
     <>
       {apiUnavailable && <ApiUnavailableBanner />}
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Meetings</h1>
-          <p className="page-subtitle">Browse and filter meetings by body, status, and type.</p>
+      <header className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-[var(--slate-200)] bg-white px-1 pb-6 sm:px-2">
+        <div className="flex min-w-0 flex-1 items-start gap-4">
+          <Image
+            src="/dgs-logo-dark.png"
+            alt=""
+            width={36}
+            height={36}
+            className="mt-1 hidden shrink-0 rounded-full object-cover sm:block"
+          />
+          <div>
+            <h1
+              className="text-2xl font-bold tracking-tight text-[var(--navy-800)] sm:text-3xl"
+              style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
+            >
+              Meetings
+            </h1>
+            <p className="mt-1 text-sm text-[var(--slate-500)]">Browse and filter meetings by body, status, and type.</p>
+          </div>
         </div>
         {canCreateMeeting && (
-          <Link href="/meetings/create" className="btn-primary">
+          <Link href="/meetings/create" className="btn-primary shrink-0">
             Create Meeting
           </Link>
         )}
-      </div>
+      </header>
 
       <div className="card mb-6">
         <div className="card-header">
@@ -251,87 +274,74 @@ export default async function MeetingsListPage({ searchParams }: Props) {
         </div>
       </div>
 
-      <div className="table-container">
-        <table className="min-w-full divide-y divide-slate-200">
-          <thead>
-            <tr>
-              <th className="table-header px-5 py-3.5">
-                <Link href={buildSortUrl(params, 'title')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
-                  Meeting Id
-                  {sortBy === 'title' && <span className="text-slate-400">{sortDir === 'asc' ? '↑' : '↓'}</span>}
-                </Link>
-              </th>
-              <th className="table-header px-5 py-3.5">
-                <Link href={buildSortUrl(params, 'bodyName')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
-                  Meeting Title
-                  {sortBy === 'bodyName' && <span className="text-slate-400">{sortDir === 'asc' ? '↑' : '↓'}</span>}
-                </Link>
-              </th>
-              <th className="table-header px-5 py-3.5">
-                <Link href={buildSortUrl(params, 'sessionNumber')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
-                  Session
-                  {sortBy === 'sessionNumber' && <span className="text-slate-400">{sortDir === 'asc' ? '↑' : '↓'}</span>}
-                </Link>
-              </th>
-              <th className="table-header px-5 py-3.5">
-                <Link href={buildSortUrl(params, 'startDate')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
-                  Dates
-                  {sortBy === 'startDate' && <span className="text-slate-400">{sortDir === 'asc' ? '↑' : '↓'}</span>}
-                </Link>
-              </th>
-              <th className="table-header px-5 py-3.5">
-                <Link href={buildSortUrl(params, 'location')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
-                  Location
-                  {sortBy === 'location' && <span className="text-slate-400">{sortDir === 'asc' ? '↑' : '↓'}</span>}
-                </Link>
-              </th>
-              <th className="table-header px-5 py-3.5">
-                <Link href={buildSortUrl(params, 'meetingType')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
-                  Type
-                  {sortBy === 'meetingType' && <span className="text-slate-400">{sortDir === 'asc' ? '↑' : '↓'}</span>}
-                </Link>
-              </th>
-              <th className="table-header px-5 py-3.5">
-                <Link href={buildSortUrl(params, 'status')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
-                  Status
-                  {sortBy === 'status' && <span className="text-slate-400">{sortDir === 'asc' ? '↑' : '↓'}</span>}
-                </Link>
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-200">
-            {meetings.length === 0 ? (
-              <tr>
-                <td colSpan={7} className="table-cell py-12 text-center">
-                  <p className="text-slate-500">No meetings found. Try adjusting your filters.</p>
-                  {!accessToken && (
-                    <p className="mt-2 text-sm text-amber-600">You may need to sign in again so the app can load data from the API.</p>
-                  )}
-                </td>
-              </tr>
-            ) : (
-              meetings.map((m) => (
-                <tr key={m.meetingId} className="transition-colors hover:bg-slate-50/80">
-                  <td className="table-cell">
-                    <Link href={`/meetings/${m.meetingId}`} className="font-medium text-blue-600 hover:text-blue-700 hover:underline">
+      <div className="mb-4 flex flex-wrap gap-2 text-xs font-medium text-[var(--slate-600)]">
+        <span className="self-center text-[var(--slate-500)]">Sort:</span>
+        <Link href={buildSortUrl(params, 'title')} className="rounded-md bg-white px-2 py-1 ring-1 ring-[var(--slate-200)] hover:bg-[var(--slate-50)]">
+          Title {sortBy === 'title' && (sortDir === 'asc' ? '↑' : '↓')}
+        </Link>
+        <Link href={buildSortUrl(params, 'bodyName')} className="rounded-md bg-white px-2 py-1 ring-1 ring-[var(--slate-200)] hover:bg-[var(--slate-50)]">
+          Body {sortBy === 'bodyName' && (sortDir === 'asc' ? '↑' : '↓')}
+        </Link>
+        <Link href={buildSortUrl(params, 'startDate')} className="rounded-md bg-white px-2 py-1 ring-1 ring-[var(--slate-200)] hover:bg-[var(--slate-50)]">
+          Dates {sortBy === 'startDate' && (sortDir === 'asc' ? '↑' : '↓')}
+        </Link>
+        <Link href={buildSortUrl(params, 'status')} className="rounded-md bg-white px-2 py-1 ring-1 ring-[var(--slate-200)] hover:bg-[var(--slate-50)]">
+          Status {sortBy === 'status' && (sortDir === 'asc' ? '↑' : '↓')}
+        </Link>
+      </div>
+
+      <div className="space-y-4">
+        {meetings.length === 0 ? (
+          <div className="rounded-xl border border-[var(--slate-200)] bg-white py-12 text-center shadow-sm">
+            <p className="text-[var(--slate-500)]">No meetings found. Try adjusting your filters.</p>
+            {!accessToken && (
+              <p className="mt-2 text-sm text-amber-600">You may need to sign in again so the app can load data from the API.</p>
+            )}
+          </div>
+        ) : (
+          meetings.map((m) => {
+            const loc = m.location?.trim();
+            const when = `${formatDisplayDate(m.startDate)}${loc ? ` · ${loc}` : ''}`;
+            return (
+              <div
+                key={m.meetingId}
+                className="rounded-lg border border-[var(--slate-200)] bg-white shadow-sm transition-shadow hover:shadow-md"
+                style={{
+                  borderLeftWidth: 4,
+                  borderLeftStyle: 'solid',
+                  borderLeftColor: meetingListAccent(m.status),
+                }}
+              >
+                <div className="flex flex-wrap items-start justify-between gap-4 px-5 py-4">
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-[var(--navy-100)] px-2.5 py-0.5 text-xs font-semibold text-[var(--navy-800)]">
+                        {m.bodyName}
+                      </span>
+                      <span className={meetingStatusBadge(m.status)}>{m.status}</span>
+                    </div>
+                    <Link
+                      href={`/meetings/${m.meetingId}`}
+                      className="text-lg font-semibold text-[var(--navy-800)] hover:text-[var(--navy-600)]"
+                    >
                       {m.title}
                     </Link>
-                  </td>
-                  <td className="table-cell text-slate-600">{m.bodyName}</td>
-                  <td className="table-cell text-slate-600">{m.sessionNumber ?? '—'}</td>
-                  <td className="table-cell text-slate-600">
-                    {formatDisplayDate(m.startDate)} – {formatDisplayDate(m.endDate)}
-                  </td>
-                  <td className="table-cell text-slate-600">{m.location ?? '—'}</td>
-                  <td className="table-cell text-slate-600">{m.meetingType.replace(/_/g, ' ')}</td>
-                  <td className="table-cell">
-                    <span className={meetingStatusBadge(m.status)}>{m.status}</span>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+                    <p className="mt-1 text-sm text-[var(--slate-500)]">
+                      {when} · {m.meetingType.replace(/_/g, ' ')}
+                      {m.sessionNumber ? ` · Session ${m.sessionNumber}` : ''}
+                    </p>
+                  </div>
+                  <Link
+                    href={`/meetings/${m.meetingId}`}
+                    className="shrink-0 text-sm font-medium text-[var(--navy-500)] hover:underline"
+                  >
+                    Open →
+                  </Link>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
 
       {meetingsPage.totalPages > 1 && (

@@ -94,4 +94,28 @@ public class NotificationService {
         n = notificationRepository.save(n);
         return NotificationDto.from(n);
     }
+
+    @Transactional
+    public void notifyConsultation(UUID agencyUserId, UUID documentId, UUID consultationId) {
+        create(
+                agencyUserId,
+                "CONSULTATION",
+                "Consultation request",
+                "You have been asked to review a document and provide feedback.",
+                "CONSULTATION",
+                consultationId.toString());
+    }
+
+    @Transactional
+    public void notifyFeedbackReceived(UUID delegationLeaderUserId, UUID fromAgencyUserId, UUID consultationId) {
+        User from = userRepository.findById(fromAgencyUserId).orElse(null);
+        String who = from != null ? from.getFullName() : "Agency";
+        create(
+                delegationLeaderUserId,
+                "CONSULTATION_FEEDBACK",
+                "Agency feedback received",
+                who + " submitted consultation feedback.",
+                "CONSULTATION",
+                consultationId.toString());
+    }
 }

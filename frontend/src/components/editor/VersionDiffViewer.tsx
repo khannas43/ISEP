@@ -140,7 +140,7 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
               type="button"
               onClick={() => void generateCleanCopy('REJECT_ALL')}
               disabled={generating}
-              className="rounded border border-red-300 px-3 py-1.5 text-xs text-red-700 hover:bg-red-50 disabled:opacity-50"
+              className="rounded border-2 border-red-400 bg-white px-3 py-1.5 text-xs font-medium text-red-700 hover:bg-red-50 disabled:opacity-50"
             >
               {t('diff.rejectAll')}
             </button>
@@ -148,7 +148,7 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
               type="button"
               onClick={() => void generateCleanCopy('ACCEPT_ALL')}
               disabled={generating}
-              className="rounded border border-green-300 px-3 py-1.5 text-xs text-green-700 hover:bg-green-50 disabled:opacity-50"
+              className="rounded bg-[var(--navy-600)] px-3 py-1.5 text-xs font-medium text-white hover:bg-[var(--navy-700)] disabled:opacity-50"
             >
               {t('diff.acceptAll')}
             </button>
@@ -157,7 +157,7 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
                 type="button"
                 onClick={() => void generateCleanCopy('USE_DECISIONS')}
                 disabled={generating}
-                className="rounded bg-blue-600 px-3 py-1.5 text-xs text-white hover:bg-blue-700 disabled:opacity-50"
+                className="rounded bg-[var(--navy-600)] px-3 py-1.5 text-xs font-semibold text-white ring-2 ring-[var(--gold-400)] ring-offset-1 hover:bg-[var(--navy-700)] disabled:opacity-50"
               >
                 {generating ? t('common.saving') : t('diff.generateCleanCopy')}
               </button>
@@ -172,16 +172,16 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
         </p>
       )}
 
-      <div className="overflow-hidden rounded-lg border border-slate-200 font-mono text-sm">
+      <div className="overflow-hidden rounded-lg border border-[var(--slate-200)] font-mono text-sm shadow-sm">
         {diff.changes.map((chunk) => (
           <div
             key={chunk.changeIndex}
-            className={`flex items-start gap-3 border-b border-slate-100 px-4 py-2 last:border-b-0 ${
+            className={`flex items-start gap-3 border-b border-[var(--slate-100)] px-4 py-2 last:border-b-0 ${
               chunk.type === 'INSERTED'
-                ? 'bg-green-50'
+                ? 'border-l-4 border-l-green-500 bg-[#f0fdf4]'
                 : chunk.type === 'DELETED'
-                  ? 'bg-red-50 text-red-800 line-through'
-                  : 'bg-white'
+                  ? 'border-l-4 border-l-red-500 bg-[#fef2f2] text-red-800 line-through'
+                  : 'border-l-4 border-l-transparent bg-white'
             } ${chunk.decision === 'REJECTED' ? 'opacity-40' : ''}`}
           >
             <span
@@ -205,10 +205,10 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
                   <button
                     type="button"
                     onClick={() => void recordDecision(chunk.changeIndex, 'ACCEPTED')}
-                    className={`rounded border px-2 py-0.5 text-xs ${
+                    className={`rounded px-2 py-0.5 text-xs font-medium ${
                       chunk.decision === 'ACCEPTED'
-                        ? 'border-green-500 bg-green-500 text-white'
-                        : 'border-green-300 text-green-700 hover:bg-green-50'
+                        ? 'bg-[var(--navy-600)] text-white'
+                        : 'bg-[var(--navy-600)] text-white hover:bg-[var(--navy-700)]'
                     }`}
                     title={t('diff.accept')}
                   >
@@ -217,10 +217,10 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
                   <button
                     type="button"
                     onClick={() => void recordDecision(chunk.changeIndex, 'REJECTED')}
-                    className={`rounded border px-2 py-0.5 text-xs ${
+                    className={`rounded border-2 px-2 py-0.5 text-xs font-medium ${
                       chunk.decision === 'REJECTED'
-                        ? 'border-red-500 bg-red-500 text-white'
-                        : 'border-red-300 text-red-700 hover:bg-red-50'
+                        ? 'border-red-600 bg-red-600 text-white'
+                        : 'border-red-400 bg-white text-red-700 hover:bg-red-50'
                     }`}
                     title={t('diff.reject')}
                   >

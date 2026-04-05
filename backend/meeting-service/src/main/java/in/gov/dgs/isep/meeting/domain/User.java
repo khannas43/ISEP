@@ -34,6 +34,9 @@ public class User {
     @Column(nullable = false)
     private Boolean isActive = true;
 
+    @Column(name = "is_external", nullable = false)
+    private Boolean isExternal = false;
+
     @Column(name = "system_role", length = 50)
     private String systemRole;
 
@@ -59,4 +62,6 @@ public class User {
     public void setOrganization(String organization) { this.organization = organization; }
     public Boolean getIsActive() { return isActive; }
     public void setIsActive(Boolean active) { isActive = active; }
+    public Boolean getIsExternal() { return isExternal; }
+    public void setIsExternal(Boolean external) { isExternal = external; }
 }

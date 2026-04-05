@@ -239,13 +239,15 @@ public class PaperController {
         String agendaItemId = null;
         if (p.getMeeting() != null) meetingId = p.getMeeting().getMeetingId().toString();
         if (p.getAgendaItem() != null) agendaItemId = p.getAgendaItem().getAgendaItemId().toString();
+        String cleanCopyDocumentId = p.getCleanCopyDocumentId() != null ? p.getCleanCopyDocumentId().toString() : null;
         return new PaperListItem(
                 p.getPaperId().toString(),
                 p.getTitle() != null ? p.getTitle() : "Untitled",
                 p.getStatus() != null ? p.getStatus() : "DRAFT",
                 meetingId,
                 agendaItemId,
-                p.getDraftSavedAt() != null ? p.getDraftSavedAt().toString() : null
+                p.getDraftSavedAt() != null ? p.getDraftSavedAt().toString() : null,
+                cleanCopyDocumentId
         );
     }
 
@@ -258,5 +260,13 @@ public class PaperController {
                 .orElse(null);
     }
 
-    public record PaperListItem(String paperId, String title, String status, String meetingId, String agendaItemId, String lastUpdated) {}
+    public record PaperListItem(
+            String paperId,
+            String title,
+            String status,
+            String meetingId,
+            String agendaItemId,
+            String lastUpdated,
+            String cleanCopyDocumentId
+    ) {}
 }

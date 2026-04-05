@@ -1,15 +1,15 @@
 const STATUS_COLOURS: Record<string, string> = {
-  DRAFT: 'bg-gray-100 text-gray-700',
-  IN_APPROVAL: 'bg-blue-100 text-blue-700',
-  SUBMITTED_TO_GROUP_LEADER: 'bg-blue-100 text-blue-700',
-  SUBMITTED_TO_DELEGATION_LEADER: 'bg-blue-100 text-blue-700',
-  SUBMITTED_TO_IC_DIVISION: 'bg-purple-100 text-purple-700',
-  SUBMITTED_TO_CS_NA_CSS: 'bg-purple-100 text-purple-700',
-  SUBMITTED_TO_DG: 'bg-amber-100 text-amber-700',
-  SUBMITTED_TO_MOPSW: 'bg-amber-100 text-amber-700',
-  CLEAN_COPY: 'bg-green-100 text-green-700',
-  FINALIZED: 'bg-green-200 text-green-800',
-  LOCKED: 'bg-gray-200 text-gray-600',
+  DRAFT: 'bg-slate-100 text-slate-800',
+  IN_APPROVAL: 'bg-[var(--navy-100)] text-[var(--navy-800)]',
+  SUBMITTED_TO_GROUP_LEADER: 'bg-[var(--navy-100)] text-[var(--navy-800)]',
+  SUBMITTED_TO_DELEGATION_LEADER: 'bg-[var(--navy-100)] text-[var(--navy-800)]',
+  SUBMITTED_TO_IC_DIVISION: 'bg-[var(--navy-100)] text-[var(--navy-800)]',
+  SUBMITTED_TO_CS_NA_CSS: 'bg-[var(--navy-100)] text-[var(--navy-800)]',
+  SUBMITTED_TO_DG: 'bg-[var(--gold-100)] text-amber-900',
+  SUBMITTED_TO_MOPSW: 'bg-[var(--gold-100)] text-amber-900',
+  CLEAN_COPY: 'bg-emerald-50 text-emerald-800',
+  FINALIZED: 'bg-emerald-100 text-emerald-900',
+  LOCKED: 'bg-slate-200 text-slate-600',
   REJECTED: 'bg-red-100 text-red-800',
 };
 
@@ -17,8 +17,8 @@ export function PaperStatusBadge({ status }: { status: string }) {
   const label = status.replace(/_/g, ' ');
   return (
     <span
-      className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-        STATUS_COLOURS[status] ?? 'bg-gray-100 text-gray-600'
+      className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+        STATUS_COLOURS[status] ?? 'bg-slate-100 text-slate-600'
       }`}
     >
       {label}

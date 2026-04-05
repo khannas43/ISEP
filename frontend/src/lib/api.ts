@@ -92,6 +92,8 @@ export type MeetingDto = {
   status: string;
   notes: string | null;
   createdAt: string;
+  liveSessionActive?: boolean;
+  liveSessionStartedAt?: string | null;
 };
 
 export type MeetingsPage = {
@@ -310,6 +312,7 @@ export type AgendaItemDto = {
   assignedCoordinatorId: string | null;
   assignedCoordinatorName: string | null;
   inputsReceivedCount?: number;
+  discussionLocked?: boolean;
 };
 
 export async function getAgendaItem(
@@ -475,6 +478,8 @@ export type PaperListItem = {
   meetingId: string | null;
   agendaItemId: string | null;
   lastUpdated: string | null;
+  /** Linked clean-copy document for external consultation (Phase 4) */
+  cleanCopyDocumentId?: string | null;
   /** Optional display labels when returned by API */
   meetingTitle?: string | null;
   agendaItemTitle?: string | null;
@@ -535,6 +540,102 @@ export type PaperDraftResponse = {
   savedAt?: string;
   lastModifiedBy?: string | null;
 };
+
+// ========== External consultation (Phase 4) ==========
+export type ConsultationAgencyDto = {
+  id: string;
+  agencyUserId: string;
+  agencyName: string;
+  status: string;
+  feedbackHtml: string | null;
+  feedbackSubmittedAt: string | null;
+  currentUser: boolean;
+};
+
+export type ConsultationDto = {
+  id: string;
+  documentId: string;
+  sentByUserId: string;
+  sentAt: string | null;
+  deadline: string | null;
+  notes: string | null;
+  status: string;
+  agencies: ConsultationAgencyDto[];
+};
+
+export type ExternalAgencyCandidateDto = {
+  userId: string;
+  fullName: string;
+  organization: string;
+};
+
+export async function getDocumentConsultations(
+  accessToken: string,
+  documentId: string
+): Promise<ConsultationDto[]> {
+  const res = await fetch(
+    `${getApiUrl()}/api/v1/documents/${encodeURIComponent(documentId)}/consultations`,
+    { headers: { Authorization: `Bearer ${accessToken}` }, cache: 'no-store' }
+  );
+  if (!res.ok) return [];
+  const data = await res.json();
+  return Array.isArray(data) ? (data as ConsultationDto[]) : [];
+}
+
+export async function getExternalAgencyCandidates(
+  accessToken: string
+): Promise<ExternalAgencyCandidateDto[]> {
+  const res = await fetch(`${getApiUrl()}/api/v1/consultations/external-agency-candidates`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return Array.isArray(data) ? (data as ExternalAgencyCandidateDto[]) : [];
+}
+
+export async function sendDocumentConsultation(
+  accessToken: string,
+  documentId: string,
+  body: { agencyUserIds: string[]; deadline?: string | null; notes?: string | null }
+): Promise<ConsultationDto | null> {
+  const res = await fetch(
+    `${getApiUrl()}/api/v1/documents/${encodeURIComponent(documentId)}/consultations`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        agencyUserIds: body.agencyUserIds,
+        deadline: body.deadline ?? null,
+        notes: body.notes ?? null,
+      }),
+    }
+  );
+  if (!res.ok) return null;
+  return (await res.json()) as ConsultationDto;
+}
+
+export async function submitConsultationFeedback(
+  accessToken: string,
+  consultationId: string,
+  feedbackHtml: string
+): Promise<boolean> {
+  const res = await fetch(
+    `${getApiUrl()}/api/v1/consultations/${encodeURIComponent(consultationId)}/feedback`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ feedbackHtml }),
+    }
+  );
+  return res.ok;
+}
 
 export async function getPaperDraft(
   accessToken: string,

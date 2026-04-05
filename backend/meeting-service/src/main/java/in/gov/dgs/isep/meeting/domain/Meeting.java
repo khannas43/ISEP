@@ -57,6 +57,12 @@ public class Meeting {
     @Column(name = "created_by")
     private UUID createdBy;
 
+    @Column(name = "live_session_active", nullable = false)
+    private boolean liveSessionActive = false;
+
+    @Column(name = "live_session_started_at")
+    private Instant liveSessionStartedAt;
+
     public Meeting() {}
 
     @PrePersist
@@ -99,6 +105,22 @@ public class Meeting {
     public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
     public UUID getCreatedBy() { return createdBy; }
     public void setCreatedBy(UUID createdBy) { this.createdBy = createdBy; }
+
+    public boolean isLiveSessionActive() {
+        return liveSessionActive;
+    }
+
+    public void setLiveSessionActive(boolean liveSessionActive) {
+        this.liveSessionActive = liveSessionActive;
+    }
+
+    public Instant getLiveSessionStartedAt() {
+        return liveSessionStartedAt;
+    }
+
+    public void setLiveSessionStartedAt(Instant liveSessionStartedAt) {
+        this.liveSessionStartedAt = liveSessionStartedAt;
+    }
 
     public enum MeetingType {
         IN_PERSON, VIRTUAL, HYBRID

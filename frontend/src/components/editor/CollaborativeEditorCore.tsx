@@ -347,7 +347,7 @@ export function CollaborativeEditor({
   if (!editor) return null
 
   return (
-    <div className="flex h-full min-h-[320px] flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
+    <div className="flex h-full min-h-[320px] flex-col overflow-hidden rounded-lg border border-[var(--slate-200)] bg-white shadow-sm">
       <PresenceBar users={connectedUsers} />
       {!isLocked && (
         <EditorToolbar

@@ -59,24 +59,14 @@ export default async function TeamTasksPage() {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse border border-slate-200 text-sm">
+        <table className="min-w-full border-collapse overflow-hidden rounded-lg border border-[var(--slate-200)] text-sm shadow-sm">
           <thead>
-            <tr className="bg-slate-50">
-              <th className="border border-slate-200 px-4 py-2.5 text-left font-semibold text-slate-900">
-                Assignee
-              </th>
-              <th className="border border-slate-200 px-4 py-2.5 text-left font-semibold text-slate-900">
-                Overdue
-              </th>
-              <th className="border border-slate-200 px-4 py-2.5 text-left font-semibold text-slate-900">
-                Pending
-              </th>
-              <th className="border border-slate-200 px-4 py-2.5 text-left font-semibold text-slate-900">
-                In progress
-              </th>
-              <th className="border border-slate-200 px-4 py-2.5 text-left font-semibold text-slate-900">
-                Completed
-              </th>
+            <tr className="bg-[var(--navy-800)] text-white">
+              <th className="border-b border-white/10 px-4 py-3 text-left font-semibold">Assignee</th>
+              <th className="border-b border-white/10 px-4 py-3 text-left font-semibold">Overdue</th>
+              <th className="border-b border-white/10 px-4 py-3 text-left font-semibold">Pending</th>
+              <th className="border-b border-white/10 px-4 py-3 text-left font-semibold">In progress</th>
+              <th className="border-b border-white/10 px-4 py-3 text-left font-semibold">Completed</th>
             </tr>
           </thead>
           <tbody>

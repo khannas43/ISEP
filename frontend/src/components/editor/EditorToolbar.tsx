@@ -30,11 +30,15 @@ export function EditorToolbar({
   }[saveStatus];
 
   return (
-    <div className="flex flex-wrap items-center gap-1 border-b border-slate-200 bg-slate-50 px-3 py-2">
+    <div className="flex flex-wrap items-center gap-1 border-b border-[var(--slate-200)] bg-white px-3 py-2">
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
-        className={editor.isActive('bold') ? 'rounded bg-slate-200 px-2 py-1 font-bold' : 'rounded px-2 py-1'}
+        className={
+          editor.isActive('bold')
+            ? 'rounded bg-[var(--navy-50)] px-2 py-1 font-bold text-[var(--navy-700)]'
+            : 'rounded px-2 py-1'
+        }
         title={t('editor.bold')}
       >
         B
@@ -42,7 +46,11 @@ export function EditorToolbar({
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={editor.isActive('italic') ? 'rounded bg-slate-200 px-2 py-1 italic' : 'rounded px-2 py-1'}
+        className={
+          editor.isActive('italic')
+            ? 'rounded bg-[var(--navy-50)] px-2 py-1 italic text-[var(--navy-700)]'
+            : 'rounded px-2 py-1'
+        }
         title={t('editor.italic')}
       >
         I
@@ -50,7 +58,11 @@ export function EditorToolbar({
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleUnderline().run()}
-        className={editor.isActive('underline') ? 'rounded bg-slate-200 px-2 py-1 underline' : 'rounded px-2 py-1'}
+        className={
+          editor.isActive('underline')
+            ? 'rounded bg-[var(--navy-50)] px-2 py-1 text-[var(--navy-700)] underline'
+            : 'rounded px-2 py-1'
+        }
         title={t('editor.underline')}
       >
         U
@@ -59,14 +71,18 @@ export function EditorToolbar({
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={editor.isActive('bulletList') ? 'rounded bg-slate-200 px-2 py-1' : 'rounded px-2 py-1'}
+        className={
+          editor.isActive('bulletList') ? 'rounded bg-[var(--navy-50)] px-2 py-1 text-[var(--navy-700)]' : 'rounded px-2 py-1'
+        }
       >
         •
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={editor.isActive('orderedList') ? 'rounded bg-slate-200 px-2 py-1' : 'rounded px-2 py-1'}
+        className={
+          editor.isActive('orderedList') ? 'rounded bg-[var(--navy-50)] px-2 py-1 text-[var(--navy-700)]' : 'rounded px-2 py-1'
+        }
       >
         1.
       </button>
@@ -75,7 +91,9 @@ export function EditorToolbar({
         type="button"
         onClick={onToggleTrackChanges}
         className={`rounded border px-2 py-1 text-xs font-medium ${
-          trackChanges ? 'border-green-400 bg-green-100 text-green-800' : 'border-slate-300 bg-white text-slate-600'
+          trackChanges
+            ? 'border-[var(--navy-500)] bg-[var(--navy-600)] text-white'
+            : 'border-[var(--slate-300)] bg-white text-[var(--slate-600)]'
         }`}
         title={t('editor.trackChanges')}
       >
@@ -87,10 +105,12 @@ export function EditorToolbar({
           saveStatus === 'conflict'
             ? 'text-red-600'
             : saveStatus === 'unsaved'
-              ? 'text-amber-600'
+              ? 'text-[var(--warning)]'
               : saveStatus === 'saving'
-                ? 'text-blue-600'
-                : 'text-slate-400'
+                ? 'text-[var(--navy-500)]'
+                : saveStatus === 'saved'
+                  ? 'text-[var(--success)]'
+                  : 'text-slate-400'
         }`}
       >
         {saveLabel}
@@ -98,7 +118,7 @@ export function EditorToolbar({
       {connectionStatus !== 'connected' && (
         <span
           className={`text-xs px-2 ${
-            connectionStatus === 'connecting' ? 'text-blue-400' : 'text-red-500'
+            connectionStatus === 'connecting' ? 'text-[var(--slate-400)]' : 'text-red-500'
           }`}
         >
           {connectionStatus === 'connecting'
@@ -109,7 +129,7 @@ export function EditorToolbar({
       <button
         type="button"
         onClick={onManualSave}
-        className="rounded bg-blue-600 px-3 py-1 text-xs text-white hover:bg-blue-700"
+        className="rounded bg-[var(--navy-600)] px-3 py-1 text-xs text-white hover:bg-[var(--navy-700)]"
       >
         {t('editor.save')}
       </button>

@@ -33,12 +33,12 @@ export function TaskCard({ task }: Props) {
   const overdue = Boolean(task.isOverdue);
   const escalated = Boolean(task.escalatedAt) || task.status === 'ESCALATED';
   const border =
-    overdue ? 'border-l-4 border-l-red-500' : escalated ? 'border-l-4 border-l-amber-500' : 'border-l-4 border-l-transparent';
+    overdue ? 'border-l-4 border-l-red-500' : escalated ? 'border-l-4 border-l-amber-500' : 'border-l-[3px] border-l-transparent';
 
   return (
     <Link
       href={`/tasks/${task.taskId}`}
-      className={`block rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:border-slate-300 ${border}`}
+      className={`block rounded-lg border border-[var(--slate-200)] bg-white p-3 shadow-md transition hover:border-[var(--slate-300)] hover:shadow ${border}`}
     >
       <div className="flex flex-wrap items-start justify-between gap-2">
         <h3 className="font-medium text-slate-900">{task.title}</h3>

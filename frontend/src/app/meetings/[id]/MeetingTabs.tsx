@@ -41,8 +41,11 @@ export function MeetingTabs({
       (t.id !== 'outcomes' || showOutcomesTab)
   );
 
+  const momHref = `/meetings/${_meetingId}/mom`;
+  const isMomActive = pathname.endsWith('/mom');
+
   return (
-    <nav className="flex gap-1 border-b border-slate-200 bg-white/80" aria-label="Meeting sections">
+    <nav className="flex flex-wrap gap-1 border-b border-slate-200 bg-white/80" aria-label="Meeting sections">
       {tabs.map((tab) => {
         const isActive = current === tab.id;
         const href = `${pathname}?tab=${tab.id}`;
@@ -60,6 +63,16 @@ export function MeetingTabs({
           </Link>
         );
       })}
+      <Link
+        href={momHref}
+        className={`border-b-2 px-4 py-3.5 text-sm font-medium transition-colors ${
+          isMomActive
+            ? 'border-blue-600 text-blue-600'
+            : 'border-transparent text-slate-500 hover:border-slate-200 hover:text-slate-700'
+        }`}
+      >
+        Minutes of Meeting
+      </Link>
     </nav>
   );
 }

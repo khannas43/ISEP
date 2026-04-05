@@ -20,6 +20,8 @@ public class MeetingDto {
     private String status;
     private String notes;
     private Instant createdAt;
+    private boolean liveSessionActive;
+    private Instant liveSessionStartedAt;
 
     public static MeetingDto from(Meeting m) {
         MeetingDto dto = new MeetingDto();
@@ -35,6 +37,8 @@ public class MeetingDto {
         dto.status = m.getStatus().name();
         dto.notes = m.getNotes();
         dto.createdAt = m.getCreatedAt();
+        dto.liveSessionActive = m.isLiveSessionActive();
+        dto.liveSessionStartedAt = m.getLiveSessionStartedAt();
         return dto;
     }
 
@@ -67,4 +71,8 @@ public class MeetingDto {
     public void setNotes(String notes) { this.notes = notes; }
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public boolean isLiveSessionActive() { return liveSessionActive; }
+    public void setLiveSessionActive(boolean liveSessionActive) { this.liveSessionActive = liveSessionActive; }
+    public Instant getLiveSessionStartedAt() { return liveSessionStartedAt; }
+    public void setLiveSessionStartedAt(Instant liveSessionStartedAt) { this.liveSessionStartedAt = liveSessionStartedAt; }
 }

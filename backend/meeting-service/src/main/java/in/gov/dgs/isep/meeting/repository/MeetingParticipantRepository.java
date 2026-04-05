@@ -9,6 +9,8 @@ import java.util.UUID;
 
 public interface MeetingParticipantRepository extends JpaRepository<MeetingParticipant, UUID> {
 
+    long countByMeetingMeetingId(UUID meetingId);
+
     List<MeetingParticipant> findByMeetingMeetingIdOrderByAssignedAtAsc(UUID meetingId);
 
     boolean existsByMeetingMeetingIdAndUserUserId(UUID meetingId, UUID userId);

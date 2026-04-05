@@ -93,12 +93,15 @@ export default async function DocumentEditorPage({ params }: Props) {
   const { t } = await getServerTranslations();
 
   return (
-    <div className="flex min-h-[calc(100vh-6rem)] flex-col gap-4">
+    <div className="flex min-h-[calc(100vh-6rem)] flex-col gap-4 bg-[var(--slate-50)]">
       <div className="flex flex-wrap items-center gap-4">
         <Link href={`/documents/${id}`} className="text-sm font-medium text-slate-500 hover:text-slate-700">
           ← Document
         </Link>
-        <Link href={`/documents/${id}/compare`} className="text-sm font-medium text-blue-600 hover:text-blue-800">
+        <Link
+          href={`/documents/${id}/compare`}
+          className="text-sm font-medium text-[var(--navy-600)] hover:text-[var(--navy-800)]"
+        >
           {t('diff.pageTitle')}
         </Link>
       </div>

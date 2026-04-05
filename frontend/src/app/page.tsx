@@ -41,14 +41,29 @@ export default async function HomePage(props: Props) {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4 py-12">
-      <Suspense fallback={<p className="text-slate-500">Loading…</p>}>
+    <div className="min-h-screen min-h-[100dvh] w-full max-w-none">
+      <Suspense
+        fallback={
+          <div className="flex min-h-screen w-full flex-col lg:flex-row">
+            <div
+              className="min-h-[40vh] flex-[1_1_58%] lg:min-h-screen"
+              style={{
+                background: 'linear-gradient(160deg, var(--navy-900) 0%, var(--navy-700) 60%, var(--navy-600) 100%)',
+              }}
+            />
+            <div className="relative flex min-h-[60vh] flex-[1_1_42%] bg-white lg:min-h-screen">
+              <p className="absolute left-4 top-4 text-sm text-slate-500">Loading…</p>
+            </div>
+          </div>
+        }
+      >
         <LoginForm
           defaultCallbackUrl={callbackUrl}
           initialError={error ?? undefined}
           showBackToHome={false}
+          layout="split"
         />
       </Suspense>
-    </main>
+    </div>
   );
 }

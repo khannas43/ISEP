@@ -1,5 +1,15 @@
 {
   "app": { "title": "ISEP — IMO Strategic Engagement Platform" },
+  "mom": {
+    "title": "Minutes of Meeting",
+    "generate": "Generate MoM",
+    "generateNow": "Generate Minutes of Meeting",
+    "exportPdf": "Export PDF",
+    "notGenerated": "Minutes of Meeting have not been generated for this meeting yet.",
+    "attendees": "Attendees",
+    "agendaItems": "Agenda items covered",
+    "actionItems": "Action items"
+  },
   "nav": {
     "dashboard": "Dashboard",
     "meetings": "Meetings",

@@ -126,6 +126,8 @@ export default async function ExecutiveDashboardPage({ searchParams }: Props) {
     const meetingsForDetail = [...inProgress, ...upcoming].slice(0, 20);
 
     const userId = (session.user as { id?: string }).id ?? '';
+    const userDisplayName = session.user?.name ?? session.user?.email ?? 'User';
+    const userRoleLabel = primaryRealmRole.replace(/_/g, ' ');
 
     return (
       <ExecutiveDashboardSummary
@@ -139,6 +141,8 @@ export default async function ExecutiveDashboardPage({ searchParams }: Props) {
         accessToken={accessToken}
         primaryRealmRole={primaryRealmRole}
         currentUserId={userId}
+        userDisplayName={userDisplayName}
+        userRoleLabel={userRoleLabel}
       />
     );
   }

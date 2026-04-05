@@ -49,6 +49,16 @@ public class AgendaItem {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
+    @Column(name = "discussion_locked", nullable = false)
+    private boolean discussionLocked = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "discussion_locked_by")
+    private User discussionLockedBy;
+
+    @Column(name = "discussion_locked_at")
+    private Instant discussionLockedAt;
+
     public AgendaItem() {}
 
     @PrePersist
@@ -87,4 +97,28 @@ public class AgendaItem {
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
+
+    public boolean isDiscussionLocked() {
+        return discussionLocked;
+    }
+
+    public void setDiscussionLocked(boolean discussionLocked) {
+        this.discussionLocked = discussionLocked;
+    }
+
+    public User getDiscussionLockedBy() {
+        return discussionLockedBy;
+    }
+
+    public void setDiscussionLockedBy(User discussionLockedBy) {
+        this.discussionLockedBy = discussionLockedBy;
+    }
+
+    public Instant getDiscussionLockedAt() {
+        return discussionLockedAt;
+    }
+
+    public void setDiscussionLockedAt(Instant discussionLockedAt) {
+        this.discussionLockedAt = discussionLockedAt;
+    }
 }

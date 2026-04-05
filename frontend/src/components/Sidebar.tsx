@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
@@ -87,10 +88,13 @@ function NavLink({
   isActive: boolean;
   badge?: number;
 }) {
-  const base = 'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors';
-  const active = 'bg-blue-600/90 text-white';
-  const inactive = 'text-slate-300 hover:bg-slate-700/50 hover:text-white';
-  const dis = 'cursor-not-allowed text-slate-500';
+  const base =
+    'flex items-center gap-3 rounded-r-md py-2.5 pl-[13px] pr-3 text-[13.5px] transition-all duration-150';
+  const active =
+    'border-l-[3px] border-[var(--gold-400)] bg-[var(--navy-700)] font-semibold text-white';
+  const inactive =
+    'border-l-[3px] border-transparent font-normal text-white/65 hover:bg-[var(--navy-800)] hover:text-white';
+  const dis = 'cursor-not-allowed border-l-[3px] border-transparent text-white/40';
 
   if (disabled) {
     return <span className={`${base} ${dis}`}>{label}</span>;
@@ -172,17 +176,20 @@ export function Sidebar() {
       .catch(() => setTaskOverdueBadge(0));
   }, [accessToken]);
 
+  const roleBadge =
+    roles.length > 0 ? roles.map((r) => r.replace(/_/g, ' ')).slice(0, 2).join(' · ') : 'User';
+
   return (
     <aside
-      className={`flex shrink-0 flex-col border-r border-slate-800 bg-slate-900 transition-[width] duration-200 ease-in-out ${
+      className={`flex shrink-0 flex-col border-r border-white/[0.08] bg-[var(--navy-900)] transition-[width] duration-200 ease-in-out ${
         collapsed ? 'w-14' : 'w-64'
       }`}
     >
-      <div className="flex h-14 shrink-0 items-center border-b border-slate-800">
+      <div className="flex min-h-16 shrink-0 items-center border-b border-white/[0.08]">
         <button
           type="button"
           onClick={() => setCollapsed((c) => !c)}
-          className="flex h-14 w-14 shrink-0 items-center justify-center text-slate-400 transition-colors hover:bg-slate-700/50 hover:text-white"
+          className="flex min-h-16 w-14 shrink-0 items-center justify-center text-white/50 transition-colors hover:bg-[var(--navy-800)] hover:text-white"
           aria-label={collapsed ? 'Show navigation' : 'Hide navigation'}
           title={collapsed ? 'Show navigation' : 'Hide navigation'}
         >
@@ -198,14 +205,28 @@ export function Sidebar() {
         </button>
         {!collapsed && (
           <>
-            <Link href="/" className="flex min-w-0 flex-1 items-center gap-2 px-2">
-              <span className="text-lg font-bold tracking-tight text-white">ISEP</span>
-              <span className="hidden truncate text-xs font-normal text-slate-400 sm:inline">DGS · MoPSW</span>
+            <Link href="/dashboard/executive" className="flex min-w-0 flex-1 items-center gap-2.5 px-2 py-1">
+              <Image
+                src="/dgs-logo-light.jpeg"
+                alt="DGS"
+                width={52}
+                height={52}
+                className="shrink-0 rounded-full border-2 border-[rgba(212,160,23,0.5)] object-cover"
+              />
+              <div className="min-w-0 text-left">
+                <div
+                  className="truncate text-base font-bold leading-tight tracking-tight text-white"
+                  style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
+                >
+                  ISEP
+                </div>
+                <div className="truncate text-[10px] uppercase tracking-wide text-white/45">DGS · MoPSW</div>
+              </div>
             </Link>
             {session?.user && (
               <Link
                 href="/notifications"
-                className="relative shrink-0 rounded p-1.5 text-slate-400 hover:bg-slate-700/50 hover:text-white"
+                className="relative shrink-0 rounded p-1.5 text-white/50 hover:bg-[var(--navy-800)] hover:text-white"
                 aria-label={unreadCount > 0 ? `${unreadCount} unread notifications` : 'Notifications'}
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -223,7 +244,7 @@ export function Sidebar() {
       </div>
 
       {!collapsed && (
-      <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
+      <nav className="flex-1 space-y-0.5 overflow-y-auto px-2 py-4">
         {nav.map((item) => {
           if ('href' in item && !('items' in item)) {
             const isActive = pathname === item.href;
@@ -245,7 +266,7 @@ export function Sidebar() {
                   type="button"
                   onClick={() => setOpenSections((s) => ({ ...s, [label]: !isOpen }))}
                   className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                    hasActive ? 'text-white' : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                    hasActive ? 'text-white' : 'text-white/65 hover:bg-[var(--navy-800)] hover:text-white'
                   }`}
                 >
                   {label}
@@ -259,7 +280,7 @@ export function Sidebar() {
                   </svg>
                 </button>
                 {isOpen && (
-                  <div className="ml-3 mt-0.5 space-y-0.5 border-l border-slate-700 pl-2">
+                  <div className="ml-3 mt-0.5 space-y-0.5 border-l border-white/10 pl-2">
                     {expandable.items.map((sub) => {
                       const show = sub.roles ? canShow(sub.roles) : true;
                       if (!show) return null;
@@ -287,17 +308,21 @@ export function Sidebar() {
       )}
 
       {!collapsed && (
-      <div className="shrink-0 border-t border-slate-800 px-3 py-4">
-        <div className="rounded-lg bg-slate-800/50 px-3 py-2">
-          <p className="truncate text-xs font-medium text-slate-200" title={session?.user?.email ?? undefined}>
+      <div className="shrink-0 border-t border-white/[0.08] px-4 py-3">
+        <div className="px-0 py-1">
+          <p className="truncate text-[13px] font-semibold text-white" title={session?.user?.email ?? undefined}>
             {session?.user?.name ?? session?.user?.email ?? 'User'}
           </p>
-          <p className="truncate text-xs text-slate-400" title={session?.user?.email ?? undefined}>
-            {session?.user?.email ?? ''}
-          </p>
+          <span
+            className="mt-1 inline-block rounded px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-white/80"
+            style={{ background: 'var(--navy-500)' }}
+            title={roles.length > 0 ? roles.join(', ') : undefined}
+          >
+            {roleBadge}
+          </span>
           {process.env.NODE_ENV === 'development' && (
-            <p className="mt-1 text-[10px] text-slate-500" title="App role from token (dev only)">
-              App role: {roles.length > 0 ? roles.join(', ') : 'None'}
+            <p className="mt-2 truncate text-[10px] text-white/40" title="App roles from token (dev only)">
+              {roles.length > 0 ? roles.join(', ') : 'No app roles'}
             </p>
           )}
         </div>
@@ -311,7 +336,7 @@ export function Sidebar() {
               : null;
             void signOut({ callbackUrl: keycloakLogout ?? '/' });
           }}
-          className="mt-2 flex w-full items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-slate-400 transition-colors hover:bg-slate-800 hover:text-white"
+          className="mt-2 flex w-full items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-white/50 transition-colors hover:bg-[var(--navy-800)] hover:text-white"
         >
           Sign out
         </button>

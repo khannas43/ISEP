@@ -25,6 +25,9 @@ public class Paper {
     @JoinColumn(name = "agenda_item_id")
     private AgendaItem agendaItem;
 
+    @Column(name = "clean_copy_document_id")
+    private UUID cleanCopyDocumentId;
+
     @Column(length = 500)
     private String title;
 
@@ -69,6 +72,8 @@ public class Paper {
     public void setMeeting(Meeting meeting) { this.meeting = meeting; }
     public AgendaItem getAgendaItem() { return agendaItem; }
     public void setAgendaItem(AgendaItem agendaItem) { this.agendaItem = agendaItem; }
+    public UUID getCleanCopyDocumentId() { return cleanCopyDocumentId; }
+    public void setCleanCopyDocumentId(UUID cleanCopyDocumentId) { this.cleanCopyDocumentId = cleanCopyDocumentId; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
     public String getStatus() { return status; }

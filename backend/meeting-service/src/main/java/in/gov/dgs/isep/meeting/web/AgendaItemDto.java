@@ -19,6 +19,7 @@ public class AgendaItemDto {
     private UUID assignedCoordinatorId;
     private String assignedCoordinatorName;
     private Integer inputsReceivedCount;
+    private boolean discussionLocked;
 
     public static AgendaItemDto from(AgendaItem a) {
         AgendaItemDto dto = new AgendaItemDto();
@@ -36,6 +37,7 @@ public class AgendaItemDto {
             dto.assignedCoordinatorName = a.getAssignedCoordinator().getFullName();
         }
         dto.inputsReceivedCount = 0;
+        dto.discussionLocked = a.isDiscussionLocked();
         return dto;
     }
 
@@ -63,4 +65,6 @@ public class AgendaItemDto {
     public void setAssignedCoordinatorName(String assignedCoordinatorName) { this.assignedCoordinatorName = assignedCoordinatorName; }
     public Integer getInputsReceivedCount() { return inputsReceivedCount; }
     public void setInputsReceivedCount(Integer inputsReceivedCount) { this.inputsReceivedCount = inputsReceivedCount; }
+    public boolean isDiscussionLocked() { return discussionLocked; }
+    public void setDiscussionLocked(boolean discussionLocked) { this.discussionLocked = discussionLocked; }
 }
