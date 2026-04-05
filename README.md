@@ -1,6 +1,6 @@
 # IMO Strategic Engagement Platform (ISEP)
 
-Internal digital platform for DGS (Directorate General of Shipping), MoPSW, Government of India — managing India's engagement with IMO, ILO, IMSO and related bodies.
+Meeting collaboration platform — internal digital platform for DGS (Directorate General of Shipping), MoPSW, Government of India — managing India's engagement with IMO, ILO, IMSO and related bodies.
 
 ## Repository Structure
 
