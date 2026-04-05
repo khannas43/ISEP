@@ -1,0 +1,6 @@
+# Production: no OpenAPI / Swagger exposure
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

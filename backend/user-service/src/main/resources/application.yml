@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:isep}
+    username: ${POSTGRES_USER:isep_app}
+    password: ${POSTGRES_PASSWORD:isep_dev_password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        default_schema: core
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+server:
+  port: ${SERVER_PORT:8087}
+
+# JWT validation (Keycloak) - JWKS URI for isep-realm
+spring.security.oauth2.resourceserver.jwt:
+  jwk-set-uri: ${KEYCLOAK_JWKS_URI:http://localhost:8080/realms/isep-realm/protocol/openid-connect/certs}
+  issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/realms/isep-realm}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized

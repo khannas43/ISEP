@@ -1,0 +1,12 @@
+---
+description: Ground rule — all data and dropdown values must come from the database via APIs; no static data in frontend.
+alwaysApply: true
+---
+
+# All Data From Database (Ground Rule)
+
+- **All application data** must be stored in PostgreSQL and served via backend APIs. The frontend must not use static or mock data for normal or production flows.
+- **All dropdown and lookup values** (e.g. meeting type, status, body type, filter years, meeting roles, agenda categories) must come from the database via reference/lookup APIs. Do not hardcode option lists in the frontend.
+- **Reference data**: Use `core.reference_data` (category/code/label) for dropdown options. Backend must expose e.g. `GET /api/v1/reference?category=meeting_type` (or per-category endpoints). Frontend uses `getReferenceData(accessToken, category)` and builds dropdowns from the response only.
+- **Domain lists** (bodies, meetings, participants, agenda items, etc.) come from their respective APIs reading from Postgres. Empty state when the API returns no data; no static fallback lists.
+- When adding a new screen or form that needs dropdown options, add the category and seed rows to `core.reference_data` (if not already present), implement the reference API on the backend, and have the frontend fetch and render options from that API.

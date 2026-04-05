@@ -1,0 +1,67 @@
+# ISEP Test runners — run from repo root:
+#   docker compose -f infrastructure/docker/docker-compose.test.yml run --rm frontend-unit
+#   docker compose -f infrastructure/docker/docker-compose.test.yml run --rm backend-unit
+# See Testing/ISEP-Testing-Plan.md for activities and layer mapping.
+
+services:
+  # L1 — Frontend unit tests (Jest + React Testing Library). Results under Testing/
+  frontend-unit:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ../../frontend:/app
+      - ../../Testing:/Testing
+    command: sh -c "npm ci --omit=optional && npm test -- --ci --passWithNoTests --coverage"
+    environment:
+      - CI=1
+      - TEST_RESULTS_BASE=/Testing
+
+  # L2 — Backend unit tests (JUnit + Mockito). Mount meeting-service; results under Testing/
+  backend-unit:
+    image: maven:3.9-eclipse-temurin-21
+    working_dir: /app
+    volumes:
+      - ../../backend/meeting-service:/app
+      - ../../Testing:/Testing
+    command: mvn test -DskipTests=false -B
+    environment:
+      - TEST_RESULTS_BASE=/Testing
+
+  # L3 — Backend integration tests (Testcontainers + Postgres). Needs Docker socket.
+  backend-integration:
+    image: maven:3.9-eclipse-temurin-21
+    working_dir: /app
+    volumes:
+      - ../../backend/meeting-service:/app
+      - ../../Testing:/Testing
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: mvn verify -P integration -B
+    environment:
+      - TEST_RESULTS_BASE=/Testing
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    profiles:
+      - full
+
+  # L5 — E2E (Playwright). Requires app running at PLAYWRIGHT_BASE_URL. Reports under Testing/results/e2e.
+  e2e-playwright:
+    image: mcr.microsoft.com/playwright:latest
+    working_dir: /app
+    volumes:
+      - ../../frontend:/app
+      - ../../Testing:/Testing
+    environment:
+      - PLAYWRIGHT_BASE_URL=${PLAYWRIGHT_BASE_URL:-http://host.docker.internal:3000}
+      - TEST_RESULTS_BASE=/Testing
+    command: sh -c "npx playwright install --with-deps chromium && npx playwright test --reporter=list"
+    profiles:
+      - full
+
+  # L6 — Performance (k6). Optional; defer.
+  perf-k6:
+    image: grafana/k6:latest
+    working_dir: /app
+    volumes:
+      - ../../tests/performance:/app
+    command: run scenario.js
+    profiles:
+      - full

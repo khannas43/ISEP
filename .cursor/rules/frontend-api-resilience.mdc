@@ -1,0 +1,11 @@
+---
+description: All server-rendered pages that fetch from the backend API must handle API unavailability without crashing.
+alwaysApply: true
+---
+
+# Frontend API Resilience
+
+- **Every server component** that calls `fetch(getApiUrl()/...)` or any async API helper (e.g. `getDocument`, `getMeeting`, `getBodies`) **must** wrap those calls in `try/catch`. On catch, set the data variable to `null` or `[]` and rely on existing mock/empty fallbacks so the page still renders.
+- **Detail/dynamic routes** (e.g. `/documents/[id]`, `/meetings/[id]`, `/bodies/[id]/edit`, `/correspondence-groups/[id]`): Prefer resolving the entity from API first; on fetch failure, fall back to mock helpers (e.g. `getMockDocument(id)`, `getMockMeetingById(id)`, `getMockBodyById(id)`) or list finds (e.g. `mockDocuments.find(...)`). Do not redirect to login solely because the API call failed; only redirect when the user is unauthenticated.
+- **List pages**: When the API throws (e.g. connection refused), set the list to mock/sample data (e.g. `getMockMeetings()`, `getMockBodies()`) and optionally show `ApiUnavailableBanner` when `apiUnavailable` is true.
+- **New pages**: When adding a new `page.tsx` that fetches from the API, always add a `try/catch` around the fetch (or `Promise.all`), and provide a fallback (mock data or empty array/object) so the app never shows a generic "Something went wrong" due to network/API errors.

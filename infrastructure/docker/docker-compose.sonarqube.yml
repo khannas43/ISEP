@@ -1,0 +1,51 @@
+# SonarQube Community Edition — standalone, reusable for code review across projects
+# Run from repo root: docker compose -f infrastructure/docker/docker-compose.sonarqube.yml up -d
+# Or from this dir: docker compose -f docker-compose.sonarqube.yml up -d
+#
+# Web UI: http://localhost:9010  (default; override with SONAR_HOST_PORT if needed)
+# Default login: admin / admin; change on first run.
+# Use the same server from any project by pointing sonar-scanner to SONAR_HOST_URL=http://localhost:9010
+
+services:
+  sonarqube-db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: sonar
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: ${SONAR_DB_PASSWORD:-sonar}
+    volumes:
+      - sonarqube_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sonar -d sonar"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  sonarqube:
+    image: sonarqube:community
+    depends_on:
+      sonarqube-db:
+        condition: service_healthy
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://sonarqube-db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: ${SONAR_DB_PASSWORD:-sonar}
+      SONAR_WEB_JAVAADDITIONALOPTS: "-Djava.security.egd=file:/dev/./urandom"
+    ports:
+      - "${SONAR_HOST_PORT:-9010}:9000"
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -o /dev/null -w '%{http_code}' http://localhost:9000/api/system/status | grep -q 200"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+volumes:
+  sonarqube_db:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:

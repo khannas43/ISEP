@@ -1,0 +1,6 @@
+# Do not commit private keys
+*.pem
+id_rsa
+id_ed25519
+*-key
+*-key.pem

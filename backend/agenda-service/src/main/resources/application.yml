@@ -1,0 +1,11 @@
+spring.application.name: agenda-service
+spring.datasource.url: jdbc:postgresql://localhost:5432/isep
+spring.datasource.username: isep_app
+spring.datasource.password: isep_dev_password
+spring.jpa.hibernate.ddl-auto: validate
+spring.jpa.properties.hibernate.default_schema: core
+spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+server.port: 8083
+spring.security.oauth2.resourceserver.jwt.jwk-set-uri: http://localhost:8180/realms/isep-realm/protocol/openid-connect/certs
+spring.security.oauth2.resourceserver.jwt.issuer-uri: http://localhost:8180/realms/isep-realm
+management.endpoints.web.exposure.include: health,info,metrics

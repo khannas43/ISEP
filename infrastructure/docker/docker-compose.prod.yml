@@ -1,0 +1,183 @@
+# ISEP single-bundle production deployment (Hostinger or any Docker host)
+# Run from repo root: docker compose -f infrastructure/docker/docker-compose.prod.yml up -d
+# Requires: .env.production (or set env) with PUBLIC_HOST, NEXTAUTH_SECRET, KEYCLOAK_CLIENT_SECRET, DB password.
+
+services:
+  postgresql:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: isep
+      POSTGRES_USER: isep_app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-isep_prod_password}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U isep_app -d isep"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
+    restart: unless-stopped
+
+  minio:
+    image: minio/minio:RELEASE.2024-01-16T16-07-38Z
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    volumes:
+      - miniodata:/data
+    restart: unless-stopped
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    command: start --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+      KC_HTTP_PORT: 8080
+      KC_HOSTNAME_STRICT: "false"
+      KC_PROXY: edge
+      KC_HOSTNAME: ${PUBLIC_HOST:-148.230.66.191}
+      KC_HTTP_ENABLED: "true"
+      KC_HTTPS_REQUIRED: "none"
+    volumes:
+      - ../keycloak/realm-isep.json:/opt/keycloak/data/import/realm-isep.json:ro
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && cat <&3 | grep -q '200 OK'"]
+      interval: 15s
+      timeout: 10s
+      retries: 15
+      start_period: 90s
+    restart: unless-stopped
+
+  kong:
+    image: kong:3.8
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /kong/kong-prod.yml
+      KONG_PROXY_LISTEN: "0.0.0.0:8000"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001"
+    volumes:
+      - ../kong/kong-prod.yml:/kong/kong-prod.yml:ro
+    # Avoid "Address already in use" on restart; tmpfs must be writable by Kong (non-root in image).
+    tmpfs:
+      - /usr/local/kong/sockets:mode=1777
+    depends_on:
+      - keycloak
+    restart: unless-stopped
+
+  meeting-service:
+    build:
+      context: ../../backend/meeting-service
+      dockerfile: Dockerfile
+    environment:
+      SERVER_PORT: "8081"
+      POSTGRES_HOST: postgresql
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: isep
+      POSTGRES_USER: isep_app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-isep_prod_password}
+      # JWKS from Keycloak internally; issuer must match token's "iss" exactly (scheme matters: https vs http)
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/realms/isep-realm/protocol/openid-connect/certs
+      KEYCLOAK_ISSUER_URI: ${KEYCLOAK_ISSUER_URI:-https://148.230.66.191/realms/isep-realm}
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+    restart: unless-stopped
+
+  user-service:
+    build:
+      context: ../../backend/user-service
+      dockerfile: Dockerfile
+    environment:
+      SERVER_PORT: "8087"
+      POSTGRES_HOST: postgresql
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: isep
+      POSTGRES_USER: isep_app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-isep_prod_password}
+      # Issuer must match token's "iss" exactly (use https if your token has https)
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/realms/isep-realm/protocol/openid-connect/certs
+      KEYCLOAK_ISSUER_URI: ${KEYCLOAK_ISSUER_URI:-https://148.230.66.191/realms/isep-realm}
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+    restart: unless-stopped
+
+  workflow-service:
+    build:
+      context: ../../workflow-service
+      dockerfile: Dockerfile
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  celery-worker:
+    build:
+      context: ../../workflow-service
+      dockerfile: Dockerfile
+    command: celery -A app.celery_app worker --loglevel=info
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../../frontend
+      dockerfile: Dockerfile
+      args:
+        # PUBLIC_BASE_URL = app URL with base path. API base must NOT end with /api (code appends /api/v1/...).
+        NEXT_PUBLIC_API_URL: ${PUBLIC_BASE_URL:-http://148.230.66.191/isep}
+        NEXT_PUBLIC_NEXTAUTH_URL: ${PUBLIC_BASE_URL:-http://148.230.66.191/isep}
+        NEXT_PUBLIC_KEYCLOAK_ISSUER: ${PUBLIC_ORIGIN:-http://148.230.66.191}/realms/isep-realm
+    environment:
+      NEXTAUTH_URL: ${PUBLIC_BASE_URL:-http://148.230.66.191/isep}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      KEYCLOAK_CLIENT_ID: isep-web
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
+      # Token via nginx so Keycloak sees public Host and issues iss=http://PUBLIC_HOST/realms/isep-realm (backend accepts that)
+      KEYCLOAK_ISSUER: http://nginx/realms/isep-realm
+      # So dashboard/meetings etc. can load data during SSR (container calls nginx → Kong)
+      API_URL: http://nginx/isep
+    depends_on:
+      - keycloak
+      - kong
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "${NGINX_PORT:-80}:80"
+    volumes:
+      - ./nginx-prod.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - kong
+      - keycloak
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:
+  miniodata:

@@ -1,0 +1,11 @@
+# L3 integration tests: Testcontainers Postgres; create schema and tables for test
+spring:
+  datasource:
+    hikari:
+      connection-init-sql: "CREATE SCHEMA IF NOT EXISTS core"
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration

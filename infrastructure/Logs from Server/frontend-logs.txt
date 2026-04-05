@@ -1,0 +1,6 @@
+frontend-1  |   ▲ Next.js 14.2.0
+frontend-1  |   - Local:        http://adec3d2db973:3000
+frontend-1  |   - Network:      http://172.18.0.9:3000
+frontend-1  | 
+frontend-1  |  ✓ Starting...
+frontend-1  |  ✓ Ready in 46ms

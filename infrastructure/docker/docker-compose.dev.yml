@@ -1,0 +1,233 @@
+# ISEP DEV stack - single node (SRS-08 §1.2, §2)
+# Run from repo root: docker compose -f infrastructure/docker/docker-compose.dev.yml up -d
+# Or from this dir: docker compose -f docker-compose.dev.yml up -d
+
+services:
+  postgresql:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: isep
+      POSTGRES_USER: isep_app
+      POSTGRES_PASSWORD: isep_dev_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U isep_app -d isep"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9100:9000"
+      - "9101:9001"
+    volumes:
+      - miniodata:/data
+
+  opensearch:
+    image: opensearchproject/opensearch:2.13.0
+    environment:
+      - discovery.type=single-node
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_ADMIN_PASSWORD:-admin}
+      - plugins.security.disabled=true
+    # Host port: override if 9200 is already in use (e.g. OPENSEARCH_HOST_PORT=9201 docker compose up -d)
+    ports:
+      - "${OPENSEARCH_HOST_PORT:-9200}:9200"
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cat/health | grep -q green"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.13.0
+    # Host port: override if 5601 is already in use (e.g. OPENSEARCH_DASHBOARDS_HOST_PORT=5602)
+    ports:
+      - "${OPENSEARCH_DASHBOARDS_HOST_PORT:-5601}:5601"
+    environment:
+      - OPENSEARCH_HOSTS=http://opensearch:9200
+    depends_on:
+      - opensearch
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HTTP_PORT: 8080
+      KC_HOSTNAME_STRICT: "false"
+      # Allow HTTP for Admin Console and realms on localhost (dev only)
+      KC_HTTPS_REQUIRED: "none"
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
+    ports:
+      - "8180:8080"
+    volumes:
+      - ../keycloak/realm-isep.json:/opt/keycloak/data/import/realm-isep.json:ro
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && cat <&3 | grep -q '200 OK'"]
+      interval: 15s
+      timeout: 10s
+      retries: 15
+      start_period: 90s
+
+  # One-off: set master realm sslRequired=none so Admin Console works over HTTP (dev only)
+  keycloak-init:
+    image: alpine:3.19
+    depends_on:
+      keycloak:
+        condition: service_started
+    environment:
+      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ./keycloak-set-master-ssl.sh:/script.sh:ro
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["apk add --no-cache curl >/dev/null && sh /script.sh"]
+    restart: "no"
+
+  # Y.js WebSocket — y-websocket@3 is client-only; run official backend @y/websocket-server. @y/y is required by @y/protocols (do not omit).
+  yjs-server:
+    image: node:20-bookworm-slim
+    working_dir: /app
+    command: sh -c "npm install y-websocket@3.0.0 @y/websocket-server@0.1.5 @y/y@14.0.0-19 && HOST=0.0.0.0 PORT=1234 npx y-websocket"
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "1234"
+      YPERSISTENCE: "/data/yjs"
+    volumes:
+      - yjs_data:/data/yjs
+    ports:
+      - "1234:1234"
+
+  kong:
+    image: kong:3.8
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /kong/kong.yml
+      KONG_PROXY_LISTEN: "0.0.0.0:8000"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001"
+    volumes:
+      - ../kong/kong.yml:/kong/kong.yml:ro
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+    depends_on:
+      - keycloak
+      - yjs-server
+
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-dev.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - kong
+
+  meeting-service:
+    build:
+      context: ../../backend/meeting-service
+      dockerfile: Dockerfile
+    environment:
+      SERVER_PORT: "8081"
+      POSTGRES_HOST: postgresql
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: isep
+      POSTGRES_USER: isep_app
+      POSTGRES_PASSWORD: isep_dev_password
+      # JWKS from Keycloak (same Docker network). Issuer must match token: browser logs in at localhost:8180.
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/realms/isep-realm/protocol/openid-connect/certs
+      KEYCLOAK_ISSUER_URI: http://localhost:8180/realms/isep-realm
+      OPENSEARCH_HOST: opensearch
+      OPENSEARCH_PORT: "9200"
+      OPENSEARCH_USERNAME: admin
+      OPENSEARCH_PASSWORD: admin
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET: isep-documents
+    # Host port: override if 8081 is already in use (e.g. local mvn spring-boot:run)
+    ports:
+      - "${MEETING_SERVICE_HOST_PORT:-8081}:8081"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+      opensearch:
+        condition: service_started
+      minio:
+        condition: service_started
+
+  user-service:
+    build:
+      context: ../../backend/user-service
+      dockerfile: Dockerfile
+    environment:
+      SERVER_PORT: "8087"
+      POSTGRES_HOST: postgresql
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: isep
+      POSTGRES_USER: isep_app
+      POSTGRES_PASSWORD: isep_dev_password
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/realms/isep-realm/protocol/openid-connect/certs
+      KEYCLOAK_ISSUER_URI: http://localhost:8180/realms/isep-realm
+    ports:
+      - "8087:8087"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+
+  workflow-service:
+    build:
+      context: ../../workflow-service
+      dockerfile: Dockerfile
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+    ports:
+      - "8090:8090"
+    depends_on:
+      - redis
+
+  celery-worker:
+    build:
+      context: ../../workflow-service
+      dockerfile: Dockerfile
+    command: celery -A app.celery_app worker --loglevel=info
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - redis
+
+volumes:
+  pgdata:
+  miniodata:
+  opensearch_data:
+  yjs_data:

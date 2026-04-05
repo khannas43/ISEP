@@ -1,0 +1,47 @@
+##
+# Fixed: ISEP locations must be SIBLINGS of "location /", not inside it.
+# Copy the server block below into /etc/nginx/sites-available/default
+# (replace the existing server { ... } block that has listen 80 default_server).
+##
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        server_name _;
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        # Root location — keep as-is, CLOSED before ISEP blocks
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+        # ISEP app at /isep (Docker on 8081) — SIBLING of location /
+        location /isep/ {
+            proxy_pass http://127.0.0.1:8081;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+        location = /isep {
+            return 301 /isep/;
+        }
+        location /realms/ {
+            proxy_pass http://127.0.0.1:8081;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+        location /auth/ {
+            proxy_pass http://127.0.0.1:8081;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+}

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "isep-test-runner": {
+      "command": "node",
+      "args": ["isep-mcp-server/dist/index.js"],
+      "env": {
+        "ISEP_ROOT": "${workspaceFolder}"
+      }
+    }
+  }
+}

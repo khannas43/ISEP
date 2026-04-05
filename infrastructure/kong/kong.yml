@@ -1,0 +1,201 @@
+# Kong CE declarative config for ISEP (SRS-07 §3)
+# Use with KONG_DATABASE=off and KONG_DECLARATIVE_CONFIG=/path/to/kong.yml
+# In DEV, upstream hosts (e.g. meeting-service:8081) resolve via Docker network.
+
+_format_version: "3.0"
+
+services:
+  # Meeting-service: JWT validation done by the service (Keycloak issuer). Kong only proxies.
+  - name: meeting-service
+    url: http://meeting-service:8081
+    routes:
+      - name: meetings-route
+        paths: ["/api/v1/meetings"]
+        strip_path: false
+      - name: bodies-route
+        paths: ["/api/v1/bodies"]
+        strip_path: false
+      - name: reference-route
+        paths: ["/api/v1/reference"]
+        strip_path: false
+      - name: papers-route
+        paths: ["/api/v1/papers"]
+        strip_path: false
+      - name: dashboard-route
+        paths: ["/api/v1/dashboard"]
+        strip_path: false
+      - name: tasks-route
+        paths: ["/api/v1/tasks"]
+        strip_path: false
+      - name: correspondence-groups-route
+        paths: ["/api/v1/correspondence-groups"]
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 200
+          policy: local
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  # Document REST APIs are implemented in meeting-service (SCR-DOC + TipTap editor).
+  - name: document-service
+    url: http://meeting-service:8081
+    routes:
+      - name: documents-route
+        paths: ["/api/v1/documents"]
+    plugins:
+      - name: jwt
+        config:
+          key_claim_name: kid
+          claims_to_verify: ["exp"]
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  - name: agenda-service
+    url: http://agenda-service:8083
+    routes:
+      - name: agenda-route
+        paths: ["/api/v1/agenda"]
+    plugins:
+      - name: jwt
+        config:
+          key_claim_name: kid
+          claims_to_verify: ["exp"]
+      - name: rate-limiting
+        config:
+          minute: 200
+          policy: local
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  - name: collaboration-service
+    url: http://collaboration-service:8084
+    routes:
+      - name: collaboration-route
+        paths: ["/api/v1/collaboration"]
+    plugins:
+      - name: jwt
+        config:
+          key_claim_name: kid
+          claims_to_verify: ["exp"]
+      - name: rate-limiting
+        config:
+          minute: 200
+          policy: local
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  - name: workflow-service
+    url: http://workflow-service:8090
+    routes:
+      - name: workflow-route
+        paths: ["/api/v1/workflow"]
+    plugins:
+      - name: jwt
+        config:
+          key_claim_name: kid
+          claims_to_verify: ["exp"]
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  - name: notification-service
+    url: http://notification-service:8085
+    routes:
+      - name: notifications-route
+        paths: ["/api/v1/notifications"]
+    plugins:
+      - name: jwt
+        config:
+          key_claim_name: kid
+          claims_to_verify: ["exp"]
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  # Reports (audit, meeting-summary, etc.) are in meeting-service; no separate reporting-service in prod.
+  - name: reporting-service
+    url: http://meeting-service:8081
+    routes:
+      - name: reports-route
+        paths: ["/api/v1/reports"]
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 50
+          policy: local
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  # User-service: JWT validated by the service (Keycloak issuer). Kong only proxies (no Kong JWT plugin).
+  - name: user-service
+    url: http://user-service:8087
+    routes:
+      - name: users-route
+        paths: ["/api/v1/users"]
+        strip_path: false
+      - name: admin-route
+        paths: ["/api/v1/admin"]
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 50
+          policy: local
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  # Y.js collaboration WebSocket — upstream is HTTP; clients use ws/wss Upgrade via Kong proxy.
+  - name: yjs-collab
+    url: http://yjs-server:1234
+    routes:
+      - name: yjs-collab-route
+        paths:
+          - /collab
+        strip_path: true
+        protocols:
+          - http
+          - https
+    plugins:
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  - name: keycloak
+    url: http://keycloak:8080
+    routes:
+      - name: auth-route
+        paths: ["/auth"]
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 20
+          policy: local

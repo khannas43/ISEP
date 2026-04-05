@@ -1,0 +1,53 @@
+# Next.js / frontend build output
+.next/
+out/
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+target/
+build/
+*.jar
+*.war
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.sonarqube
+.env.production
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Logs
+*.log
+logs/
+
+# SRS working / historical Cursor & batch docs (local only)
+SRS/Archive/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test / coverage
+coverage/
+.nyc_output/
+*.lcov
+.jacoco/
+playwright-report/
+test-results/
+# Test results under Testing/ (generated; folders kept via .gitkeep)
+Testing/coverage/
+Testing/results/
+
+# Secrets (never commit)
+*.pem
+*.key
+secrets/

@@ -1,0 +1,14 @@
+# ISEP — minimal CI validation (Section 15 thin-client gate)
+stages:
+  - validate
+
+lint-frontend:
+  stage: validate
+  image: node:20-bookworm
+  variables:
+    NPM_CONFIG_LEGACY_PEER_DEPS: "true"
+  script:
+    - cd frontend && npm ci && npm run lint
+  rules:
+    - if: $CI_COMMIT_BRANCH
+  allow_failure: false

@@ -1,0 +1,5 @@
+spring.application.name: approval-service
+server.port: 8085
+spring.security.oauth2.resourceserver.jwt.jwk-set-uri: ${KEYCLOAK_JWKS_URI:http://localhost:8180/realms/isep-realm/protocol/openid-connect/certs}
+spring.security.oauth2.resourceserver.jwt.issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8180/realms/isep-realm}
+management.endpoints.web.exposure.include: health,info,metrics

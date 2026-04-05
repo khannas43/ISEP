@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@y/websocket-server": "^0.1.5",
+    "@y/y": "^14.0.0-19",
+    "y-websocket": "^3.0.0"
+  }
+}

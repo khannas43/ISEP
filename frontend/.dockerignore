@@ -1,0 +1,40 @@
+# Dependencies and build
+node_modules
+.next
+out
+npm-debug.log*
+.npm
+
+# Env and secrets (set at build/run via compose)
+.env
+.env.*
+!.env.example
+
+# Git and IDE
+.git
+.gitignore
+.idea
+.vscode
+*.md
+
+# Tests (not needed in image)
+tests
+*.spec.ts
+*.test.ts
+jest.config.js
+playwright.config.ts
+coverage
+
+# E2E and reports (not needed in image)
+playwright-report
+test-results
+.e2e
+*.tsbuildinfo
+.turbo
+
+# Editor and tooling
+.cursor
+
+# Misc
+.DS_Store
+*.log

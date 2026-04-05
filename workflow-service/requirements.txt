@@ -1,0 +1,16 @@
+# FastAPI and server
+fastapi==0.109.2
+uvicorn[standard]==0.27.1
+
+# Celery and Redis
+celery[redis]==5.3.6
+redis==5.0.1
+
+# Database (for future workflow state)
+sqlalchemy>=2.0.25
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+
+# Config and validation
+pydantic>=2.6.0
+pydantic-settings>=2.1.0

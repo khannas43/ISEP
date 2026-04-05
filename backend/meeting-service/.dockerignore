@@ -1,0 +1,30 @@
+# Build output (large; rebuilt in image)
+target/
+
+# IDE and local
+.idea
+.vscode
+*.iml
+*.ipr
+*.iws
+.settings
+.project
+.classpath
+
+# Git and docs (not needed in image)
+.git
+.gitignore
+*.md
+README*
+
+# Logs and temp
+*.log
+.DS_Store
+*.tmp
+*.bak
+*.swp
+
+# Optional: Maven wrapper (image uses maven:3.9 image; uncomment if build fails)
+# .mvn
+# mvnw
+# mvnw.cmd

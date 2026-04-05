@@ -1,0 +1,32 @@
+# Virtual env and Python cache (rebuilt in image)
+.venv
+venv
+env
+__pycache__
+*.py[cod]
+*$py.class
+.pytest_cache
+.mypy_cache
+.coverage
+htmlcov
+*.egg-info
+.eggs
+dist
+build
+
+# Git and docs
+.git
+.gitignore
+*.md
+README*
+
+# IDE and local
+.idea
+.vscode
+.env
+.env.*
+!.env.example
+
+# Logs and temp
+*.log
+.DS_Store

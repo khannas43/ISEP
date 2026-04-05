@@ -1,0 +1,23 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "JSXExpressionContainer > Literal[value=/^[A-Z][a-zA-Z ]{3,}$/]",
+        "message": "Possible hardcoded UI string. Use t() from react-i18next (see CURSOR-PROJECT-CONTEXT Section 15 Rule 2)."
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["pg", "mysql2", "typeorm", "@prisma/*", "knex", "sequelize"],
+            "message": "DB clients are forbidden in the frontend. All DB access goes through Spring Boot APIs."
+          }
+        ]
+      }
+    ]
+  }
+}

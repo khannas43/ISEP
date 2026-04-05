@@ -1,0 +1,325 @@
+SonarQube issues for isep-frontend (total: 290)
+
+By rule (count):
+  typescript:S6759: 110
+  typescript:S6853: 63
+  typescript:S7781: 24
+  typescript:S3358: 17
+  typescript:S7773: 16
+  typescript:S3776: 8
+  typescript:S7764: 7
+  typescript:S6479: 6
+  typescript:S7735: 5
+  typescript:S4325: 5
+  typescript:S1854: 4
+  typescript:S3863: 4
+  typescript:S1135: 2
+  typescript:S6822: 2
+  typescript:S7721: 2
+  typescript:S4158: 2
+  typescript:S6353: 1
+  typescript:S6772: 1
+  typescript:S2137: 1
+  typescript:S6767: 1
+  typescript:S6478: 1
+  typescript:S4624: 1
+  typescript:S1128: 1
+  typescript:S2004: 1
+  typescript:S7776: 1
+  typescript:S7763: 1
+  typescript:S2486: 1
+  typescript:S2737: 1
+  typescript:S6606: 1
+
+--- All issues (severity | rule | file | line | message) ---
+
+MINOR|typescript:S6353|src/app/account/change-password/ChangePasswordForm.tsx|22|Use concise character class syntax '\d' instead of '[0-9]'.
+MINOR|typescript:S7781|src/app/account/profile/page.tsx|42|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S6759|src/app/admin/audit/AuditLogViewer.tsx|8|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/admin/audit/AuditLogViewer.tsx|30|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/admin/audit/AuditLogViewer.tsx|34|A form label must be associated with a control.
+MINOR|typescript:S6759|src/app/admin/system/backups/BackupStatusTable.tsx|16|Mark the props of the component as read-only.
+MAJOR|typescript:S3358|src/app/admin/system/backups/BackupStatusTable.tsx|52|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S6759|src/app/admin/system/config/SystemConfigTabs.tsx|26|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/admin/system/config/SystemConfigTabs.tsx|56|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/admin/system/config/SystemConfigTabs.tsx|60|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/admin/system/config/SystemConfigTabs.tsx|68|A form label must be associated with a control.
+MINOR|typescript:S7773|src/app/admin/system/config/SystemConfigTabs.tsx|69|Prefer `Number.parseInt` over `parseInt`.
+MAJOR|typescript:S6853|src/app/admin/system/config/SystemConfigTabs.tsx|80|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/admin/system/config/SystemConfigTabs.tsx|84|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/admin/system/config/SystemConfigTabs.tsx|97|A form label must be associated with a control.
+MINOR|typescript:S7773|src/app/admin/system/config/SystemConfigTabs.tsx|98|Prefer `Number.parseInt` over `parseInt`.
+MAJOR|typescript:S6853|src/app/admin/system/config/SystemConfigTabs.tsx|101|A form label must be associated with a control.
+MINOR|typescript:S7773|src/app/admin/system/config/SystemConfigTabs.tsx|102|Prefer `Number.parseInt` over `parseInt`.
+MAJOR|typescript:S6853|src/app/admin/system/config/SystemConfigTabs.tsx|109|A form label must be associated with a control.
+MINOR|typescript:S7773|src/app/admin/system/config/SystemConfigTabs.tsx|110|Prefer `Number.parseInt` over `parseInt`.
+MAJOR|typescript:S6853|src/app/admin/system/config/SystemConfigTabs.tsx|113|A form label must be associated with a control.
+MINOR|typescript:S7773|src/app/admin/system/config/SystemConfigTabs.tsx|114|Prefer `Number.parseInt` over `parseInt`.
+MAJOR|typescript:S6853|src/app/admin/system/config/SystemConfigTabs.tsx|121|A form label must be associated with a control.
+MINOR|typescript:S7773|src/app/admin/system/config/SystemConfigTabs.tsx|122|Prefer `Number.parseInt` over `parseInt`.
+MAJOR|typescript:S6853|src/app/admin/system/config/SystemConfigTabs.tsx|125|A form label must be associated with a control.
+MINOR|typescript:S6759|src/app/admin/system/health/SystemHealthDashboard.tsx|16|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/admin/system/workflows/WorkflowConfigEditor.tsx|17|Mark the props of the component as read-only.
+MAJOR|typescript:S6772|src/app/admin/system/workflows/WorkflowConfigEditor.tsx|93|Ambiguous spacing after previous element input
+MINOR|typescript:S7773|src/app/admin/system/workflows/WorkflowConfigEditor.tsx|106|Prefer `Number.parseInt` over `parseInt`.
+MINOR|typescript:S7773|src/app/admin/system/workflows/WorkflowConfigEditor.tsx|116|Prefer `Number.parseInt` over `parseInt`.
+MINOR|typescript:S6759|src/app/admin/users/[id]/assignments/page.tsx|18|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/admin/users/[id]/edit/page.tsx|28|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/admin/users/[id]/page.tsx|27|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/admin/users/page.tsx|51|Mark the props of the component as read-only.
+MAJOR|typescript:S3358|src/app/admin/users/page.tsx|62|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S7773|src/app/admin/users/page.tsx|63|Prefer `Number.parseInt` over `parseInt`.
+MAJOR|typescript:S3358|src/app/admin/users/page.tsx|123|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S6759|src/app/agenda/page.tsx|43|Mark the props of the component as read-only.
+INFO|typescript:S1135|src/app/api/audit/log/route.ts|34|Complete the task associated to this "TODO" comment.
+MINOR|typescript:S7781|src/app/api/auth/mfa-verify/route.ts|23|Prefer `String#replaceAll()` over `String#replace()`.
+INFO|typescript:S1135|src/app/api/auth/mfa-verify/route.ts|28|Complete the task associated to this "TODO" comment.
+MINOR|typescript:S7773|src/app/api/documents/[id]/versions/[versionNumber]/download/route.ts|17|Prefer `Number.parseInt` over `parseInt`.
+MINOR|typescript:S7773|src/app/api/documents/[id]/versions/[versionNumber]/text/route.ts|17|Prefer `Number.parseInt` over `parseInt`.
+MINOR|typescript:S6759|src/app/bodies/BodyForm.tsx|16|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/bodies/[id]/BodyDetailActions.tsx|10|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/bodies/[id]/edit/page.tsx|28|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/bodies/[id]/page.tsx|17|Mark the props of the component as read-only.
+MINOR|typescript:S7781|src/app/bodies/[id]/page.tsx|60|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S6759|src/app/bodies/page.tsx|29|Mark the props of the component as read-only.
+MINOR|typescript:S7781|src/app/bodies/page.tsx|114|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S6759|src/app/calendar/page.tsx|33|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/correspondence-groups/CGForm.tsx|28|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/correspondence-groups/CGForm.tsx|106|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/correspondence-groups/CGForm.tsx|120|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/correspondence-groups/CGForm.tsx|131|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/correspondence-groups/CGForm.tsx|140|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/correspondence-groups/CGForm.tsx|154|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/correspondence-groups/CGForm.tsx|164|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/correspondence-groups/CGForm.tsx|176|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/correspondence-groups/CGForm.tsx|187|A form label must be associated with a control.
+MAJOR|typescript:S3358|src/app/correspondence-groups/CGForm.tsx|199|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S6759|src/app/correspondence-groups/[id]/edit/page.tsx|43|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/correspondence-groups/[id]/members/page.tsx|21|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/correspondence-groups/[id]/page.tsx|19|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/correspondence-groups/[id]/submissions/page.tsx|22|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/correspondence-groups/new/page.tsx|35|Mark the props of the component as read-only.
+CRITICAL|typescript:S3776|src/app/correspondence-groups/page.tsx|89|Refactor this function to reduce its Cognitive Complexity from 27 to the 15 allowed.
+MINOR|typescript:S6759|src/app/correspondence-groups/page.tsx|89|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/dashboard/CODashboard.tsx|16|Mark the props of the component as read-only.
+MAJOR|typescript:S6479|src/app/dashboard/CODashboard.tsx|94|Do not use Array index in keys
+MINOR|typescript:S6759|src/app/dashboard/DLDashboard.tsx|16|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/dashboard/IHDashboard.tsx|18|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/dashboard/MEDashboard.tsx|20|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/dashboard/SADashboard.tsx|18|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/dashboard/VWDashboard.tsx|14|Mark the props of the component as read-only.
+CRITICAL|typescript:S3776|src/app/dashboard/page.tsx|18|Refactor this function to reduce its Cognitive Complexity from 96 to the 15 allowed.
+MAJOR|typescript:S1854|src/app/dashboard/page.tsx|128|Remove this useless assignment to variable "today".
+MAJOR|typescript:S1854|src/app/dashboard/page.tsx|177|Remove this useless assignment to variable "today".
+MINOR|typescript:S6759|src/app/documents/[id]/comments/page.tsx|33|Mark the props of the component as read-only.
+MAJOR|typescript:S6822|src/app/documents/[id]/comments/page.tsx|94|The element ul has an implicit role of list. Defining this explicitly is redundant and should be avoided.
+MINOR|typescript:S6759|src/app/documents/[id]/compare/CompareVersionsClient.tsx|26|Mark the props of the component as read-only.
+MINOR|typescript:S7781|src/app/documents/[id]/compare/CompareVersionsClient.tsx|67|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S7781|src/app/documents/[id]/compare/CompareVersionsClient.tsx|68|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S7781|src/app/documents/[id]/compare/CompareVersionsClient.tsx|69|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S7781|src/app/documents/[id]/compare/CompareVersionsClient.tsx|70|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S6759|src/app/documents/[id]/compare/CompareVersionsClient.tsx|73|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/documents/[id]/compare/page.tsx|33|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/documents/[id]/new-version/NewVersionUploadForm.tsx|19|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/documents/[id]/new-version/NewVersionUploadForm.tsx|85|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/documents/[id]/new-version/NewVersionUploadForm.tsx|100|A form label must be associated with a control.
+MINOR|typescript:S6759|src/app/documents/[id]/new-version/page.tsx|22|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/documents/[id]/page.tsx|39|Mark the props of the component as read-only.
+CRITICAL|typescript:S3776|src/app/documents/[id]/page.tsx|39|Refactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.
+MAJOR|typescript:S7721|src/app/documents/[id]/page.tsx|69|Move function 'formatBytes' to the outer scope.
+MINOR|typescript:S7781|src/app/documents/[id]/page.tsx|91|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S7781|src/app/documents/[id]/page.tsx|91|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S7735|src/app/documents/[id]/page.tsx|100|Unexpected negated condition.
+MINOR|typescript:S6759|src/app/documents/page.tsx|32|Mark the props of the component as read-only.
+MINOR|typescript:S7781|src/app/documents/page.tsx|113|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S7781|src/app/documents/page.tsx|114|Prefer `String#replaceAll()` over `String#replace()`.
+MAJOR|typescript:S2137|src/app/error.tsx|5|Do not use "Error" to declare a function - use another name.
+MINOR|typescript:S6759|src/app/error.tsx|5|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/global-error.tsx|3|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/layout.tsx|11|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/login/complete/LoginCompleteRedirect.tsx|17|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/login/complete/page.tsx|16|Mark the props of the component as read-only.
+MINOR|typescript:S7781|src/app/login/mfa/page.tsx|89|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S6759|src/app/meetings/MeetingForm.tsx|11|Mark the props of the component as read-only.
+MINOR|typescript:S7781|src/app/meetings/[id]/AgendaTab.tsx|7|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S6759|src/app/meetings/[id]/AgendaTab.tsx|34|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/CorrespondenceTab.tsx|16|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/DocumentsTab.tsx|20|Mark the props of the component as read-only.
+MINOR|typescript:S7781|src/app/meetings/[id]/DocumentsTab.tsx|58|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S7781|src/app/meetings/[id]/DocumentsTab.tsx|59|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S7781|src/app/meetings/[id]/HistoryTab.tsx|20|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S6759|src/app/meetings/[id]/HistoryTab.tsx|23|Mark the props of the component as read-only.
+MAJOR|typescript:S6822|src/app/meetings/[id]/HistoryTab.tsx|39|The element ul has an implicit role of list. Defining this explicitly is redundant and should be avoided.
+MINOR|typescript:S6759|src/app/meetings/[id]/LiveTab.tsx|19|Mark the props of the component as read-only.
+MINOR|typescript:S7781|src/app/meetings/[id]/LiveTab.tsx|80|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S6759|src/app/meetings/[id]/MeetingStatusActions.tsx|9|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/MeetingTabs.tsx|26|Mark the props of the component as read-only.
+MINOR|typescript:S4325|src/app/meetings/[id]/MeetingTabs.tsx|35|This assertion is unnecessary since it does not change the type of the expression.
+MINOR|typescript:S6759|src/app/meetings/[id]/OutcomesTab.tsx|19|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/ParticipantsTab.tsx|20|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/TasksTab.tsx|30|Mark the props of the component as read-only.
+MINOR|typescript:S7781|src/app/meetings/[id]/TasksTab.tsx|74|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S3863|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|7|'@/lib/api' imported multiple times.
+MINOR|typescript:S3863|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|8|'@/lib/api' imported multiple times.
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|30|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|111|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|122|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|134|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|145|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|158|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|172|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|184|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|194|A form label must be associated with a control.
+MAJOR|typescript:S3358|src/app/meetings/[id]/agenda/AgendaItemForm.tsx|213|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S3863|src/app/meetings/[id]/agenda/[itemId]/AgendaItemTabs.tsx|10|'@/lib/mock/data' imported multiple times.
+MINOR|typescript:S3863|src/app/meetings/[id]/agenda/[itemId]/AgendaItemTabs.tsx|11|'@/lib/mock/data' imported multiple times.
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/[itemId]/AgendaItemTabs.tsx|42|Mark the props of the component as read-only.
+MINOR|typescript:S4325|src/app/meetings/[id]/agenda/[itemId]/AgendaItemTabs.tsx|55|This assertion is unnecessary since it does not change the type of the expression.
+MAJOR|typescript:S3358|src/app/meetings/[id]/agenda/[itemId]/AgendaItemTabs.tsx|145|Extract this nested ternary operation into an independent statement.
+MAJOR|typescript:S3358|src/app/meetings/[id]/agenda/[itemId]/AgendaItemTabs.tsx|146|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/[itemId]/comments/page.tsx|30|Mark the props of the component as read-only.
+MINOR|typescript:S4158|src/app/meetings/[id]/agenda/[itemId]/comments/page.tsx|62|Review this usage of "comments" as it can only be empty here.
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/[itemId]/deliberations/DeliberationsClient.tsx|8|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/[itemId]/deliberations/page.tsx|30|Mark the props of the component as read-only.
+MINOR|typescript:S4158|src/app/meetings/[id]/agenda/[itemId]/deliberations/page.tsx|64|Review this usage of "deliberations" as it can only be empty here.
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/[itemId]/edit/page.tsx|45|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/[itemId]/feedback/FeedbackConsolidateView.tsx|29|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/[itemId]/feedback/FeedbackConsolidateView.tsx|127|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/[itemId]/feedback/FeedbackConsolidateView.tsx|140|A form label must be associated with a control.
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/[itemId]/feedback/FeedbackSubmitForm.tsx|24|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/[itemId]/feedback/FeedbackSubmitForm.tsx|98|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/[itemId]/feedback/FeedbackSubmitForm.tsx|112|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/agenda/[itemId]/feedback/FeedbackSubmitForm.tsx|122|A form label must be associated with a control.
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/[itemId]/feedback/consolidate/page.tsx|23|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/[itemId]/feedback/submit/page.tsx|23|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/[itemId]/page.tsx|24|Mark the props of the component as read-only.
+MAJOR|typescript:S1854|src/app/meetings/[id]/agenda/[itemId]/page.tsx|29|Remove this useless assignment to variable "tab".
+MINOR|typescript:S6759|src/app/meetings/[id]/agenda/new/page.tsx|21|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/documents/DocumentUploadForm.tsx|16|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/meetings/[id]/documents/DocumentUploadForm.tsx|72|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/documents/DocumentUploadForm.tsx|85|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/documents/DocumentUploadForm.tsx|97|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/documents/DocumentUploadForm.tsx|111|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/documents/DocumentUploadForm.tsx|127|A form label must be associated with a control.
+MINOR|typescript:S6759|src/app/meetings/[id]/documents/upload/page.tsx|39|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/edit/EditMeetingForm.tsx|15|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/edit/page.tsx|28|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/live/agenda/[itemId]/page.tsx|12|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/live/interventions/new/InterventionForm.tsx|17|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/meetings/[id]/live/interventions/new/InterventionForm.tsx|63|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/live/interventions/new/InterventionForm.tsx|71|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/live/interventions/new/InterventionForm.tsx|76|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/live/interventions/new/InterventionForm.tsx|80|A form label must be associated with a control.
+MINOR|typescript:S6759|src/app/meetings/[id]/live/interventions/new/page.tsx|29|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/live/page.tsx|38|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/meetings/[id]/outcomes/OutcomeForm.tsx|12|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/meetings/[id]/outcomes/OutcomeForm.tsx|54|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/outcomes/OutcomeForm.tsx|68|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/outcomes/OutcomeForm.tsx|78|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/outcomes/OutcomeForm.tsx|87|A form label must be associated with a control.
+MINOR|typescript:S6759|src/app/meetings/[id]/outcomes/page.tsx|32|Mark the props of the component as read-only.
+CRITICAL|typescript:S3776|src/app/meetings/[id]/page.tsx|117|Refactor this function to reduce its Cognitive Complexity from 35 to the 15 allowed.
+MINOR|typescript:S6759|src/app/meetings/[id]/page.tsx|117|Mark the props of the component as read-only.
+MAJOR|typescript:S3358|src/app/meetings/[id]/page.tsx|259|Extract this nested ternary operation into an independent statement.
+MAJOR|typescript:S3358|src/app/meetings/[id]/page.tsx|261|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S7781|src/app/meetings/[id]/page.tsx|327|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S6759|src/app/meetings/[id]/tasks/CreateTaskForm.tsx|16|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/CreateTaskForm.tsx|65|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/CreateTaskForm.tsx|77|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/CreateTaskForm.tsx|87|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/CreateTaskForm.tsx|104|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/CreateTaskForm.tsx|116|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/CreateTaskForm.tsx|126|A form label must be associated with a control.
+MINOR|typescript:S6759|src/app/meetings/[id]/tasks/TaskDetailClient.tsx|24|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/TaskDetailClient.tsx|75|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/TaskDetailClient.tsx|85|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/TaskDetailClient.tsx|94|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/TaskDetailClient.tsx|110|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/TaskDetailClient.tsx|122|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/meetings/[id]/tasks/TaskDetailClient.tsx|131|A form label must be associated with a control.
+MINOR|typescript:S6759|src/app/meetings/[id]/tasks/[taskId]/page.tsx|58|Mark the props of the component as read-only.
+MINOR|typescript:S7781|src/app/meetings/[id]/tasks/[taskId]/page.tsx|87|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S6759|src/app/meetings/[id]/tasks/new/page.tsx|36|Mark the props of the component as read-only.
+CRITICAL|typescript:S3776|src/app/meetings/actions.ts|95|Refactor this function to reduce its Cognitive Complexity from 19 to the 15 allowed.
+CRITICAL|typescript:S3776|src/app/meetings/actions.ts|193|Refactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.
+MAJOR|typescript:S3358|src/app/meetings/actions.ts|241|Extract this nested ternary operation into an independent statement.
+MAJOR|typescript:S3358|src/app/meetings/actions.ts|316|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S6759|src/app/meetings/error.tsx|6|Mark the props of the component as read-only.
+CRITICAL|typescript:S3776|src/app/meetings/page.tsx|105|Refactor this function to reduce its Cognitive Complexity from 26 to the 15 allowed.
+MINOR|typescript:S6759|src/app/meetings/page.tsx|105|Mark the props of the component as read-only.
+MINOR|typescript:S7773|src/app/meetings/page.tsx|117|Prefer `Number.parseInt` over `parseInt`.
+MINOR|typescript:S7773|src/app/meetings/page.tsx|118|Prefer `Number.parseInt` over `parseInt`.
+MINOR|typescript:S7773|src/app/meetings/page.tsx|148|Prefer `Number.parseInt` over `parseInt`.
+MINOR|typescript:S7773|src/app/meetings/page.tsx|148|Prefer `Number.parseInt` over `parseInt`.
+MINOR|typescript:S7773|src/app/meetings/page.tsx|159|Prefer `Number.isNaN` over `isNaN`.
+MAJOR|typescript:S7721|src/app/meetings/page.tsx|170|Move function 'statusBadge' to the outer scope.
+MINOR|typescript:S7781|src/app/meetings/page.tsx|326|Prefer `String#replaceAll()` over `String#replace()`.
+MINOR|typescript:S6759|src/app/notifications/NotificationCentreClient.tsx|24|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/page.tsx|12|Mark the props of the component as read-only.
+MINOR|typescript:S4325|src/app/page.tsx|25|This assertion is unnecessary since it does not change the type of the expression.
+MINOR|typescript:S6759|src/app/papers/[id]/approval/PaperApprovalActions.tsx|10|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/papers/[id]/approval/page.tsx|23|Mark the props of the component as read-only.
+MAJOR|typescript:S3358|src/app/papers/[id]/approval/page.tsx|74|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S6759|src/app/papers/[id]/draft/PaperDraftView.tsx|60|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/papers/[id]/draft/page.tsx|15|Mark the props of the component as read-only.
+MINOR|typescript:S7735|src/app/papers/[id]/draft/page.tsx|39|Unexpected negated condition.
+MINOR|typescript:S6767|src/app/papers/[id]/reject/PaperRejectForm.tsx|8|'paperTitle' PropType is defined but prop is never used
+MINOR|typescript:S6759|src/app/papers/[id]/reject/PaperRejectForm.tsx|10|Mark the props of the component as read-only.
+MAJOR|typescript:S6853|src/app/papers/[id]/reject/PaperRejectForm.tsx|52|A form label must be associated with a control.
+MAJOR|typescript:S6853|src/app/papers/[id]/reject/PaperRejectForm.tsx|64|A form label must be associated with a control.
+MINOR|typescript:S6759|src/app/papers/[id]/reject/page.tsx|13|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/papers/[id]/view/page.tsx|13|Mark the props of the component as read-only.
+MAJOR|typescript:S6479|src/app/papers/[id]/view/page.tsx|49|Do not use Array index in keys
+MINOR|typescript:S6759|src/app/papers/page.tsx|16|Mark the props of the component as read-only.
+MINOR|typescript:S4325|src/app/papers/page.tsx|87|This assertion is unnecessary since it does not change the type of the expression.
+MAJOR|typescript:S3358|src/app/papers/page.tsx|91|Extract this nested ternary operation into an independent statement.
+MAJOR|typescript:S3358|src/app/papers/page.tsx|92|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S4325|src/app/papers/page.tsx|97|This assertion is unnecessary since it does not change the type of the expression.
+MINOR|typescript:S7781|src/app/reports/custom/CustomReportBuilder.tsx|86|Prefer `String#replaceAll()` over `String#replace()`.
+MAJOR|typescript:S6479|src/app/reports/custom/CustomReportBuilder.tsx|93|Do not use Array index in keys
+MINOR|typescript:S6759|src/app/reports/meeting-summary/page.tsx|9|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/session-expired/page.tsx|11|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/app/tasks/[id]/page.tsx|13|Mark the props of the component as read-only.
+MAJOR|typescript:S3358|src/app/tasks/[id]/page.tsx|46|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S6759|src/app/tasks/my/page.tsx|14|Mark the props of the component as read-only.
+MAJOR|typescript:S6478|src/app/tasks/my/page.tsx|65|Move this component definition out of the parent component and pass data as props.
+MAJOR|typescript:S3358|src/app/tasks/my/page.tsx|99|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S6759|src/app/tasks/page.tsx|33|Mark the props of the component as read-only.
+MAJOR|typescript:S1854|src/app/tasks/team/page.tsx|41|Remove this useless assignment to variable "statuses".
+MAJOR|typescript:S4624|src/app/unauthorized/UnauthorizedContent.tsx|28|Refactor this code to not use nested template literals.
+MINOR|typescript:S6759|src/app/unauthorized/page.tsx|8|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/components/AddCommentForm.tsx|8|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/components/AppNav.tsx|36|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/components/AppNav.tsx|66|Mark the props of the component as read-only.
+MAJOR|typescript:S3358|src/components/AppNav.tsx|114|Extract this nested ternary operation into an independent statement.
+MINOR|typescript:S1128|src/components/AppShell.tsx|3|Remove this unused import of 'Link'.
+MINOR|typescript:S6759|src/components/AppShell.tsx|12|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/components/ComingSoon.tsx|5|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/components/LoginForm.tsx|15|Mark the props of the component as read-only.
+CRITICAL|typescript:S2004|src/components/LoginForm.tsx|71|Refactor this code to not nest functions more than 4 levels deep.
+MINOR|typescript:S7764|src/components/LoginForm.tsx|77|Prefer `globalThis.window` over `window`.
+MINOR|typescript:S7764|src/components/LoginForm.tsx|77|Prefer `globalThis` over `window`.
+MINOR|typescript:S7764|src/components/LoginForm.tsx|82|Prefer `globalThis` over `window`.
+MINOR|typescript:S7764|src/components/LoginForm.tsx|87|Prefer `globalThis` over `window`.
+MINOR|typescript:S7764|src/components/LoginForm.tsx|87|Prefer `globalThis.window` over `window`.
+MINOR|typescript:S7764|src/components/LoginForm.tsx|91|Prefer `globalThis.window` over `window`.
+MINOR|typescript:S7764|src/components/LoginForm.tsx|91|Prefer `globalThis` over `window`.
+MINOR|typescript:S6759|src/components/SessionProvider.tsx|6|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/components/Sidebar.tsx|78|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/components/ai/MeetingPreparednessBanner.tsx|34|Mark the props of the component as read-only.
+MINOR|typescript:S7735|src/components/ai/MeetingPreparednessBanner.tsx|75|Unexpected negated condition.
+MAJOR|typescript:S6479|src/components/ai/MeetingPreparednessBanner.tsx|125|Do not use Array index in keys
+MAJOR|typescript:S6479|src/components/ai/MeetingPreparednessBanner.tsx|153|Do not use Array index in keys
+MINOR|typescript:S6759|src/components/ai/PositionAdvisorPanel.tsx|19|Mark the props of the component as read-only.
+MINOR|typescript:S6759|src/components/ai/PositionAdvisorPanel.tsx|28|Mark the props of the component as read-only.
+MINOR|typescript:S7781|src/components/ai/PositionAdvisorPanel.tsx|117|Prefer `String#replaceAll()` over `String#replace()`.
+MAJOR|typescript:S6479|src/components/ai/PositionAdvisorPanel.tsx|124|Do not use Array index in keys
+MINOR|typescript:S6759|src/components/editor/PaperEditor.tsx|40|Mark the props of the component as read-only.
+MINOR|typescript:S7776|src/lib/api.ts|300|`ROLES_SEEING_INTERNAL` should be a `Set`, and use `ROLES_SEEING_INTERNAL.has()` to check existence or non-existence.
+MINOR|typescript:S7735|src/lib/api.ts|620|Unexpected negated condition.
+MINOR|typescript:S7735|src/lib/api.ts|637|Unexpected negated condition.
+MINOR|typescript:S7763|src/lib/auth.ts|13|Use `export…from` to re-export `getServerSession`.
+MINOR|typescript:S2486|src/lib/auth.ts|47|Handle this exception or don't catch it at all.
+MINOR|typescript:S2737|src/lib/auth.ts|179|Add logic to this catch clause or eliminate it and rethrow the exception automatically.
+MINOR|typescript:S6606|src/lib/mockMeetings.ts|119|Prefer using nullish coalescing operator (`??=`) instead of an assignment expression, as it is simpler to read.
+CRITICAL|typescript:S3776|src/middleware.ts|22|Refactor this function to reduce its Cognitive Complexity from 23 to the 15 allowed.

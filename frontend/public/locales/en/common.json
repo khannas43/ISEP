@@ -1,0 +1,134 @@
+{
+  "app": { "title": "ISEP — IMO Strategic Engagement Platform" },
+  "nav": {
+    "dashboard": "Dashboard",
+    "meetings": "Meetings",
+    "documents": "Documents",
+    "papers": "Papers",
+    "tasks": "Tasks",
+    "myTasks": "My tasks",
+    "reports": "Reports",
+    "calendar": "Calendar",
+    "admin": "Admin"
+  },
+  "task": {
+    "create": {
+      "title": "Create Task",
+      "titleLabel": "Task title",
+      "description": "Description",
+      "assignTo": "Assign to",
+      "dueDate": "Due date",
+      "priority": "Priority",
+      "linkDocument": "Link to document (optional)",
+      "noDocument": "No document",
+      "submit": "Create task"
+    },
+    "priority": { "HIGH": "High", "MEDIUM": "Medium", "LOW": "Low" },
+    "card": { "item": "Agenda item", "due": "Due" },
+    "badge": { "overdue": "Overdue", "escalated": "Escalated" },
+    "dashboard": {
+      "overdueAlert": "You have {{count}} overdue task(s). Please review."
+    },
+    "notification": {
+      "assigned": "You have been assigned a task: {{title}} — due {{dueDate}}"
+    },
+    "status": {
+      "PENDING": "Pending",
+      "IN_PROGRESS": "In Progress",
+      "COMPLETED": "Completed",
+      "ESCALATED": "Escalated",
+      "OVERDUE": "Overdue"
+    }
+  },
+  "document": {
+    "upload": {
+      "title": "Paper preparation upload",
+      "dropzone": "Drop PDF, Word, or HTML file here, or click to browse",
+      "dropHere": "Drop the file here",
+      "uploading": "Uploading...",
+      "fileTooLarge": "File exceeds {{max}} limit",
+      "acceptedTypes": "PDF, DOCX, HTML",
+      "maxSize": "Max {{max}}",
+      "success": "Document uploaded successfully"
+    }
+  },
+  "editor": {
+    "placeholder": "Start drafting the document...",
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "trackChanges": "Track changes",
+    "trackChangesOn": "Track changes: ON",
+    "trackChangesOff": "Track changes: OFF",
+    "save": "Save",
+    "saved": "Saved",
+    "saving": "Saving...",
+    "unsaved": "Unsaved changes",
+    "conflict": "Version conflict — reload to sync",
+    "versionConflict": "Another user saved a newer version. Reload the page to sync.",
+    "locked": "This document is finalised and cannot be edited.",
+    "version": "Version {{version}}",
+    "alsoEditing": "Also editing",
+    "connecting": "Connecting...",
+    "disconnected": "Disconnected — changes saved locally"
+  },
+  "diff": {
+    "title": "Version comparison",
+    "pageTitle": "Compare versions",
+    "comparing": "v{{from}} ({{fromDate}}) → v{{to}} ({{toDate}})",
+    "baseVersion": "Base version",
+    "compareVersion": "Compare with",
+    "accept": "Accept",
+    "reject": "Reject",
+    "acceptAll": "Accept all",
+    "rejectAll": "Reject all",
+    "generateCleanCopy": "Generate clean copy",
+    "pendingDecisions": "{{count}} change(s) still need a decision",
+    "notEnoughVersions": "At least 2 saved versions are needed to compare.",
+    "backToEditor": "Back to editor"
+  },
+  "calendar": {
+    "upcomingMeetings": "Upcoming meetings",
+    "viewAll": "View all {{count}} meetings",
+    "noMeetings": "No upcoming meetings"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "export": "Export",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "error": "An error occurred",
+    "noData": "No data available"
+  },
+  "feedback": {
+    "archive": {
+      "title": "Feedback archive",
+      "agendaItem": "Agenda item",
+      "member": "Member",
+      "position": "Position",
+      "status": "Status",
+      "submittedAt": "Submitted",
+      "noFeedback": "No feedback submitted yet for this meeting.",
+      "preview": "Preview",
+      "filterPosition": "Position",
+      "exportDisabled": "Export — Sprint 3"
+    }
+  },
+  "paper": {
+    "submitForApproval": "Submit for approval"
+  },
+  "approval": {
+    "approve": "Approve",
+    "reject": "Return for revision",
+    "rejectReason": "Reason for rejection...",
+    "confirmReject": "Confirm",
+    "chain": "Approval chain",
+    "currentStage": "Current stage",
+    "lastAction": "Last action",
+    "submitted": "Submitted"
+  }
+}

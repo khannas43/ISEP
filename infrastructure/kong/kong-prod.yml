@@ -1,0 +1,91 @@
+# Kong declarative config for PRODUCTION (docker-compose.prod.yml)
+# Only services that exist in prod: meeting-service, user-service, workflow-service, keycloak.
+# Reports and documents/agenda/collaboration/notifications are served by meeting-service or not in prod.
+# Use: in docker-compose.prod.yml set KONG_DECLARATIVE_CONFIG: /kong/kong-prod.yml and mount this file.
+
+_format_version: "3.0"
+
+services:
+  - name: meeting-service
+    url: http://meeting-service:8081
+    routes:
+      - name: meetings-route
+        paths: ["/api/v1/meetings"]
+        strip_path: false
+      - name: bodies-route
+        paths: ["/api/v1/bodies"]
+        strip_path: false
+      - name: reference-route
+        paths: ["/api/v1/reference"]
+        strip_path: false
+      - name: papers-route
+        paths: ["/api/v1/papers"]
+        strip_path: false
+      - name: dashboard-route
+        paths: ["/api/v1/dashboard"]
+        strip_path: false
+      - name: correspondence-groups-route
+        paths: ["/api/v1/correspondence-groups"]
+        strip_path: false
+      - name: documents-route
+        paths: ["/api/v1/documents"]
+        strip_path: false
+      - name: reports-route
+        paths: ["/api/v1/reports"]
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 200
+          policy: local
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  - name: user-service
+    url: http://user-service:8087
+    routes:
+      - name: users-route
+        paths: ["/api/v1/users"]
+        strip_path: false
+      - name: admin-route
+        paths: ["/api/v1/admin"]
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 50
+          policy: local
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  - name: workflow-service
+    url: http://workflow-service:8090
+    routes:
+      - name: workflow-route
+        paths: ["/api/v1/workflow"]
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+      - name: correlation-id
+        config:
+          header_name: X-Trace-ID
+          generator: uuid
+
+  - name: keycloak
+    url: http://keycloak:8080
+    routes:
+      - name: auth-route
+        paths: ["/auth"]
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 20
+          policy: local
