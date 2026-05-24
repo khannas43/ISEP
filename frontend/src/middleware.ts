@@ -46,7 +46,7 @@ function handleUnauthenticated(pathname: string, request: NextRequest, hadSessio
     res.cookies.set('isep_session_active', '', { path: '/', maxAge: 0 });
     return res;
   }
-  const signInUrl = new URL(prefix || '/', request.url);
+  const signInUrl = new URL(prefix + 'login', request.url);
   signInUrl.searchParams.set('callbackUrl', pathname);
   return NextResponse.redirect(signInUrl);
 }

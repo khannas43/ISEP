@@ -257,7 +257,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: '/', // login form is on the root page
+    signIn: '/login',
   },
   // @ts-expect-error trustHost exists at runtime for NextAuth; types may lag
   trustHost: true,
