@@ -121,7 +121,7 @@ SELECT
   1024,
   repeat('b', 64)::char(64)
 FROM (SELECT user_id FROM core.users WHERE is_active = true ORDER BY created_at LIMIT 1) u
-ON CONFLICT (document_id, version_number) DO NOTHING;
+ON CONFLICT (version_id) DO NOTHING;
 
 INSERT INTO documents.document_versions (
   version_id, document_id, version_number, minio_object_key, uploaded_by, uploaded_at,
@@ -138,7 +138,7 @@ SELECT
   2048,
   repeat('c', 64)::char(64)
 FROM (SELECT user_id FROM core.users WHERE is_active = true ORDER BY created_at LIMIT 1) u
-ON CONFLICT (document_id, version_number) DO NOTHING;
+ON CONFLICT (version_id) DO NOTHING;
 
 -- Task: assigned_to = member-user, assigned_by = co-user (both NOT NULL per core.tasks schema).
 INSERT INTO core.tasks (
