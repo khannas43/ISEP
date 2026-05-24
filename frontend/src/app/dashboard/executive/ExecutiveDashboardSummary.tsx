@@ -9,6 +9,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { formatDisplayDate } from '@/lib/format';
 import type { MeetingDto, MyTasksSummaryDto } from '@/lib/api';
+import { getAppBasePath } from '@/lib/appBasePath';
 import { RoleGuard } from '@/components/rbac/RoleGuard';
 import { MeetingCalendarSidebar } from '@/components/calendar/MeetingCalendarSidebar';
 import { DashboardRoleTodoSections } from '@/components/dashboard/DashboardRoleTodoSections';
@@ -137,6 +138,7 @@ export function ExecutiveDashboardSummary({
   });
 
   const [meetingsTab, setMeetingsTab] = useState<'inProgress' | 'upcoming' | 'archived'>('inProgress');
+  const basePath = getAppBasePath();
   const tabMeetings =
     meetingsTab === 'inProgress' ? inProgress : meetingsTab === 'upcoming' ? upcoming : archived;
 
@@ -148,7 +150,7 @@ export function ExecutiveDashboardSummary({
         >
           <div className="flex min-w-0 flex-1 items-start gap-4">
             <Image
-              src="/dgs-logo-dark.png"
+              src={`${basePath}/dgs-logo-dark.png`}
               alt=""
               width={40}
               height={40}

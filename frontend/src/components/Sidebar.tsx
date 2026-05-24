@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getApiUrl, getUnreadNotificationCount, type TaskV1Response } from '@/lib/api';
+import { getAppBasePath } from '@/lib/appBasePath';
 
 type NavItemSimple = { href: string; label: string };
 type NavItemExpandable = {
@@ -122,6 +123,7 @@ const SIDEBAR_COLLAPSED_KEY = 'isep-sidebar-collapsed';
 export function Sidebar() {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const basePath = getAppBasePath();
   const roles = (session?.user && (session as { roles?: string[] }).roles) ?? [];
 
   const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -255,7 +257,7 @@ export function Sidebar() {
           <>
             <Link href="/dashboard/" className="flex min-w-0 flex-1 items-center gap-2.5 px-2 py-1">
               <Image
-                src="/dgs-logo-light.jpeg"
+                src={`${basePath}/dgs-logo-light.jpeg`}
                 alt="DGS"
                 width={52}
                 height={52}

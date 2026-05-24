@@ -8,6 +8,7 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
 import { getApiUrl, getReferenceData, type BodyDto, type MeetingDto, type MeetingsPage } from '@/lib/api';
+import { getAppBasePath } from '@/lib/appBasePath';
 import { ApiUnavailableBanner } from '@/components/ApiUnavailableBanner';
 import { formatDisplayDate } from '@/lib/format';
 
@@ -125,6 +126,7 @@ type Props = { searchParams: Promise<{ bodyId?: string; status?: string; year?: 
 export default async function MeetingsListPage({ searchParams }: Props) {
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect('/login');
+  const basePath = getAppBasePath();
 
   const accessToken = (session as { accessToken?: string }).accessToken;
   if (process.env.NODE_ENV === 'development' && !accessToken) {
@@ -193,7 +195,7 @@ export default async function MeetingsListPage({ searchParams }: Props) {
       <header className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-[var(--slate-200)] bg-white px-1 pb-6 sm:px-2">
         <div className="flex min-w-0 flex-1 items-start gap-4">
           <Image
-            src="/dgs-logo-dark.png"
+            src={`${basePath}/dgs-logo-dark.png`}
             alt=""
             width={36}
             height={36}

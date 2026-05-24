@@ -24,6 +24,7 @@ export function LoginForm({
 }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const basePath = getAppBasePath();
   const callbackUrl = sanitizeCallbackUrl(searchParams?.get('callbackUrl') ?? defaultCallbackUrl);
   const errorFromUrl = searchParams?.get('error');
   const error = errorFromUrl ?? initialError ?? null;
@@ -240,7 +241,7 @@ export function LoginForm({
           <div className="relative z-[1] w-full max-w-md text-center">
             <div className="flex justify-center">
               <Image
-                src="/dgs-logo-light.jpeg"
+                src={`${basePath}/dgs-logo-light.jpeg`}
                 alt="Directorate General of Shipping"
                 width={120}
                 height={120}
