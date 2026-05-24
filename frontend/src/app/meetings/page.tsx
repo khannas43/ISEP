@@ -198,6 +198,7 @@ export default async function MeetingsListPage({ searchParams }: Props) {
             width={36}
             height={36}
             className="mt-1 hidden shrink-0 rounded-full object-cover sm:block"
+            unoptimized
           />
           <div>
             <h1

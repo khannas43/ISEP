@@ -260,6 +260,7 @@ export function Sidebar() {
                 width={52}
                 height={52}
                 className="shrink-0 rounded-full border-2 border-[rgba(212,160,23,0.5)] object-cover"
+                unoptimized
               />
               <div className="min-w-0 text-left">
                 <div

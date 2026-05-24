@@ -246,6 +246,7 @@ export function LoginForm({
                 height={120}
                 className="rounded-full border-[3px] border-[rgba(212,160,23,0.6)] object-cover"
                 priority
+                unoptimized
               />
             </div>
             <div className="mt-8 border-t border-[rgba(212,160,23,0.4)] pt-6">
