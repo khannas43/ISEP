@@ -24,11 +24,20 @@ services:
       - name: dashboard-route
         paths: ["/api/v1/dashboard"]
         strip_path: false
+      - name: tasks-route
+        paths: ["/api/v1/tasks"]
+        strip_path: false
+      - name: notifications-route
+        paths: ["/api/v1/notifications"]
+        strip_path: false
       - name: correspondence-groups-route
         paths: ["/api/v1/correspondence-groups"]
         strip_path: false
       - name: documents-route
         paths: ["/api/v1/documents"]
+        strip_path: false
+      - name: consultations-route
+        paths: ["/api/v1/consultations"]
         strip_path: false
       - name: reports-route
         paths: ["/api/v1/reports"]
