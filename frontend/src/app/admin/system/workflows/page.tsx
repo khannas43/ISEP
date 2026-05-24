@@ -29,7 +29,7 @@ export default async function WorkflowConfigPage() {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/admin" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Admin</Link>
+        <Link href="/admin" className="text-base font-medium text-slate-500 hover:text-slate-700">← Admin</Link>
       </div>
       <div className="page-header">
         <div>

@@ -2,18 +2,32 @@
 
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { getUnreadNotificationCount } from '@/lib/api';
 
 function NotificationBell() {
   const { data: session } = useSession();
   const [unreadCount, setUnreadCount] = useState<number>(0);
   const accessToken = (session as { accessToken?: string } | null)?.accessToken;
-
+  const notificationsUnauthorizedForToken = useRef<string | undefined>(undefined);
+  useEffect(() => {
+    if (
+      notificationsUnauthorizedForToken.current !== undefined &&
+      accessToken !== notificationsUnauthorizedForToken.current
+    ) {
+      notificationsUnauthorizedForToken.current = undefined;
+    }
+  }, [accessToken]);
+  const onNotificationsUnauthorized = useCallback(() => {
+    if (accessToken) notificationsUnauthorizedForToken.current = accessToken;
+  }, [accessToken]);
   useEffect(() => {
     if (!accessToken) return;
-    getUnreadNotificationCount(accessToken).then(setUnreadCount).catch(() => {});
-  }, [accessToken]);
+    if (notificationsUnauthorizedForToken.current === accessToken) return;
+    getUnreadNotificationCount(accessToken, { onUnauthorized: onNotificationsUnauthorized })
+      .then(setUnreadCount)
+      .catch(() => {});
+  }, [accessToken, onNotificationsUnauthorized]);
 
   return (
     <Link
@@ -46,7 +60,7 @@ function NavDropdown({
     <div className={`group relative ${className}`}>
       <button
         type="button"
-        className="flex items-center rounded px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+        className="flex items-center rounded px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
         aria-expanded="false"
         aria-haspopup="true"
       >
@@ -74,7 +88,7 @@ function DropdownLink({
 }) {
   if (disabled) {
     return (
-      <span className="block px-4 py-2 text-sm text-gray-400 cursor-not-allowed">
+      <span className="block px-4 py-2 text-base text-gray-400 cursor-not-allowed">
         {children}
       </span>
     );
@@ -82,7 +96,7 @@ function DropdownLink({
   return (
     <Link
       href={href}
-      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+      className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100 hover:text-gray-900"
     >
       {children}
     </Link>
@@ -102,7 +116,7 @@ export function AppNav() {
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2 font-semibold text-gray-900">
             <span>ISEP</span>
-            <span className="hidden text-sm font-normal text-gray-500 sm:inline">DGS · MoPSW</span>
+            <span className="hidden text-base font-normal text-gray-500 sm:inline">DGS · MoPSW</span>
           </Link>
           {session?.user && (
             <NotificationBell />
@@ -110,12 +124,12 @@ export function AppNav() {
         </div>
 
         {status === 'loading' ? (
-          <nav className="flex gap-1 text-sm text-gray-500">Loading…</nav>
+          <nav className="flex gap-1 text-base text-gray-500">Loading…</nav>
         ) : session?.user ? (
           <nav className="flex flex-wrap items-center gap-1 sm:gap-0">
             <Link
               href="/dashboard"
-              className="rounded px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              className="rounded px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
             >
               Dashboard
             </Link>
@@ -162,7 +176,7 @@ export function AppNav() {
             )}
 
             <span className="mx-1 hidden text-gray-300 sm:inline">|</span>
-            <span className="hidden max-w-[120px] truncate px-2 text-xs text-gray-500 sm:inline" title={session.user.email ?? undefined}>
+            <span className="hidden max-w-[120px] truncate px-2 text-sm text-gray-500 sm:inline" title={session.user.email ?? undefined}>
               {session.user.email ?? session.user.name ?? 'User'}
             </span>
             <button
@@ -174,7 +188,7 @@ export function AppNav() {
                   : null;
                 void signOut({ callbackUrl: keycloakLogout ?? '/' });
               }}
-              className="rounded px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+              className="rounded px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900"
             >
               Sign out
             </button>
@@ -183,7 +197,7 @@ export function AppNav() {
           <nav className="flex items-center gap-2">
             <Link
               href="/login"
-              className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+              className="rounded bg-blue-600 px-4 py-2 text-base font-medium text-white hover:bg-blue-700"
             >
               Sign in
             </Link>

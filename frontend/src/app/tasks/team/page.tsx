@@ -54,14 +54,14 @@ export default async function TeamTasksPage() {
           <h1 className="page-title">Team task dashboard</h1>
           <p className="page-subtitle">All tasks by assignee and status. Overdue highlighted.</p>
         </div>
-        <Link href="/tasks" className="btn-secondary text-sm">Tasks by meeting</Link>
-        <Link href="/tasks/my" className="btn-secondary text-sm">My tasks</Link>
+        <Link href="/tasks" className="btn-secondary text-base">Tasks by meeting</Link>
+        <Link href="/tasks/my" className="btn-secondary text-base">My tasks</Link>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse overflow-hidden rounded-lg border border-[var(--slate-200)] text-sm shadow-sm">
+        <table className="min-w-full border-collapse overflow-hidden rounded-lg border border-[var(--slate-200)] text-base shadow-sm">
           <thead>
-            <tr className="bg-[var(--navy-800)] text-white">
+            <tr className="bg-[var(--navy-800)] text-base text-white">
               <th className="border-b border-white/10 px-4 py-3 text-left font-semibold">Assignee</th>
               <th className="border-b border-white/10 px-4 py-3 text-left font-semibold">Overdue</th>
               <th className="border-b border-white/10 px-4 py-3 text-left font-semibold">Pending</th>
@@ -76,13 +76,13 @@ export default async function TeamTasksPage() {
               const inProgress = assigneeTasks.filter((t) => getStatusGroup(t) === 'IN_PROGRESS');
               const completed = assigneeTasks.filter((t) => getStatusGroup(t) === 'COMPLETED');
               return (
-                <tr key={name} className="border-b border-slate-200">
+                <tr key={name} className="border-b border-slate-200 text-base">
                   <td className="border border-slate-200 px-4 py-2.5 font-medium text-slate-900">
                     {name}
                   </td>
                   <td className="border border-slate-200 px-4 py-2.5">
                     {overdueCount > 0 ? (
-                      <span className="rounded bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800">
+                      <span className="rounded bg-red-100 px-2 py-0.5 text-base font-medium text-red-800">
                         {overdueCount}
                       </span>
                     ) : (
@@ -90,7 +90,7 @@ export default async function TeamTasksPage() {
                     )}
                   </td>
                   <td className="border border-slate-200 px-4 py-2.5">
-                    <ul className="space-y-1">
+                    <ul className="space-y-1 text-base">
                       {pending.slice(0, 3).map((t) => (
                         <li key={t.taskId}>
                           <Link href={t.meetingId ? `/meetings/${t.meetingId}/tasks/${t.taskId}` : `/tasks/${t.taskId}`} className="text-blue-600 hover:underline">
@@ -102,7 +102,7 @@ export default async function TeamTasksPage() {
                     </ul>
                   </td>
                   <td className="border border-slate-200 px-4 py-2.5">
-                    <ul className="space-y-1">
+                    <ul className="space-y-1 text-base">
                       {inProgress.map((t) => (
                         <li key={t.taskId}>
                           <Link href={t.meetingId ? `/meetings/${t.meetingId}/tasks/${t.taskId}` : `/tasks/${t.taskId}`} className="text-blue-600 hover:underline">

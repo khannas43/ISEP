@@ -60,13 +60,13 @@ export default async function MeetingOutcomesPage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href={`/meetings/${id}?tab=outcomes`} className="text-sm font-medium text-slate-500 hover:text-slate-700">← Meeting overview</Link>
+        <Link href={`/meetings/${id}?tab=outcomes`} className="text-base font-medium text-slate-500 hover:text-slate-700">← Meeting overview</Link>
       </div>
       <div className="card mb-6">
         <div className="card-body">
           <h1 className="page-title">Meeting outcomes</h1>
           <p className="page-subtitle">{meeting.title}</p>
-          <p className="mt-2 text-sm text-slate-600">Record decisions, resolutions, and next steps per agenda item. Available once meeting is concluded.</p>
+          <p className="mt-2 text-base text-slate-600">Record decisions, resolutions, and next steps per agenda item. Available once meeting is concluded.</p>
         </div>
       </div>
       <div className="card">
@@ -79,9 +79,9 @@ export default async function MeetingOutcomesPage({ params }: Props) {
               {outcomes.map((o) => (
                 <li key={o.outcomeId} className="rounded-lg border border-slate-200 p-4">
                   <h3 className="font-medium text-slate-900">{o.agendaItemTitle ?? '—'}</h3>
-                  <p className="mt-2 text-sm text-slate-700">{o.decision}</p>
-                  {o.nextSteps && <p className="mt-1 text-sm text-slate-600">Next steps: {o.nextSteps}</p>}
-                  <p className="mt-2 text-xs text-slate-500">Captured {new Date(o.capturedAt).toLocaleString()}</p>
+                  <p className="mt-2 text-base text-slate-700">{o.decision}</p>
+                  {o.nextSteps && <p className="mt-1 text-base text-slate-600">Next steps: {o.nextSteps}</p>}
+                  <p className="mt-2 text-sm text-slate-500">Captured {new Date(o.capturedAt).toLocaleString()}</p>
                 </li>
               ))}
             </ul>

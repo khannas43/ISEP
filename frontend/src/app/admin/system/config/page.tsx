@@ -40,7 +40,7 @@ export default async function SystemConfigPage() {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/admin/system" className="text-sm font-medium text-slate-500 hover:text-slate-700">← System admin</Link>
+        <Link href="/admin/system" className="text-base font-medium text-slate-500 hover:text-slate-700">← System admin</Link>
       </div>
       <div className="page-header">
         <div>

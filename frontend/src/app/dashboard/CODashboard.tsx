@@ -33,25 +33,25 @@ export function CODashboard({
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-6">
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Managed meetings</h3>
+            <h3 className="text-base font-medium text-slate-500">Managed meetings</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{managedMeetings.length}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Agenda items to consolidate</h3>
+            <h3 className="text-base font-medium text-slate-500">Agenda items to consolidate</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{agendaItemsForConsolidation}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Overdue tasks</h3>
+            <h3 className="text-base font-medium text-slate-500">Overdue tasks</h3>
             <p className="mt-1 text-3xl font-semibold text-amber-600">{overdueTasksCount}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">CG activity</h3>
+            <h3 className="text-base font-medium text-slate-500">CG activity</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{cgActivityCount}</p>
           </div>
         </div>
@@ -61,18 +61,18 @@ export function CODashboard({
         <div className="card">
           <div className="card-header flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Managed meetings</h2>
-            <Link href="/meetings" className="text-sm font-medium text-blue-600 hover:underline">View all</Link>
+            <Link href="/meetings" className="text-base font-medium text-blue-600 hover:underline">View all</Link>
           </div>
           <div className="card-body">
             {managedMeetings.length === 0 ? (
-              <p className="text-sm text-slate-500">No meetings assigned to you.</p>
+              <p className="text-base text-slate-500">No meetings assigned to you.</p>
             ) : (
               <ul className="space-y-2">
                 {managedMeetings.slice(0, 5).map((m) => (
                   <li key={m.meetingId}>
                     <Link href={`/meetings/${m.meetingId}`} className="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2 hover:bg-slate-50">
                       <span className="font-medium text-slate-800">{m.title}</span>
-                      <span className="text-xs text-slate-500">{m.startDate ? new Date(m.startDate).toLocaleDateString() : '—'}</span>
+                      <span className="text-sm text-slate-500">{m.startDate ? new Date(m.startDate).toLocaleDateString() : '—'}</span>
                     </Link>
                   </li>
                 ))}
@@ -83,17 +83,17 @@ export function CODashboard({
         <div className="card">
           <div className="card-header flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Papers by stage</h2>
-            <Link href="/papers" className="text-sm font-medium text-blue-600 hover:underline">View all</Link>
+            <Link href="/papers" className="text-base font-medium text-blue-600 hover:underline">View all</Link>
           </div>
           <div className="card-body">
             {papersByStage.length === 0 ? (
-              <p className="text-sm text-slate-500">No papers in workflow.</p>
+              <p className="text-base text-slate-500">No papers in workflow.</p>
             ) : (
               <ul className="space-y-2">
                 {papersByStage.slice(0, 5).map((p) => (
                   <li key={`${p.title}-${p.stage}`} className="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2">
                     <span className="font-medium text-slate-800">{p.title}</span>
-                    <span className="text-xs text-slate-500">{p.stage}</span>
+                    <span className="text-sm text-slate-500">{p.stage}</span>
                   </li>
                 ))}
               </ul>

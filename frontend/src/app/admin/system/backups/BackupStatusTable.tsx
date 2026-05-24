@@ -27,12 +27,12 @@ export function BackupStatusTable({ jobs }: Props) {
   return (
     <div className="space-y-4">
       {hasFailed && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-800">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-base font-medium text-red-800">
           One or more backup jobs have failed. An alert has been sent to the system administrator.
         </div>
       )}
       <div className="card overflow-hidden">
-        <table className="min-w-full text-sm">
+        <table className="min-w-full text-base">
           <thead>
             <tr>
               <th className="table-header px-4 py-2 text-left">Job</th>

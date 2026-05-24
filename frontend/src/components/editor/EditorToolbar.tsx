@@ -90,7 +90,7 @@ export function EditorToolbar({
       <button
         type="button"
         onClick={onToggleTrackChanges}
-        className={`rounded border px-2 py-1 text-xs font-medium ${
+        className={`rounded border px-2 py-1 text-sm font-medium ${
           trackChanges
             ? 'border-[var(--navy-500)] bg-[var(--navy-600)] text-white'
             : 'border-[var(--slate-300)] bg-white text-[var(--slate-600)]'
@@ -101,7 +101,7 @@ export function EditorToolbar({
       </button>
       <div className="flex-1" />
       <span
-        className={`text-xs px-2 ${
+        className={`text-sm px-2 ${
           saveStatus === 'conflict'
             ? 'text-red-600'
             : saveStatus === 'unsaved'
@@ -117,7 +117,7 @@ export function EditorToolbar({
       </span>
       {connectionStatus !== 'connected' && (
         <span
-          className={`text-xs px-2 ${
+          className={`text-sm px-2 ${
             connectionStatus === 'connecting' ? 'text-[var(--slate-400)]' : 'text-red-500'
           }`}
         >
@@ -129,7 +129,7 @@ export function EditorToolbar({
       <button
         type="button"
         onClick={onManualSave}
-        className="rounded bg-[var(--navy-600)] px-3 py-1 text-xs text-white hover:bg-[var(--navy-700)]"
+        className="rounded bg-[var(--navy-600)] px-3 py-1 text-sm text-white hover:bg-[var(--navy-700)]"
       >
         {t('editor.save')}
       </button>

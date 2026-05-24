@@ -49,14 +49,14 @@ export function WorkflowConfigEditor({ stages: initialStages }: Props) {
           <div className="flex flex-wrap items-center gap-2">
             {stages.map((s, i) => (
               <span key={s.id} className="flex items-center gap-1">
-                <span className="rounded bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-800">
+                <span className="rounded bg-slate-100 px-3 py-1.5 text-base font-medium text-slate-800">
                   {s.label}
                 </span>
                 {i < stages.length - 1 && <span className="text-slate-400">→</span>}
               </span>
             ))}
           </div>
-          <p className="mt-3 text-sm text-slate-500">
+          <p className="mt-3 text-base text-slate-500">
             Member → Group Leader → Delegation Leader → IC Division → CS/NA/CSS → DG → MoPSW (optional).
           </p>
         </div>
@@ -67,7 +67,7 @@ export function WorkflowConfigEditor({ stages: initialStages }: Props) {
           <h2 className="text-base font-semibold text-slate-900">Stages and deadlines</h2>
         </div>
         <div className="card-body overflow-x-auto">
-          <table className="min-w-full text-sm">
+          <table className="min-w-full text-base">
             <thead>
               <tr>
                 <th className="table-header px-4 py-2 text-left">Stage</th>
@@ -126,7 +126,7 @@ export function WorkflowConfigEditor({ stages: initialStages }: Props) {
       </div>
 
       {saved && (
-        <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+        <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-base text-emerald-800">
           Configuration saved (demo). In production this would persist to the workflow service and apply to new paper approval instances.
         </div>
       )}

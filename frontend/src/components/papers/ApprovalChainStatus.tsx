@@ -26,7 +26,7 @@ export function ApprovalChainStatus({ stages, currentStage, mopswStepActive }: P
 
   return (
     <div className="mb-6">
-      <p className="mb-2 text-sm font-medium text-slate-700">{t('approval.chain')}</p>
+      <p className="mb-2 text-base font-medium text-slate-700">{t('approval.chain')}</p>
       <div className="flex items-center gap-0 overflow-x-auto py-2">
         {displayStages.map((stage, idx) => {
           const done = idx < currentIdx;
@@ -47,7 +47,7 @@ export function ApprovalChainStatus({ stages, currentStage, mopswStepActive }: P
                 </div>
                 <span
                   className={`
-                mt-1 w-16 text-center text-xs leading-tight
+                mt-1 w-16 text-center text-sm leading-tight
                 ${current ? 'font-medium text-blue-700' : ''}
                 ${done ? 'text-green-700' : ''}
                 ${pending ? 'text-gray-400' : ''}
@@ -68,7 +68,7 @@ export function ApprovalChainStatus({ stages, currentStage, mopswStepActive }: P
           );
         })}
       </div>
-      <p className="mt-2 text-xs text-slate-500">
+      <p className="mt-2 text-sm text-slate-500">
         {t('approval.currentStage')}: <strong className="text-slate-800">{currentStage}</strong>
       </p>
     </div>

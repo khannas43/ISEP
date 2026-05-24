@@ -104,7 +104,7 @@ export default async function AgendaItemDetailPage({ params, searchParams }: Pro
       <div className="mb-6">
         <Link
           href={`/meetings/${meetingId}?tab=agenda`}
-          className="text-sm font-medium text-slate-500 hover:text-slate-700"
+          className="text-base font-medium text-slate-500 hover:text-slate-700"
         >
           ← Back to Agenda Items
         </Link>
@@ -117,17 +117,17 @@ export default async function AgendaItemDetailPage({ params, searchParams }: Pro
           </h1>
           <p className="page-subtitle mt-1">{agendaItem.description ?? 'No description'}</p>
           <div className="mt-3 flex flex-wrap gap-2">
-            <span className="rounded bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">
+            <span className="rounded bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700">
               {agendaItem.category}
             </span>
-            <span className="rounded bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">
+            <span className="rounded bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700">
               {agendaItem.priority}
             </span>
-            <span className="rounded bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">
+            <span className="rounded bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700">
               {agendaItem.status}
             </span>
             {agendaItem.deadlineForInputs && (
-              <span className="text-sm text-slate-600">Deadline for inputs: {agendaItem.deadlineForInputs}</span>
+              <span className="text-base text-slate-600">Deadline for inputs: {agendaItem.deadlineForInputs}</span>
             )}
           </div>
         </div>

@@ -47,7 +47,7 @@ export default async function EditUserPage({ params }: Props) {
   return (
     <>
       <div className="mb-6">
-        <Link href={`/admin/users/${id}`} className="text-sm font-medium text-slate-500 hover:text-slate-700">
+        <Link href={`/admin/users/${id}`} className="text-base font-medium text-slate-500 hover:text-slate-700">
           ← Back to user profile
         </Link>
       </div>

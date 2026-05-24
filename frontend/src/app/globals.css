@@ -60,19 +60,48 @@
     box-sizing: border-box;
   }
 
+  html {
+    font-size: 18px;
+  }
+
   body {
-    @apply antialiased;
-    font-family: var(--font-body), 'Source Sans 3', system-ui, sans-serif;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
     color: var(--slate-900);
     background: var(--slate-50);
     margin: 0;
   }
 
-  h1,
-  h2,
-  h3 {
+  h1 {
+    font-size: 28px;
     font-family: var(--font-display), Georgia, serif;
+    font-weight: 700;
     color: var(--navy-800);
+    line-height: 1.25;
+  }
+
+  h2 {
+    font-size: 22px;
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 700;
+    color: var(--navy-800);
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--navy-800);
+    line-height: 1.35;
+  }
+
+  p {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.7;
   }
 
   /* Consistent focus ring for accessibility */
@@ -82,9 +111,14 @@
 }
 
 @layer components {
-  /* Flush to main’s left edge (x=0 after sidebar); no pl/ml — pages add their own horizontal inset */
+  /* Full width after sidebar; horizontal padding matches app chrome */
   .page-container {
-    @apply ml-0 w-full max-w-6xl pl-0 pr-0 pt-4 pb-6;
+    width: 100%;
+    max-width: 100%;
+    padding-top: 16px;
+    padding-bottom: 24px;
+    padding-left: 32px;
+    padding-right: 32px;
   }
 
   .page-header {
@@ -92,11 +126,11 @@
   }
 
   .page-title {
-    @apply text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl;
+    @apply text-3xl font-semibold tracking-tight text-slate-900;
   }
 
   .page-subtitle {
-    @apply mt-1 text-sm text-slate-500;
+    @apply mt-1 text-base text-slate-500;
   }
 
   .card {
@@ -112,7 +146,7 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-base font-medium text-white shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2;
     background: var(--navy-600);
   }
   .btn-primary:hover {
@@ -123,15 +157,15 @@
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-base font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900;
+    @apply inline-flex items-center justify-center rounded-lg px-3 py-2 text-base font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900;
   }
 
   .input-base {
-    @apply block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:ring-1;
+    @apply block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 placeholder-slate-400 transition-colors focus:ring-1;
     border-color: var(--slate-300);
   }
   .input-base:focus {
@@ -144,11 +178,13 @@
   }
 
   .table-header {
-    @apply bg-slate-50/80 text-left text-xs font-semibold uppercase tracking-wider text-slate-600;
+    @apply bg-slate-50/80 text-left text-sm font-semibold uppercase tracking-wider text-slate-600;
+    font-size: max(0.875rem, 14px);
   }
 
   .table-cell {
-    @apply px-5 py-3.5 text-sm text-slate-700;
+    @apply px-5 py-3.5 text-base text-slate-700;
+    font-size: max(1rem, 16px);
   }
 
   .badge {

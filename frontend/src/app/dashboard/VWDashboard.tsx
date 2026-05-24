@@ -24,13 +24,13 @@ export function VWDashboard({ userName, activeMeetings, finalizedDocsCount, sche
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-6">
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Active meetings</h3>
+            <h3 className="text-base font-medium text-slate-500">Active meetings</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{activeMeetings.length}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Finalized documents</h3>
+            <h3 className="text-base font-medium text-slate-500">Finalized documents</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{finalizedDocsCount}</p>
           </div>
         </div>
@@ -40,18 +40,18 @@ export function VWDashboard({ userName, activeMeetings, finalizedDocsCount, sche
         <div className="card">
           <div className="card-header flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Active meetings</h2>
-            <Link href="/meetings" className="text-sm font-medium text-blue-600 hover:underline">View all</Link>
+            <Link href="/meetings" className="text-base font-medium text-blue-600 hover:underline">View all</Link>
           </div>
           <div className="card-body">
             {activeMeetings.length === 0 ? (
-              <p className="text-sm text-slate-500">No active meetings.</p>
+              <p className="text-base text-slate-500">No active meetings.</p>
             ) : (
               <ul className="space-y-2">
                 {activeMeetings.slice(0, 8).map((m) => (
                   <li key={m.meetingId}>
                     <Link href={`/meetings/${m.meetingId}`} className="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2 hover:bg-slate-50">
                       <span className="font-medium text-slate-800">{m.title}</span>
-                      <span className="text-xs text-slate-500">{m.startDate ? new Date(m.startDate).toLocaleDateString() : '—'}</span>
+                      <span className="text-sm text-slate-500">{m.startDate ? new Date(m.startDate).toLocaleDateString() : '—'}</span>
                     </Link>
                   </li>
                 ))}
@@ -64,12 +64,12 @@ export function VWDashboard({ userName, activeMeetings, finalizedDocsCount, sche
             <h2 className="text-base font-semibold text-slate-900">Schedule & outcomes</h2>
           </div>
           <div className="card-body">
-            <p className="text-sm text-slate-600">{scheduleSummary}</p>
+            <p className="text-base text-slate-600">{scheduleSummary}</p>
             <p className="mt-4">
-              <Link href="/calendar" className="text-sm font-medium text-blue-600 hover:underline">View calendar →</Link>
+              <Link href="/calendar" className="text-base font-medium text-blue-600 hover:underline">View calendar →</Link>
             </p>
             <p className="mt-2">
-              <Link href="/documents" className="text-sm font-medium text-blue-600 hover:underline">Document library →</Link>
+              <Link href="/documents" className="text-base font-medium text-blue-600 hover:underline">Document library →</Link>
             </p>
           </div>
         </div>

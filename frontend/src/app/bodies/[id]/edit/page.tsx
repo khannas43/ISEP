@@ -58,7 +58,7 @@ export default async function EditBodyPage({ params }: { params: Promise<{ id: s
     <>
       {apiUnavailable && <ApiUnavailableBanner />}
       <div className="mb-6">
-        <Link href={`/bodies/${id}`} className="text-sm font-medium text-slate-500 hover:text-slate-700">← Back to body</Link>
+        <Link href={`/bodies/${id}`} className="text-base font-medium text-slate-500 hover:text-slate-700">← Back to body</Link>
       </div>
       <div className="page-header">
         <h1 className="page-title">Edit International Body</h1>

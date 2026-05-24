@@ -67,12 +67,12 @@ export function TaskDetailClient({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">
+        <div className="rounded-md bg-red-50 p-3 text-base text-red-700">
           {error}
         </div>
       )}
       <div>
-        <label className="block text-sm font-medium text-slate-700">Title</label>
+        <label className="block text-base font-medium text-slate-700">Title</label>
         <input
           type="text"
           value={title}
@@ -82,7 +82,7 @@ export function TaskDetailClient({
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Description</label>
+        <label className="block text-base font-medium text-slate-700">Description</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -91,7 +91,7 @@ export function TaskDetailClient({
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Assigned to</label>
+        <label className="block text-base font-medium text-slate-700">Assigned to</label>
         <select
           value={assignedToId}
           onChange={(e) => setAssignedToId(e.target.value)}
@@ -107,7 +107,7 @@ export function TaskDetailClient({
       </div>
       <div className="flex flex-wrap gap-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700">Priority</label>
+          <label className="block text-base font-medium text-slate-700">Priority</label>
           <select
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
@@ -119,7 +119,7 @@ export function TaskDetailClient({
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Due date</label>
+          <label className="block text-base font-medium text-slate-700">Due date</label>
           <input
             type="datetime-local"
             value={dueDate}
@@ -128,7 +128,7 @@ export function TaskDetailClient({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Status</label>
+          <label className="block text-base font-medium text-slate-700">Status</label>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}

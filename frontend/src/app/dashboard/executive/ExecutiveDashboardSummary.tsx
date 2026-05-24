@@ -8,20 +8,19 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
 import { formatDisplayDate } from '@/lib/format';
-import type { MeetingDto } from '@/lib/api';
+import type { MeetingDto, MyTasksSummaryDto } from '@/lib/api';
 import { RoleGuard } from '@/components/rbac/RoleGuard';
 import { MeetingCalendarSidebar } from '@/components/calendar/MeetingCalendarSidebar';
 import { DashboardRoleTodoSections } from '@/components/dashboard/DashboardRoleTodoSections';
 
 type PapersByStage = { draft: number; inReview: number; finalized: number };
-type TaskCounts = { overdue: number; dueSoon: number; myPending: number };
 
 type Props = {
   inProgress: MeetingDto[];
   upcoming: MeetingDto[];
   archived: MeetingDto[];
   papersByStage: PapersByStage;
-  taskCounts: TaskCounts;
+  taskSummary: MyTasksSummaryDto;
   insights: string[];
   meetingsForDetail: MeetingDto[];
   accessToken?: string;
@@ -65,8 +64,13 @@ function StatCard({
       >
         {count}
       </div>
-      <div className="mt-1.5 text-xs font-medium uppercase tracking-wide text-[var(--slate-500)]">{label}</div>
-      <Link href={href} className="mt-3 inline-block text-xs font-medium text-[var(--navy-500)] hover:underline">
+      <div
+        className="mt-1.5 uppercase text-[var(--slate-600)]"
+        style={{ fontSize: 15, fontWeight: 600, letterSpacing: '0.5px' }}
+      >
+        {label}
+      </div>
+      <Link href={href} className="mt-3 inline-block text-base font-medium text-[var(--navy-500)] hover:underline">
         {linkLabel} →
       </Link>
     </div>
@@ -85,21 +89,24 @@ function MeetingCard({ meeting }: { meeting: MeetingDto }) {
       <div className="flex flex-wrap items-start justify-between gap-3 px-4 py-4">
         <div className="min-w-0 flex-1">
           <div className="mb-2 flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-[var(--navy-100)] px-2.5 py-0.5 text-xs font-semibold text-[var(--navy-800)]">
+            <span className="rounded-full bg-[var(--navy-100)] px-2.5 py-0.5 text-base font-semibold text-[var(--navy-800)]">
               {meeting.bodyName ?? 'Committee'}
             </span>
             {meeting.status && (
-              <span className="text-xs font-medium uppercase tracking-wide text-[var(--slate-500)]">{meeting.status}</span>
+              <span className="text-sm font-medium uppercase tracking-wide text-[var(--slate-500)]">{meeting.status}</span>
             )}
           </div>
-          <Link href={`/meetings/${id}`} className="block font-semibold text-[var(--navy-800)] hover:text-[var(--navy-600)]">
+          <Link
+            href={`/meetings/${id}`}
+            className="block text-3xl font-semibold text-[var(--navy-800)] hover:text-[var(--navy-600)]"
+          >
             {meeting.title}
           </Link>
-          <p className="mt-1 text-sm text-[var(--slate-500)]">{when}</p>
+          <p className="mt-1 text-[15px] font-normal text-[var(--slate-600)]">{when}</p>
         </div>
         <Link
           href={`/dashboard/executive?meetingId=${encodeURIComponent(id)}`}
-          className="shrink-0 text-sm font-medium text-[var(--navy-500)] hover:underline"
+          className="shrink-0 text-base font-medium text-[var(--navy-500)] hover:underline"
         >
           Executive view →
         </Link>
@@ -113,7 +120,7 @@ export function ExecutiveDashboardSummary({
   upcoming,
   archived,
   papersByStage,
-  taskCounts,
+  taskSummary,
   insights,
   meetingsForDetail,
   accessToken,
@@ -149,12 +156,12 @@ export function ExecutiveDashboardSummary({
             />
             <div className="min-w-0">
               <h1
-                className="text-[22px] font-bold text-[var(--navy-800)]"
+                className="text-3xl font-bold text-[var(--navy-800)]"
                 style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
               >
                 Dashboard
               </h1>
-              <p className="mt-0.5 text-sm text-[var(--slate-500)]">
+              <p className="mt-0.5 text-[15px] font-normal text-[var(--slate-600)]">
                 IMO Strategic Engagement Platform · {dateLine}
               </p>
             </div>
@@ -167,11 +174,11 @@ export function ExecutiveDashboardSummary({
           </div>
         </header>
 
-        <div className="mx-auto max-w-4xl px-6 py-8">
+        <div className="w-full max-w-none px-6 py-8">
           {insights.length > 0 && (
             <div className="mb-6 rounded-lg border border-[var(--slate-200)] bg-white px-5 py-4 shadow-sm">
-              <h2 className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--navy-700)]">Summary</h2>
-              <ul className="space-y-1.5 text-sm text-[var(--slate-700)]">
+              <h2 className="mb-2 text-[17px] font-semibold text-[var(--navy-800)]">Summary</h2>
+              <ul className="space-y-1.5 text-[15px] font-normal text-[var(--slate-800)]">
                 {insights.map((line, i) => (
                   <li key={i} className="flex gap-2">
                     <span className="text-[var(--navy-500)]">•</span>
@@ -196,14 +203,106 @@ export function ExecutiveDashboardSummary({
             <StatCard count={papersByStage.finalized} label="Finalized" href="/papers" linkLabel="View papers" />
           </div>
 
-          <div className="mb-8 flex flex-wrap gap-4">
-            <StatCard count={taskCounts.overdue} label="Overdue actions" href="/tasks/my" linkLabel="My tasks" />
-            <StatCard count={taskCounts.dueSoon} label="Due soon" href="/tasks/my" linkLabel="My tasks" />
-            <StatCard count={taskCounts.myPending} label="My pending" href="/tasks/my" linkLabel="My tasks" />
+          <div className="mb-8">
+            <h2 className="mb-4 text-[17px] font-semibold text-[var(--navy-800)]">My tasks</h2>
+            <div className="flex flex-wrap gap-4">
+              <div
+                className="min-w-[160px] flex-1 rounded-lg border border-[var(--slate-200)] bg-white px-6 py-5 shadow-sm"
+                style={{ borderTop: '3px solid var(--danger)' }}
+              >
+                <div
+                  className="leading-none text-[var(--danger)]"
+                  style={{ fontSize: '2.5rem', fontWeight: 700, fontFamily: 'var(--font-display), Georgia, serif' }}
+                >
+                  {taskSummary.overdue}
+                </div>
+                <div
+                  className="mt-2 uppercase text-[var(--slate-500)]"
+                  style={{ fontSize: 13, fontWeight: 700, letterSpacing: '1px' }}
+                >
+                  Overdue
+                </div>
+                <Link
+                  href="/tasks/my/"
+                  className="mt-3 inline-block text-[14px] font-medium text-[var(--navy-600)] hover:underline"
+                >
+                  View overdue tasks →
+                </Link>
+              </div>
+              <div
+                className="min-w-[160px] flex-1 rounded-lg border border-[var(--slate-200)] bg-white px-6 py-5 shadow-sm"
+                style={{ borderTop: '3px solid var(--navy-600)' }}
+              >
+                <div
+                  className="leading-none text-[var(--navy-600)]"
+                  style={{ fontSize: '2.5rem', fontWeight: 700, fontFamily: 'var(--font-display), Georgia, serif' }}
+                >
+                  {taskSummary.inProgress}
+                </div>
+                <div
+                  className="mt-2 uppercase text-[var(--slate-500)]"
+                  style={{ fontSize: 13, fontWeight: 700, letterSpacing: '1px' }}
+                >
+                  In progress
+                </div>
+                <Link
+                  href="/tasks/my/"
+                  className="mt-3 inline-block text-[14px] font-medium text-[var(--navy-600)] hover:underline"
+                >
+                  Open my tasks →
+                </Link>
+              </div>
+              <div
+                className="min-w-[160px] flex-1 rounded-lg border border-[var(--slate-200)] bg-white px-6 py-5 shadow-sm"
+                style={{ borderTop: '3px solid var(--success)' }}
+              >
+                <div
+                  className="leading-none text-[var(--success)]"
+                  style={{ fontSize: '2.5rem', fontWeight: 700, fontFamily: 'var(--font-display), Georgia, serif' }}
+                >
+                  {taskSummary.completed}
+                </div>
+                <div
+                  className="mt-2 uppercase text-[var(--slate-500)]"
+                  style={{ fontSize: 13, fontWeight: 700, letterSpacing: '1px' }}
+                >
+                  Completed
+                </div>
+                <Link
+                  href="/tasks/my/"
+                  className="mt-3 inline-block text-[14px] font-medium text-[var(--navy-600)] hover:underline"
+                >
+                  View completed →
+                </Link>
+              </div>
+              <div
+                className="min-w-[200px] flex-1 rounded-lg border border-[var(--slate-200)] bg-white px-6 py-5 shadow-sm"
+                style={{ borderTop: '3px solid var(--navy-400)' }}
+              >
+                <div
+                  className="leading-none text-[var(--navy-700)]"
+                  style={{ fontSize: '2.5rem', fontWeight: 700, fontFamily: 'var(--font-display), Georgia, serif' }}
+                >
+                  {taskSummary.totalAssigned}
+                </div>
+                <div
+                  className="mt-2 text-[15px] font-medium leading-snug text-[var(--slate-600)]"
+                >
+                  Total: {taskSummary.totalAssigned} task{taskSummary.totalAssigned !== 1 ? 's' : ''} assigned to me
+                  across {taskSummary.meetingCount} meeting{taskSummary.meetingCount !== 1 ? 's' : ''}
+                </div>
+                <Link
+                  href="/tasks/my/"
+                  className="mt-3 inline-block text-[14px] font-medium text-[var(--navy-600)] hover:underline"
+                >
+                  All my tasks →
+                </Link>
+              </div>
+            </div>
           </div>
 
           <section className="mb-8">
-            <h2 className="mb-4 text-lg font-semibold text-[var(--navy-800)]">Meetings</h2>
+            <h2 className="mb-4 text-[17px] font-semibold text-[var(--navy-800)]">Meetings</h2>
             <div className="mb-4 flex flex-wrap gap-2 border-b border-[var(--slate-200)] pb-2">
               {(
                 [
@@ -216,7 +315,7 @@ export function ExecutiveDashboardSummary({
                   key={tab.id}
                   type="button"
                   onClick={() => setMeetingsTab(tab.id)}
-                  className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                  className={`rounded-md px-3 py-1.5 text-base font-medium transition-colors ${
                     meetingsTab === tab.id
                       ? 'bg-[var(--navy-600)] text-white'
                       : 'bg-white text-[var(--slate-600)] ring-1 ring-[var(--slate-200)] hover:bg-[var(--slate-50)]'
@@ -228,7 +327,7 @@ export function ExecutiveDashboardSummary({
             </div>
             <div className="space-y-3">
               {tabMeetings.length === 0 ? (
-                <p className="rounded-lg border border-[var(--slate-200)] bg-white px-4 py-6 text-sm text-[var(--slate-500)]">
+                <p className="rounded-lg border border-[var(--slate-200)] bg-white px-4 py-6 text-[15px] font-normal text-[var(--slate-600)]">
                   No meetings in this category.
                 </p>
               ) : (
@@ -239,8 +338,8 @@ export function ExecutiveDashboardSummary({
 
           {meetingsForDetail.length > 0 && (
             <section className="rounded-lg border border-[var(--slate-200)] bg-white p-5 shadow-sm">
-              <h2 className="mb-1 text-lg font-semibold text-[var(--navy-800)]">Quick open — detailed view</h2>
-              <p className="mb-4 text-sm text-[var(--slate-500)]">
+              <h2 className="mb-1 text-[17px] font-semibold text-[var(--navy-800)]">Quick open — detailed view</h2>
+              <p className="mb-4 text-[15px] font-normal text-[var(--slate-600)]">
                 Open the full Executive Dashboard (readiness, pipeline, delegation) for a meeting.
               </p>
               <ul className="space-y-2">
@@ -253,7 +352,7 @@ export function ExecutiveDashboardSummary({
                         className="block rounded-md px-3 py-2 font-medium text-[var(--navy-800)] hover:bg-[var(--slate-50)]"
                       >
                         {m.title}
-                        <span className="ml-2 text-sm font-normal text-[var(--slate-500)]">
+                        <span className="ml-2 text-base font-normal text-[var(--slate-500)]">
                           {m.bodyName} · {formatDisplayDate(m.startDate)}
                         </span>
                       </Link>
@@ -262,7 +361,7 @@ export function ExecutiveDashboardSummary({
                 })}
               </ul>
               {meetingsForDetail.length > 15 && (
-                <p className="mt-3 text-sm text-[var(--slate-500)]">
+                <p className="mt-3 text-[15px] font-normal text-[var(--slate-600)]">
                   … and {meetingsForDetail.length - 15} more. Use the Meetings list to find others.
                 </p>
               )}

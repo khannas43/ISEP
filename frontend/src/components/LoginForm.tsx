@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { sanitizeCallbackUrl } from '@/lib/callbackUrl';
 import { getAppBasePath } from '@/lib/appBasePath';
 
@@ -28,6 +28,7 @@ export function LoginForm({
   const errorFromUrl = searchParams?.get('error');
   const error = errorFromUrl ?? initialError ?? null;
   const { status } = useSession();
+  const postAuthRedirectStarted = useRef(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -35,11 +36,22 @@ export function LoginForm({
   const [message, setMessage] = useState<string | null>(null);
 
   const shouldRedirect = status === 'authenticated' && !error;
+
+  // Only clear the guard when the user is actually signed out. Resetting on `loading` would
+  // re-fire redirect to /login/complete after session refetch and cause redirect / RSC loops.
   useEffect(() => {
-    if (!shouldRedirect) return;
+    if (status === 'unauthenticated') {
+      postAuthRedirectStarted.current = false;
+    }
+  }, [status]);
+
+  useEffect(() => {
+    if (status !== 'authenticated' || error) return;
+    if (postAuthRedirectStarted.current) return;
+    postAuthRedirectStarted.current = true;
     const query = new URLSearchParams({ callbackUrl }).toString();
     router.replace(`/login/complete?${query}`);
-  }, [shouldRedirect, callbackUrl, router]);
+  }, [status, error, callbackUrl, router]);
 
   const runSignIn = () => {
     setMessage(null);
@@ -73,7 +85,8 @@ export function LoginForm({
         if (result?.ok) {
           const base = getAppBasePath();
           const path = `${base}/login/complete?${new URLSearchParams({ callbackUrl }).toString()}`;
-          window.location.href = new URL(path, window.location.origin).href;
+          // Same-origin relative path — avoids new URL() throwing on rare malformed env/base combinations
+          window.location.href = path;
           return;
         }
         const httpStatus = (result as { status?: number })?.status;
@@ -118,6 +131,16 @@ export function LoginForm({
     );
   }
 
+  const splitForm = layout === 'split';
+  const labelClass = splitForm
+    ? 'mb-1 block text-[1rem] font-semibold text-[var(--slate-700)]'
+    : 'mb-1 block text-base font-medium text-[var(--slate-700)]';
+  const inputClass = splitForm ? 'input-base w-full text-[1rem]' : 'input-base w-full';
+  const inputPasswordClass = splitForm ? 'input-base w-full pr-10 text-[1rem]' : 'input-base w-full pr-10';
+  const submitClass = splitForm
+    ? 'w-full rounded-lg px-4 py-3 text-[1rem] font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:bg-[var(--slate-300)]'
+    : 'w-full rounded-lg px-4 py-3 text-base font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:bg-[var(--slate-300)]';
+
   const formBlock = (
     <form
       onSubmit={(e) => {
@@ -129,7 +152,7 @@ export function LoginForm({
       className="space-y-4"
     >
       <div>
-        <label htmlFor="username" className="mb-1 block text-sm font-medium text-[var(--slate-700)]">
+        <label htmlFor="username" className={labelClass}>
           Username
         </label>
         <input
@@ -140,12 +163,12 @@ export function LoginForm({
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          className="input-base w-full"
+          className={inputClass}
           placeholder="Enter your username"
         />
       </div>
       <div>
-        <label htmlFor="password" className="mb-1 block text-sm font-medium text-[var(--slate-700)]">
+        <label htmlFor="password" className={labelClass}>
           Password
         </label>
         <div className="relative">
@@ -157,7 +180,7 @@ export function LoginForm({
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="input-base w-full pr-10"
+            className={inputPasswordClass}
             placeholder="Enter your password"
           />
           <button
@@ -180,14 +203,14 @@ export function LoginForm({
         </div>
       </div>
       {(message || error) && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700">
           {message || error}
         </div>
       )}
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-lg px-4 py-3 text-sm font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:bg-[var(--slate-300)]"
+        className={submitClass}
         style={{ background: loading ? undefined : 'var(--navy-600)' }}
       >
         {loading ? 'Signing in…' : 'Sign in'}
@@ -198,10 +221,9 @@ export function LoginForm({
   if (layout === 'split') {
     return (
       <div
-        className="login-split-root box-border flex min-h-[100dvh] min-h-screen h-full w-full max-w-none flex-col border-4 border-red-500 lg:flex-row"
+        className="login-split-root box-border flex min-h-[100dvh] min-h-screen h-full w-full max-w-none flex-col lg:flex-row"
         style={{ fontFamily: 'var(--font-body), sans-serif' }}
       >
-        {/* DEBUG: red border on .login-split-root — remove border-4 border-red-500 after confirming full-bleed split */}
         <div
           className="relative flex min-h-[280px] flex-[1_1_58%] flex-col items-center justify-center overflow-hidden px-10 py-12 lg:min-h-screen lg:max-w-[58%] lg:flex-[1_1_58%] lg:px-16 lg:py-16"
           style={{
@@ -228,21 +250,23 @@ export function LoginForm({
             </div>
             <div className="mt-8 border-t border-[rgba(212,160,23,0.4)] pt-6">
               <p
-                className="mb-2 text-[11px] uppercase tracking-[3px] text-white/50"
+                className="mb-2 text-[14px] uppercase tracking-[3px] text-white/50"
                 style={{ fontFamily: 'var(--font-body), sans-serif' }}
               >
                 Government of India · Ministry of Ports, Shipping &amp; Waterways
               </p>
               <h1
-                className="mb-1 text-4xl font-bold tracking-tight text-white"
-                style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
+                className="mb-1 font-bold tracking-tight text-white"
+                style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: '3.5rem' }}
               >
                 ISEP
               </h1>
-              <p className="text-[15px] tracking-wide text-white/75">IMO Strategic Engagement Platform</p>
-              <p className="mt-1 text-[13px] tracking-wide text-[rgba(212,160,23,0.85)]">Directorate General of Shipping</p>
+              <p className="text-[1rem] tracking-wide text-white/90">IMO Strategic Engagement Platform</p>
+              <p className="mt-1 text-[0.9rem] tracking-wide text-[rgba(212,160,23,0.85)]">
+                Directorate General of Shipping
+              </p>
             </div>
-            <div className="mt-12 space-y-4 text-left text-sm text-white/70">
+            <div className="mt-12 space-y-4 text-left text-[1rem]" style={{ color: 'rgba(255,255,255,0.9)' }}>
               {[
                 { icon: '⚓', text: 'Centralised IMO engagement management' },
                 { icon: '📋', text: 'Multi-level document approval workflows' },
@@ -255,25 +279,28 @@ export function LoginForm({
               ))}
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 bg-black/30 py-2 text-center text-[11px] tracking-wide text-white/40">
+          <div className="absolute bottom-0 left-0 right-0 bg-black/30 py-2 text-center text-[14px] tracking-wide text-white/50">
             RESTRICTED — GOVERNMENT USE ONLY
           </div>
         </div>
 
         <div className="flex min-h-[60vh] flex-[1_1_42%] flex-col items-stretch justify-start bg-white px-6 pt-4 pb-8 sm:px-8 lg:min-h-screen lg:max-w-[42%] lg:flex-[1_1_42%] lg:px-10">
           <div className="w-full max-w-md">
-            <h2 className="mb-2 text-[28px] font-bold text-[var(--navy-800)]" style={{ fontFamily: 'var(--font-display), Georgia, serif' }}>
+            <h2
+              className="mb-2 font-bold text-[var(--navy-800)]"
+              style={{ fontFamily: 'var(--font-display), Georgia, serif', fontSize: '2rem' }}
+            >
               Sign in
             </h2>
-            <p className="mb-8 text-sm text-[var(--slate-500)]">Use your DGS official credentials</p>
+            <p className="mb-8 text-[1rem] text-[var(--slate-500)]">Use your DGS official credentials</p>
             {formBlock}
-            <div className="mt-10 border-t border-[var(--slate-100)] pt-6 text-center text-xs text-[var(--slate-300)]">
+            <div className="mt-10 border-t border-[var(--slate-100)] pt-6 text-center text-sm text-[var(--slate-300)]">
               <p>Directorate General of Shipping · Mumbai — 400 001</p>
               <p className="mt-1">For access issues contact your system administrator</p>
             </div>
             {showBackToHome && (
               <p className="mt-6 text-center">
-                <Link href="/" className="text-sm font-medium text-[var(--slate-600)] hover:text-[var(--navy-800)]">
+                <Link href="/" className="text-base font-medium text-[var(--slate-600)] hover:text-[var(--navy-800)]">
                   ← Back to home
                 </Link>
               </p>
@@ -288,15 +315,15 @@ export function LoginForm({
     <div className="w-full max-w-sm">
       <div className="card p-8">
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold text-slate-900">ISEP</h1>
-          <p className="mt-1 text-sm text-slate-600">IMO Strategic Engagement Platform</p>
-          <p className="text-xs text-slate-500">DGS · MoPSW, Government of India</p>
+          <h1 className="text-3xl font-bold text-slate-900">ISEP</h1>
+          <p className="mt-1 text-base text-slate-600">IMO Strategic Engagement Platform</p>
+          <p className="text-sm text-slate-500">DGS · MoPSW, Government of India</p>
         </div>
         <h2 className="mb-4 text-lg font-semibold text-slate-900">Sign in</h2>
         {formBlock}
         {showBackToHome && (
           <p className="mt-6 text-center">
-            <Link href="/" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+            <Link href="/" className="text-base font-medium text-slate-600 hover:text-slate-900">
               ← Back to home
             </Link>
           </p>

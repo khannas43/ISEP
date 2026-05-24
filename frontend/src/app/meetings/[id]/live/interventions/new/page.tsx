@@ -45,7 +45,7 @@ export default async function NewInterventionPage({ params }: Props) {
       <div className="card">
         <div className="card-body">
           <p className="text-slate-600">Meeting not found.</p>
-          <Link href="/meetings" className="mt-4 inline-block text-sm text-blue-600 hover:underline">← Meetings</Link>
+          <Link href="/meetings" className="mt-4 inline-block text-base text-blue-600 hover:underline">← Meetings</Link>
         </div>
       </div>
     );
@@ -68,7 +68,7 @@ export default async function NewInterventionPage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href={`/meetings/${meetingId}/live`} className="text-sm font-medium text-slate-500 hover:text-slate-700">← Live lobby</Link>
+        <Link href={`/meetings/${meetingId}/live`} className="text-base font-medium text-slate-500 hover:text-slate-700">← Live lobby</Link>
       </div>
       <div className="card">
         <div className="card-body">

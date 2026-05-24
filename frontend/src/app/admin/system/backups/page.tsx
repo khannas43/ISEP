@@ -20,7 +20,7 @@ export default async function BackupsPage() {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/admin/system" className="text-sm font-medium text-slate-500 hover:text-slate-700">← System admin</Link>
+        <Link href="/admin/system" className="text-base font-medium text-slate-500 hover:text-slate-700">← System admin</Link>
       </div>
       <div className="page-header">
         <div>
@@ -31,7 +31,7 @@ export default async function BackupsPage() {
         </div>
       </div>
       <BackupStatusTable jobs={backupJobs} />
-      <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+      <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-base text-amber-800">
         <strong>Recovery runbook:</strong> In production, a link to the recovery runbook documentation would be shown here.
       </div>
     </div>

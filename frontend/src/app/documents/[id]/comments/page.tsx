@@ -77,7 +77,7 @@ export default async function DocumentCommentsPage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href={`/documents/${documentId}`} className="text-sm font-medium text-slate-500 hover:text-slate-700">
+        <Link href={`/documents/${documentId}`} className="text-base font-medium text-slate-500 hover:text-slate-700">
           ← Document detail
         </Link>
       </div>
@@ -87,15 +87,15 @@ export default async function DocumentCommentsPage({ params }: Props) {
           <p className="page-subtitle mt-1">{doc.title} — threaded comments; visibility: internal vs delegation.</p>
 
           <section className="mt-6" aria-label="Existing comments">
-            <h2 className="text-sm font-semibold text-slate-700 mb-3">Existing comments</h2>
+            <h2 className="text-base font-semibold text-slate-700 mb-3">Existing comments</h2>
             {comments.length === 0 ? (
-              <p className="text-slate-500 text-sm">No comments yet. Add one below.</p>
+              <p className="text-slate-500 text-base">No comments yet. Add one below.</p>
             ) : (
               <ul className="space-y-4">
                 {comments.map((c) => (
                   <li key={c.commentId} className="border-l-2 border-slate-200 pl-4 py-1">
-                    <p className="text-sm text-slate-800">{c.content}</p>
-                    <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+                    <p className="text-base text-slate-800">{c.content}</p>
+                    <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
                       <span>{c.authorName}</span>
                       <span>{formatDate(c.createdAt)}</span>
                       <span

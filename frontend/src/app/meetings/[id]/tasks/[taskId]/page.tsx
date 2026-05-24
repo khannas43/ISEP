@@ -76,7 +76,7 @@ export default async function TaskDetailPage({ params }: Props) {
     <div className="card">
       <div className="card-body">
         <div className="mb-4">
-          <Link href={`/meetings/${meetingId}?tab=tasks`} className="text-sm font-medium text-blue-600 hover:underline">
+          <Link href={`/meetings/${meetingId}?tab=tasks`} className="text-base font-medium text-blue-600 hover:underline">
             ← Back to Tasks
           </Link>
         </div>
@@ -91,7 +91,7 @@ export default async function TaskDetailPage({ params }: Props) {
             </p>
           </div>
         </div>
-        <dl className="mt-6 grid gap-3 text-sm">
+        <dl className="mt-6 grid gap-3 text-base">
           <div>
             <dt className="text-slate-500">Description</dt>
             <dd className="mt-0.5 font-medium text-slate-900">{task.description ?? '—'}</dd>
@@ -109,7 +109,7 @@ export default async function TaskDetailPage({ params }: Props) {
         </dl>
         {canEdit && (
           <div className="mt-6 border-t border-slate-200 pt-6">
-            <h2 className="text-sm font-semibold text-slate-900 mb-3">Edit task</h2>
+            <h2 className="text-base font-semibold text-slate-900 mb-3">Edit task</h2>
             <TaskDetailClient
               meetingId={meetingId}
               taskId={taskId}

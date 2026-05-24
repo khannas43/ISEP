@@ -17,12 +17,12 @@ export default async function SessionExpiredPage({ searchParams }: Props) {
       <div className="w-full max-w-sm text-center">
         <div className="card p-8">
           <h1 className="text-xl font-bold text-slate-900">Session expired</h1>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-2 text-base text-slate-600">
             You have been signed out due to inactivity (default 30 minutes). Sign in again to continue.
           </p>
           <Link
             href={`/?callbackUrl=${encodeURIComponent(callbackUrl)}`}
-            className="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+            className="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-base font-medium text-white transition-colors hover:bg-blue-700"
           >
             Sign in again
           </Link>

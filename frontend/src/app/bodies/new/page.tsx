@@ -43,7 +43,7 @@ export default async function NewBodyPage() {
     <>
       {apiUnavailable && <ApiUnavailableBanner />}
       <div className="mb-6">
-        <Link href="/bodies" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Back to Bodies</Link>
+        <Link href="/bodies" className="text-base font-medium text-slate-500 hover:text-slate-700">← Back to Bodies</Link>
       </div>
       <div className="page-header">
         <h1 className="page-title">Add International Body</h1>

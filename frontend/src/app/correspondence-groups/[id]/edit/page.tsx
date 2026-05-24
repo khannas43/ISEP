@@ -84,7 +84,7 @@ export default async function EditCorrespondenceGroupPage({ params }: Props) {
     <div className="card">
       <div className="card-body">
         <div className="mb-4">
-          <Link href={`/correspondence-groups/${cgId}`} className="text-sm font-medium text-blue-600 hover:underline">
+          <Link href={`/correspondence-groups/${cgId}`} className="text-base font-medium text-blue-600 hover:underline">
             ← Back to Correspondence Group
           </Link>
         </div>

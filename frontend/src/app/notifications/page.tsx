@@ -34,7 +34,7 @@ export default async function NotificationsPage() {
           <h1 className="page-title">Notification centre</h1>
           <p className="page-subtitle">All your notifications. Mark as read or mark all read. Notifications older than 90 days archived.</p>
         </div>
-        <Link href="/account/notification-preferences" className="btn-secondary text-sm">Preferences</Link>
+        <Link href="/account/notification-preferences" className="btn-secondary text-base">Preferences</Link>
       </div>
       <NotificationCentreClient notifications={notifications} unreadCount={unreadCount} />
     </div>

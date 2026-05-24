@@ -113,7 +113,7 @@ export function CreateTaskModal({ meetingId, agendaItemId, participants, documen
           <h2 className="text-lg font-semibold text-slate-900">{t('task.create.title')}</h2>
           <form onSubmit={handleSubmit} className="mt-4 space-y-4">
             <div>
-              <label htmlFor="task-title" className="mb-1 block text-sm font-medium text-slate-700">
+              <label htmlFor="task-title" className="mb-1 block text-base font-medium text-slate-700">
                 {t('task.create.titleLabel')}
               </label>
               <input
@@ -125,18 +125,18 @@ export function CreateTaskModal({ meetingId, agendaItemId, participants, documen
               />
             </div>
             <div>
-              <label htmlFor="task-description" className="mb-1 block text-sm font-medium text-slate-700">
+              <label htmlFor="task-description" className="mb-1 block text-base font-medium text-slate-700">
                 {t('task.create.description')}
               </label>
               <textarea id="task-description" name="description" rows={3} className="input-base w-full" />
             </div>
             <fieldset className="space-y-2">
-              <legend className="text-sm font-medium text-slate-700">{t('task.create.assignTo')}</legend>
+              <legend className="text-base font-medium text-slate-700">{t('task.create.assignTo')}</legend>
               {assignable.length === 0 ? (
-                <p className="text-sm text-slate-500">{t('common.noData')}</p>
+                <p className="text-base text-slate-500">{t('common.noData')}</p>
               ) : (
                 assignable.map((p) => (
-                  <label key={p.userId} className="flex items-center gap-2 text-sm">
+                  <label key={p.userId} className="flex items-center gap-2 text-base">
                     <input type="checkbox" name="assignedTo" value={p.userId} />
                     <span>
                       {p.fullName} ({p.role})
@@ -146,7 +146,7 @@ export function CreateTaskModal({ meetingId, agendaItemId, participants, documen
               )}
             </fieldset>
             <div>
-              <label htmlFor="task-due" className="mb-1 block text-sm font-medium text-slate-700">
+              <label htmlFor="task-due" className="mb-1 block text-base font-medium text-slate-700">
                 {t('task.create.dueDate')}
               </label>
               <input
@@ -159,7 +159,7 @@ export function CreateTaskModal({ meetingId, agendaItemId, participants, documen
               />
             </div>
             <div>
-              <label htmlFor="task-priority" className="mb-1 block text-sm font-medium text-slate-700">
+              <label htmlFor="task-priority" className="mb-1 block text-base font-medium text-slate-700">
                 {t('task.create.priority')}
               </label>
               <select id="task-priority" name="priority" defaultValue="MEDIUM" className="input-base w-full">
@@ -170,7 +170,7 @@ export function CreateTaskModal({ meetingId, agendaItemId, participants, documen
             </div>
             {documents.length > 0 && (
               <div>
-                <label htmlFor="task-doc" className="mb-1 block text-sm font-medium text-slate-700">
+                <label htmlFor="task-doc" className="mb-1 block text-base font-medium text-slate-700">
                   {t('task.create.linkDocument')}
                 </label>
                 <select id="task-doc" name="documentId" className="input-base w-full">
@@ -184,7 +184,7 @@ export function CreateTaskModal({ meetingId, agendaItemId, participants, documen
               </div>
             )}
             {error && (
-              <p role="alert" className="text-sm text-red-600">
+              <p role="alert" className="text-base text-red-600">
                 {error}
               </p>
             )}
@@ -209,7 +209,7 @@ export function CreateTaskButton(props: Omit<Props, 'onClose'>) {
   return (
     <>
       <RoleGuard allowedRoles={['SYSTEM_ADMIN', 'DELEGATION_LEADER', 'COORDINATOR']}>
-        <button type="button" onClick={() => setOpen(true)} className="btn-primary text-sm">
+        <button type="button" onClick={() => setOpen(true)} className="btn-primary text-base">
           {t('task.create.title')}
         </button>
       </RoleGuard>

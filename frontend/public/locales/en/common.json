@@ -50,6 +50,15 @@
       "OVERDUE": "Overdue"
     }
   },
+  "agendaItem": {
+    "attachments": "Attachments",
+    "attachmentsOptional": "Attachments (optional)",
+    "attachmentsHint": "Attach reference documents, IMO papers, or supporting files for this agenda item.",
+    "dropFilesHere": "Drag and drop files here, or",
+    "browse": "browse",
+    "maxFileSize": "PDF, Word, Excel, PowerPoint — max 100MB per file",
+    "uploadingAttachments": "Uploading attachments {{current}}/{{total}}..."
+  },
   "document": {
     "upload": {
       "title": "Paper preparation upload",

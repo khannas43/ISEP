@@ -47,7 +47,7 @@ export default async function CreateMeetingPage() {
     <>
       {apiUnavailable && <ApiUnavailableBanner />}
       <div className="mb-6">
-        <Link href="/meetings" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Back to Meetings</Link>
+        <Link href="/meetings" className="text-base font-medium text-slate-500 hover:text-slate-700">← Back to Meetings</Link>
       </div>
       <div className="page-header">
         <h1 className="page-title">Create Meeting</h1>

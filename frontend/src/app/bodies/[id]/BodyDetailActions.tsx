@@ -44,7 +44,7 @@ export function BodyDetailActions({ bodyId, isActive }: Props) {
         </button>
       )}
       {error && (
-        <span className="text-sm text-red-600">{error}</span>
+        <span className="text-base text-red-600">{error}</span>
       )}
     </div>
   );

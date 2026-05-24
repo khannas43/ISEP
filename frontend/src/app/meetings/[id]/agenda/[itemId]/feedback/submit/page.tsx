@@ -39,7 +39,7 @@ export default async function FeedbackSubmitPage({ params }: Props) {
       <div className="card">
         <div className="card-body">
           <p className="text-slate-600">Agenda item not found.</p>
-          <Link href={`/meetings/${meetingId}?tab=agenda`} className="mt-4 inline-block text-sm text-blue-600 hover:underline">
+          <Link href={`/meetings/${meetingId}?tab=agenda`} className="mt-4 inline-block text-base text-blue-600 hover:underline">
             ← Back to Agenda
           </Link>
         </div>
@@ -52,7 +52,7 @@ export default async function FeedbackSubmitPage({ params }: Props) {
       <div className="mb-6">
         <Link
           href={`/meetings/${meetingId}/agenda/${itemId}`}
-          className="text-sm font-medium text-slate-500 hover:text-slate-700"
+          className="text-base font-medium text-slate-500 hover:text-slate-700"
         >
           ← Back to Agenda Item
         </Link>
@@ -64,7 +64,7 @@ export default async function FeedbackSubmitPage({ params }: Props) {
             Item {agendaItem.itemNumber}: {agendaItem.title}
           </p>
           {agendaItem.deadlineForInputs && (
-            <p className="mt-2 text-sm text-amber-700">
+            <p className="mt-2 text-base text-amber-700">
               Deadline for inputs: <strong>{agendaItem.deadlineForInputs}</strong>
             </p>
           )}

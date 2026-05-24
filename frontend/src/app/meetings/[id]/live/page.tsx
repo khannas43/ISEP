@@ -72,7 +72,7 @@ export default async function LiveMeetingPage({ params }: Props) {
   return (
     <div className="w-full max-w-none">
       <div className="mb-4">
-        <Link href={`/meetings/${id}?tab=live`} className="text-sm font-medium text-slate-500 hover:text-slate-700">
+        <Link href={`/meetings/${id}?tab=live`} className="text-base font-medium text-slate-500 hover:text-slate-700">
           ← Meeting overview
         </Link>
       </div>

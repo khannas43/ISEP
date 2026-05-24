@@ -15,6 +15,19 @@
 -- meetings require meeting_type; documents use documents.documents columns from V3/V17/V19/V20
 -- (no content_html-only row without required file metadata); document_versions use version_id
 -- and optional file fields per V19; core.tasks use V18 status values and core.task_assignees.
+-- core.tasks: assigned_to and assigned_by are NOT NULL (V4); do not use created_by in INSERTs.
+--
+-- Demo user IDs (align with Keycloak realm users):
+--   admin-sa     c1000000-0000-0000-0000-000000000000
+--   co-user      c1000000-0000-0000-0000-000000000001
+--   dl-user      c1000000-0000-0000-0000-000000000002
+--   member-user  c1000000-0000-0000-0000-000000000004
+
+-- Re-running seed: keep keycloak_id in sync with Keycloak usernames (no-op if rows missing).
+UPDATE core.users SET keycloak_id = 'admin-sa' WHERE user_id = 'c1000000-0000-0000-0000-000000000000'::uuid;
+UPDATE core.users SET keycloak_id = 'co-user' WHERE user_id = 'c1000000-0000-0000-0000-000000000001'::uuid;
+UPDATE core.users SET keycloak_id = 'dl-user' WHERE user_id = 'c1000000-0000-0000-0000-000000000002'::uuid;
+UPDATE core.users SET keycloak_id = 'member-user' WHERE user_id = 'c1000000-0000-0000-0000-000000000004'::uuid;
 
 -- Demo body (abbreviation MSC-DEMO to avoid clashing with real MSC rows)
 INSERT INTO core.international_bodies (body_id, name, abbreviation, body_type, is_active, created_at, updated_at)
@@ -127,35 +140,30 @@ SELECT
 FROM (SELECT user_id FROM core.users WHERE is_active = true ORDER BY created_at LIMIT 1) u
 ON CONFLICT (document_id, version_number) DO NOTHING;
 
+-- Task: assigned_to = member-user, assigned_by = co-user (both NOT NULL per core.tasks schema).
 INSERT INTO core.tasks (
   task_id, title, description, agenda_item_id, meeting_id, assigned_to, assigned_by,
-  priority, due_date, status, created_by, created_at, updated_at
-)
-SELECT
+  priority, due_date, status, created_at, updated_at
+) VALUES (
   '00000000-0000-0000-0000-000000000401'::uuid,
   'Draft India position on MARPOL Annex VI amendments',
   'Review IMO document MSC 108/4/1 and prepare India national position paper.',
   '00000000-0000-0000-0000-000000000101'::uuid,
   '00000000-0000-0000-0000-000000000001'::uuid,
-  u.user_id,
-  u.user_id,
+  'c1000000-0000-0000-0000-000000000004'::uuid,
+  'c1000000-0000-0000-0000-000000000001'::uuid,
   'HIGH',
   (CURRENT_DATE + 7)::timestamptz,
   'PENDING',
-  u.user_id,
   NOW(), NOW()
-FROM (SELECT user_id FROM core.users WHERE is_active = true ORDER BY created_at LIMIT 1) u
-ON CONFLICT (task_id) DO NOTHING;
+) ON CONFLICT (task_id) DO NOTHING;
 
 INSERT INTO core.task_assignees (task_id, user_id, assigned_at)
-SELECT
+VALUES (
   '00000000-0000-0000-0000-000000000401'::uuid,
-  user_id,
+  'c1000000-0000-0000-0000-000000000004'::uuid,
   NOW()
-FROM core.users
-WHERE is_active = true AND system_role = 'MEMBER'
-LIMIT 1
-ON CONFLICT (task_id, user_id) DO NOTHING;
+) ON CONFLICT (task_id, user_id) DO NOTHING;
 
 -- Demo paper (core.papers) for approval / submit workflow — separate from documents.documents
 INSERT INTO core.papers (

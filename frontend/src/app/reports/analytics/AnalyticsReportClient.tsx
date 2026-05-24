@@ -185,12 +185,12 @@ export function AnalyticsReportClient({ accessToken }: Props) {
     <>
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="max-w-md flex-1">
-          <label htmlFor="analytics-meeting" className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor="analytics-meeting" className="mb-1 block text-base font-medium text-slate-700">
             Meeting
           </label>
           <select
             id="analytics-meeting"
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm"
+            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base shadow-sm"
             value={meetingId}
             disabled={loadingMeetings}
             onChange={(e) => setMeetingId(e.target.value)}
@@ -206,21 +206,21 @@ export function AnalyticsReportClient({ accessToken }: Props) {
           <button
             type="button"
             onClick={exportXlsx}
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm hover:bg-slate-50"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-medium text-slate-800 shadow-sm hover:bg-slate-50"
           >
             Export Excel
           </button>
           <button
             type="button"
             onClick={exportXml}
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm hover:bg-slate-50"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-medium text-slate-800 shadow-sm hover:bg-slate-50"
           >
             Export XML
           </button>
           <button
             type="button"
             onClick={exportMomPdf}
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm hover:bg-slate-50"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-base font-medium text-slate-800 shadow-sm hover:bg-slate-50"
           >
             Export MoM PDF
           </button>
@@ -228,18 +228,18 @@ export function AnalyticsReportClient({ accessToken }: Props) {
       </div>
 
       {error && (
-        <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-base text-amber-900">
           {error}
         </div>
       )}
 
-      {loadingAnalytics && <p className="text-sm text-slate-500">Loading analytics…</p>}
+      {loadingAnalytics && <p className="text-base text-slate-500">Loading analytics…</p>}
 
       {analytics && !loadingAnalytics && (
         <>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-xs font-medium uppercase text-slate-500">Members participated</p>
+              <p className="text-sm font-medium uppercase text-slate-500">Members participated</p>
               <p className="mt-1 text-2xl font-semibold text-slate-900">
                 {analytics.participated}
                 <span className="text-base font-normal text-slate-500">
@@ -249,37 +249,37 @@ export function AnalyticsReportClient({ accessToken }: Props) {
               </p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-xs font-medium uppercase text-slate-500">Tasks completed</p>
+              <p className="text-sm font-medium uppercase text-slate-500">Tasks completed</p>
               <p className="mt-1 text-2xl font-semibold text-slate-900">
                 {analytics.taskCompletionRatePercent}%
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-sm text-slate-500">
                 {analytics.tasksCompleted} of {analytics.tasksTotal} tasks
               </p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-xs font-medium uppercase text-slate-500">Papers finalised</p>
+              <p className="text-sm font-medium uppercase text-slate-500">Papers finalised</p>
               <p className="mt-1 text-2xl font-semibold text-slate-900">{analytics.papersFinalised}</p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-sm text-slate-500">
                 {papersTotal > 0 ? `of ${papersTotal} papers tracked` : 'No papers for this meeting'}
               </p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-xs font-medium uppercase text-slate-500">Avg approval cycle</p>
+              <p className="text-sm font-medium uppercase text-slate-500">Avg approval cycle</p>
               <p className="mt-1 text-2xl font-semibold text-slate-900">
                 {analytics.avgApprovalDays != null ? `${analytics.avgApprovalDays} days` : '—'}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">When available from workflow data</p>
+              <p className="mt-0.5 text-sm text-slate-500">When available from workflow data</p>
             </div>
           </div>
 
           <div className="mt-8">
             <h2 className="text-base font-semibold text-slate-900">Selected meeting indicators</h2>
-            <p className="mt-1 text-sm text-slate-600">{analytics.meetingTitle}</p>
+            <p className="mt-1 text-base text-slate-600">{analytics.meetingTitle}</p>
             <div className="mt-4 space-y-3">
               {barRows.map((b) => (
                 <div key={b.label}>
-                  <div className="mb-1 flex justify-between text-sm text-slate-600">
+                  <div className="mb-1 flex justify-between text-base text-slate-600">
                     <span>{b.label}</span>
                     <span>{b.value}%</span>
                   </div>
@@ -293,20 +293,20 @@ export function AnalyticsReportClient({ accessToken }: Props) {
 
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             <div className="rounded-lg border border-slate-200 bg-slate-50/80 p-4">
-              <p className="text-xs font-medium uppercase text-slate-500">Tasks overdue</p>
+              <p className="text-sm font-medium uppercase text-slate-500">Tasks overdue</p>
               <p className="mt-1 text-xl font-semibold text-amber-700">{analytics.tasksOverdue}</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-slate-50/80 p-4">
-              <p className="text-xs font-medium uppercase text-slate-500">Papers in draft</p>
+              <p className="text-sm font-medium uppercase text-slate-500">Papers in draft</p>
               <p className="mt-1 text-xl font-semibold text-slate-900">{analytics.papersDraft}</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-slate-50/80 p-4">
-              <p className="text-xs font-medium uppercase text-slate-500">Papers in approval</p>
+              <p className="text-sm font-medium uppercase text-slate-500">Papers in approval</p>
               <p className="mt-1 text-xl font-semibold text-slate-900">{analytics.papersApproved}</p>
             </div>
           </div>
 
-          <p className="mt-6 text-sm text-slate-600">
+          <p className="mt-6 text-base text-slate-600">
             Open the{' '}
             <Link href={`/meetings/${meetingId}/mom`} className="font-medium text-blue-600 hover:underline">
               Minutes of Meeting

@@ -51,10 +51,11 @@ public class TaskApiController {
             @RequestParam(required = false) String status,
             @RequestParam(required = false) UUID meetingId,
             @RequestParam(required = false) Boolean countOnly,
+            @RequestParam(required = false) Boolean summary,
             Authentication authentication
     ) {
         UUID userId = SecurityUtils.resolveInternalUserId(authentication, userRepository);
-        Object body = taskApiService.listMy(userId, status, meetingId, countOnly);
+        Object body = taskApiService.listMy(userId, status, meetingId, countOnly, summary);
         return ResponseEntity.ok(body);
     }
 

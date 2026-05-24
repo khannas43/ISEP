@@ -37,7 +37,9 @@ export default async function HomePage(props: Props) {
   }
 
   if (session?.user) {
-    redirect(`/login/complete?${new URLSearchParams({ callbackUrl }).toString()}`);
+    // Server already has a session — go straight to the target. Routing via /login/complete + soft
+    // nav caused middleware/JWT races and flicker on deep links (e.g. document editor).
+    redirect(sanitizeCallbackUrl(callbackUrl));
   }
 
   return (
@@ -52,7 +54,7 @@ export default async function HomePage(props: Props) {
               }}
             />
             <div className="relative flex min-h-[60vh] flex-[1_1_42%] bg-white lg:min-h-screen">
-              <p className="absolute left-4 top-4 text-sm text-slate-500">Loading…</p>
+              <p className="absolute left-4 top-4 text-base text-slate-500">Loading…</p>
             </div>
           </div>
         }

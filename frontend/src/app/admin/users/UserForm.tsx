@@ -68,13 +68,13 @@ export function UserForm(props: Props) {
   return (
     <form onSubmit={handleSubmit} className="max-w-xl space-y-4">
       {error && (
-        <div className="rounded bg-red-50 text-red-700 px-4 py-2 text-sm">
+        <div className="rounded bg-red-50 text-red-700 px-4 py-2 text-base">
           {error}
         </div>
       )}
       {!user && (
         <div>
-          <label htmlFor="keycloakId" className="block text-sm font-medium text-slate-700 mb-1">
+          <label htmlFor="keycloakId" className="block text-base font-medium text-slate-700 mb-1">
             Keycloak ID *
           </label>
           <input
@@ -88,7 +88,7 @@ export function UserForm(props: Props) {
         </div>
       )}
       <div>
-        <label htmlFor="fullName" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="fullName" className="block text-base font-medium text-slate-700 mb-1">
           Full name *
         </label>
         <input
@@ -101,7 +101,7 @@ export function UserForm(props: Props) {
         />
       </div>
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="email" className="block text-base font-medium text-slate-700 mb-1">
           Email *
         </label>
         <input
@@ -116,7 +116,7 @@ export function UserForm(props: Props) {
         />
       </div>
       <div>
-        <label htmlFor="designation" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="designation" className="block text-base font-medium text-slate-700 mb-1">
           Designation
         </label>
         <input
@@ -128,7 +128,7 @@ export function UserForm(props: Props) {
         />
       </div>
       <div>
-        <label htmlFor="organization" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="organization" className="block text-base font-medium text-slate-700 mb-1">
           Organization
         </label>
         <input
@@ -140,7 +140,7 @@ export function UserForm(props: Props) {
         />
       </div>
       <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="phone" className="block text-base font-medium text-slate-700 mb-1">
           Phone
         </label>
         <input
@@ -152,7 +152,7 @@ export function UserForm(props: Props) {
         />
       </div>
       <div>
-        <label htmlFor="systemRole" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="systemRole" className="block text-base font-medium text-slate-700 mb-1">
           System role *
         </label>
         <select
@@ -177,7 +177,7 @@ export function UserForm(props: Props) {
           defaultChecked={user?.isActive ?? true}
           className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
         />
-        <label htmlFor="isActive" className="text-sm font-medium text-slate-700">
+        <label htmlFor="isActive" className="text-base font-medium text-slate-700">
           Active
         </label>
       </div>

@@ -82,13 +82,13 @@ export function ParticipantsTab({ meetingId, participants, canManage, meetingRol
             onSubmit={handleAdd}
             className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4"
           >
-          <h3 className="text-sm font-medium text-slate-900">Add participant</h3>
-          <p className="mt-1 text-xs text-slate-500">
+          <h3 className="text-base font-medium text-slate-900">Add participant</h3>
+          <p className="mt-1 text-sm text-slate-500">
             Select a user from the system user list. Only active users not already in this meeting are shown.
           </p>
           <div className="mt-3 flex flex-wrap items-end gap-3">
             <label className="flex-1 min-w-[200px]">
-              <span className="block text-xs font-medium text-slate-700">User</span>
+              <span className="block text-sm font-medium text-slate-700">User</span>
               <select
                 value={addUserId}
                 onChange={(e) => setAddUserId(e.target.value)}
@@ -103,11 +103,11 @@ export function ParticipantsTab({ meetingId, participants, canManage, meetingRol
                 ))}
               </select>
               {availableUsers.length === 0 && (
-                <p className="mt-1 text-xs text-amber-600">No additional users available to add.</p>
+                <p className="mt-1 text-sm text-amber-600">No additional users available to add.</p>
               )}
             </label>
             <label>
-              <span className="block text-xs font-medium text-slate-700">Meeting role</span>
+              <span className="block text-sm font-medium text-slate-700">Meeting role</span>
               <select
                 value={addRole}
                 onChange={(e) => setAddRole(e.target.value)}
@@ -133,7 +133,7 @@ export function ParticipantsTab({ meetingId, participants, canManage, meetingRol
               </button>
             </div>
           </div>
-          {addError && <p className="mt-2 text-sm text-red-600">{addError}</p>}
+          {addError && <p className="mt-2 text-base text-red-600">{addError}</p>}
         </form>
       )}
 
@@ -141,7 +141,7 @@ export function ParticipantsTab({ meetingId, participants, canManage, meetingRol
           <p className="mt-4 text-slate-500">No participants assigned yet.</p>
         ) : (
           <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200">
-            <table className="min-w-full divide-y divide-slate-200 text-sm">
+            <table className="min-w-full divide-y divide-slate-200 text-base">
               <thead>
                 <tr>
                   <th className="table-header px-4 py-2.5 text-left">Name</th>
@@ -156,7 +156,7 @@ export function ParticipantsTab({ meetingId, participants, canManage, meetingRol
                   <tr key={p.participantId} className="hover:bg-slate-50/50">
                     <td className="table-cell">
                       <span className="font-medium text-slate-900">{p.name ?? p.email}</span>
-                      {p.name && <span className="block text-xs text-slate-500">{p.email}</span>}
+                      {p.name && <span className="block text-sm text-slate-500">{p.email}</span>}
                     </td>
                     <td className="table-cell">{p.designation ?? '—'}</td>
                     <td className="table-cell">{p.organization ?? '—'}</td>
@@ -166,7 +166,7 @@ export function ParticipantsTab({ meetingId, participants, canManage, meetingRol
                           value={p.meetingRole}
                           onChange={(e) => handleRoleChange(p.participantId, e.target.value as MeetingRole)}
                           disabled={updatingId === p.participantId}
-                          className="input-base w-auto min-w-0 py-1.5 text-sm disabled:opacity-50"
+                          className="input-base w-auto min-w-0 py-1.5 text-base disabled:opacity-50"
                         >
                           {meetingRoleOptions.map((r) => (
                             <option key={r.code} value={r.code}>
@@ -186,7 +186,7 @@ export function ParticipantsTab({ meetingId, participants, canManage, meetingRol
                           type="button"
                           onClick={() => handleRemove(p.participantId)}
                           disabled={removingId === p.participantId}
-                          className="text-sm font-medium text-red-600 hover:underline disabled:opacity-50"
+                          className="text-base font-medium text-red-600 hover:underline disabled:opacity-50"
                         >
                           {removingId === p.participantId ? 'Removing…' : 'Remove'}
                         </button>

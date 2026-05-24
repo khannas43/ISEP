@@ -60,7 +60,7 @@ export function ApprovalActions({ paperId, hasPending }: Props) {
 
   if (!hasPending) {
     return (
-      <span className="text-sm text-slate-500">No pending stage — approval actions are hidden.</span>
+      <span className="text-base text-slate-500">No pending stage — approval actions are hidden.</span>
     );
   }
 
@@ -91,7 +91,7 @@ export function ApprovalActions({ paperId, hasPending }: Props) {
           >
             {t('approval.reject')}
           </button>
-          {error && <span className="text-sm text-red-600">{error}</span>}
+          {error && <span className="text-base text-red-600">{error}</span>}
         </div>
         {showRejectInput && (
           <div className="flex flex-wrap items-center gap-2">
@@ -100,13 +100,13 @@ export function ApprovalActions({ paperId, hasPending }: Props) {
               placeholder={t('approval.rejectReason')}
               value={rejectComment}
               onChange={(e) => setRejectComment(e.target.value)}
-              className="min-w-[200px] flex-1 rounded border border-slate-300 px-3 py-1.5 text-sm"
+              className="min-w-[200px] flex-1 rounded border border-slate-300 px-3 py-1.5 text-base"
             />
             <button
               type="button"
               onClick={handleReject}
               disabled={acting || !rejectComment.trim()}
-              className="rounded bg-red-600 px-3 py-1.5 text-sm text-white hover:bg-red-700 disabled:opacity-50"
+              className="rounded bg-red-600 px-3 py-1.5 text-base text-white hover:bg-red-700 disabled:opacity-50"
             >
               {t('approval.confirmReject')}
             </button>

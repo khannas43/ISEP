@@ -68,7 +68,7 @@ export function FeedbackArchiveClient({ meetingId, accessToken, agendaItems }: P
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-end gap-3 rounded-lg border border-slate-200 bg-slate-50/80 p-4">
-        <label className="flex flex-col gap-1 text-sm">
+        <label className="flex flex-col gap-1 text-base">
           <span className="text-slate-600">{t('feedback.archive.agendaItem')}</span>
           <select
             value={agendaItemId}
@@ -76,7 +76,7 @@ export function FeedbackArchiveClient({ meetingId, accessToken, agendaItems }: P
               setPage(0);
               setAgendaItemId(e.target.value);
             }}
-            className="rounded border border-slate-300 bg-white px-3 py-2 text-sm"
+            className="rounded border border-slate-300 bg-white px-3 py-2 text-base"
           >
             <option value="">All items</option>
             {agendaItems.map((a) => (
@@ -87,7 +87,7 @@ export function FeedbackArchiveClient({ meetingId, accessToken, agendaItems }: P
             ))}
           </select>
         </label>
-        <label className="flex flex-col gap-1 text-sm">
+        <label className="flex flex-col gap-1 text-base">
           <span className="text-slate-600">{t('feedback.archive.filterPosition')}</span>
           <select
             value={position}
@@ -95,7 +95,7 @@ export function FeedbackArchiveClient({ meetingId, accessToken, agendaItems }: P
               setPage(0);
               setPosition(e.target.value);
             }}
-            className="rounded border border-slate-300 bg-white px-3 py-2 text-sm"
+            className="rounded border border-slate-300 bg-white px-3 py-2 text-base"
           >
             <option value="ALL">All</option>
             {positionOptions.map((p) => (
@@ -114,12 +114,12 @@ export function FeedbackArchiveClient({ meetingId, accessToken, agendaItems }: P
       </div>
 
       {loading ? (
-        <p className="text-sm text-slate-500">{t('common.loading')}</p>
+        <p className="text-base text-slate-500">{t('common.loading')}</p>
       ) : rows.length === 0 ? (
         <p className="text-slate-600">{t('feedback.archive.noFeedback')}</p>
       ) : (
         <div className="overflow-x-auto rounded-lg border border-slate-200">
-          <table className="min-w-full divide-y divide-slate-200 text-sm">
+          <table className="min-w-full divide-y divide-slate-200 text-base">
             <thead className="bg-slate-50">
               <tr>
                 <th className="px-3 py-2 text-left font-medium text-slate-700">{t('feedback.archive.agendaItem')}</th>
@@ -147,7 +147,7 @@ export function FeedbackArchiveClient({ meetingId, accessToken, agendaItems }: P
                     </td>
                     <td className="px-3 py-2 align-top">{r.submittedBy.fullName ?? r.submittedBy.userId}</td>
                     <td className="px-3 py-2 align-top">
-                      <span className="rounded bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-800">
+                      <span className="rounded bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-800">
                         {r.position ?? '—'}
                       </span>
                     </td>
@@ -165,9 +165,9 @@ export function FeedbackArchiveClient({ meetingId, accessToken, agendaItems }: P
                   {expanded === r.feedbackId && (
                     <tr className="bg-slate-50/90">
                       <td colSpan={6} className="px-4 py-3 text-slate-700">
-                        <p className="whitespace-pre-wrap text-sm">{r.comments || '—'}</p>
+                        <p className="whitespace-pre-wrap text-base">{r.comments || '—'}</p>
                         {r.consolidation && (
-                          <p className="mt-2 text-xs text-slate-500">
+                          <p className="mt-2 text-sm text-slate-500">
                             Consolidation: {r.consolidation.status ?? '—'}
                           </p>
                         )}
@@ -182,10 +182,10 @@ export function FeedbackArchiveClient({ meetingId, accessToken, agendaItems }: P
       )}
 
       {total > size && (
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex items-center gap-2 text-base">
           <button
             type="button"
-            className="btn-secondary text-sm"
+            className="btn-secondary text-base"
             disabled={page <= 0}
             onClick={() => setPage((p) => Math.max(0, p - 1))}
           >
@@ -196,7 +196,7 @@ export function FeedbackArchiveClient({ meetingId, accessToken, agendaItems }: P
           </span>
           <button
             type="button"
-            className="btn-secondary text-sm"
+            className="btn-secondary text-base"
             disabled={(page + 1) * size >= total}
             onClick={() => setPage((p) => p + 1)}
           >

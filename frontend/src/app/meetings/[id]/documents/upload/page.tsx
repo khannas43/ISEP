@@ -52,7 +52,7 @@ export default async function DocumentUploadPage({ params }: Props) {
     <div className="card">
       <div className="card-body">
         <div className="mb-4">
-          <Link href={`/meetings/${meetingId}?tab=documents`} className="text-sm font-medium text-blue-600 hover:underline">
+          <Link href={`/meetings/${meetingId}?tab=documents`} className="text-base font-medium text-blue-600 hover:underline">
             ← Back to Documents
           </Link>
         </div>

@@ -49,7 +49,7 @@ export default async function PapersPage({ searchParams }: Props) {
         <div className="card-body">
           <form method="get" action="/papers" className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Status</span>
+              <span className="text-base font-medium text-slate-600">Status</span>
               <select name="status" className="input-base min-w-[160px]">
                 <option value="">All</option>
                 <option value="DRAFT">Draft</option>
@@ -64,7 +64,7 @@ export default async function PapersPage({ searchParams }: Props) {
       </div>
       <div className="card overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-slate-200 text-sm">
+          <table className="min-w-full divide-y divide-slate-200 text-base">
             <thead>
               <tr>
                 <th className="table-header px-4 py-2.5 text-left">Title</th>

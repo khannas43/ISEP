@@ -27,19 +27,19 @@ export default async function UnauthorizedPage({ searchParams }: Props) {
           You do not have permission to view this page.
         </p>
         {from && (
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-base text-slate-500">
             Attempted path: <code className="bg-slate-100 px-1.5 py-0.5 rounded">{from}</code>
           </p>
         )}
-        <p className="mt-2 text-sm text-slate-500">
+        <p className="mt-2 text-base text-slate-500">
           Your role: <strong>{roleLabel}</strong>
         </p>
         {roles.length === 0 && (
-          <p className="mt-2 text-sm text-amber-700 bg-amber-50 rounded p-2">
+          <p className="mt-2 text-base text-amber-700 bg-amber-50 rounded p-2">
             Your token does not include an app role (e.g. COORDINATOR). Keycloak must include realm roles in the access token. See <strong>infrastructure/keycloak/README.md</strong> → &quot;Token missing realm roles&quot;.
           </p>
         )}
-        <p className="mt-4 text-xs text-slate-400">
+        <p className="mt-4 text-sm text-slate-400">
           This attempt has been logged for audit.
         </p>
         <div className="mt-6 flex flex-wrap gap-3 justify-center">

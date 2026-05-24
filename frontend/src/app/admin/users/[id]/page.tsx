@@ -49,7 +49,7 @@ export default async function UserProfilePage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/admin/users" className="text-sm font-medium text-slate-500 hover:text-slate-700">
+        <Link href="/admin/users" className="text-base font-medium text-slate-500 hover:text-slate-700">
           ← Back to User list
         </Link>
       </div>
@@ -73,7 +73,7 @@ export default async function UserProfilePage({ params }: Props) {
             </div>
           </div>
 
-          <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-3 text-sm sm:grid-cols-4">
+          <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-3 text-base sm:grid-cols-4">
             <div>
               <dt className="text-slate-500">Designation</dt>
               <dd className="font-medium text-slate-900">{user.designation ?? '—'}</dd>
@@ -94,7 +94,7 @@ export default async function UserProfilePage({ params }: Props) {
             </div>
             <div>
               <dt className="text-slate-500">Keycloak ID</dt>
-              <dd className="font-mono text-xs text-slate-600 break-all">{user.keycloakId}</dd>
+              <dd className="font-mono text-sm text-slate-600 break-all">{user.keycloakId}</dd>
             </div>
             {user.lastLoginAt && (
               <div>
@@ -110,7 +110,7 @@ export default async function UserProfilePage({ params }: Props) {
 
       <div className="card">
         <div className="card-header">
-          <h2 className="text-sm font-semibold text-slate-700">Role & committee assignment</h2>
+          <h2 className="text-base font-semibold text-slate-700">Role & committee assignment</h2>
         </div>
         <div className="card-body">
           <p className="text-slate-500">
@@ -118,7 +118,7 @@ export default async function UserProfilePage({ params }: Props) {
           </p>
           <Link
             href={`/admin/users/${user.userId}/assignments`}
-            className="mt-2 inline-block text-sm font-medium text-blue-600 hover:underline"
+            className="mt-2 inline-block text-base font-medium text-blue-600 hover:underline"
           >
             Manage assignments →
           </Link>

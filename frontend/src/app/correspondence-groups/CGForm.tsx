@@ -100,10 +100,10 @@ export function CGForm({ mode, cgId, initial, bodies, users }: Props) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</div>
+        <div className="rounded-md bg-red-50 p-3 text-base text-red-700">{error}</div>
       )}
       <div>
-        <label className="block text-sm font-medium text-slate-700">Parent body <span className="text-red-600">*</span></label>
+        <label className="block text-base font-medium text-slate-700">Parent body <span className="text-red-600">*</span></label>
         <select
           value={parentBodyId}
           onChange={(e) => setParentBodyId(e.target.value)}
@@ -117,7 +117,7 @@ export function CGForm({ mode, cgId, initial, bodies, users }: Props) {
         </select>
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Name <span className="text-red-600">*</span></label>
+        <label className="block text-base font-medium text-slate-700">Name <span className="text-red-600">*</span></label>
         <input
           type="text"
           value={name}
@@ -128,7 +128,7 @@ export function CGForm({ mode, cgId, initial, bodies, users }: Props) {
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Mandate / terms of reference</label>
+        <label className="block text-base font-medium text-slate-700">Mandate / terms of reference</label>
         <textarea
           value={mandate}
           onChange={(e) => setMandate(e.target.value)}
@@ -137,7 +137,7 @@ export function CGForm({ mode, cgId, initial, bodies, users }: Props) {
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">India lead</label>
+        <label className="block text-base font-medium text-slate-700">India lead</label>
         <select
           value={indiaLeadId}
           onChange={(e) => setIndiaLeadId(e.target.value)}
@@ -151,7 +151,7 @@ export function CGForm({ mode, cgId, initial, bodies, users }: Props) {
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-slate-700">Start date <span className="text-red-600">*</span></label>
+          <label className="block text-base font-medium text-slate-700">Start date <span className="text-red-600">*</span></label>
           <input
             type="date"
             value={startDate}
@@ -161,7 +161,7 @@ export function CGForm({ mode, cgId, initial, bodies, users }: Props) {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">End date <span className="text-red-600">*</span></label>
+          <label className="block text-base font-medium text-slate-700">End date <span className="text-red-600">*</span></label>
           <input
             type="date"
             value={endDate}
@@ -173,7 +173,7 @@ export function CGForm({ mode, cgId, initial, bodies, users }: Props) {
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-slate-700">Status</label>
+          <label className="block text-base font-medium text-slate-700">Status</label>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
@@ -184,7 +184,7 @@ export function CGForm({ mode, cgId, initial, bodies, users }: Props) {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">IMO reference</label>
+          <label className="block text-base font-medium text-slate-700">IMO reference</label>
           <input
             type="text"
             value={imsoReference}

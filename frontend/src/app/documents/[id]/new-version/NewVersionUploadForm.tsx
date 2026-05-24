@@ -59,13 +59,13 @@ export function NewVersionUploadForm({ documentId, currentVersion, title }: Prop
     return (
       <div className="rounded-lg border border-green-200 bg-green-50 p-6">
         <p className="font-medium text-green-800">New version uploaded successfully.</p>
-        <p className="mt-1 text-sm text-green-700">Version {successVersion} is now the current version.</p>
+        <p className="mt-1 text-base text-green-700">Version {successVersion} is now the current version.</p>
         <div className="mt-4 flex flex-wrap gap-3">
-          <Link href={`/documents/${documentId}`} className="btn-primary text-sm">
+          <Link href={`/documents/${documentId}`} className="btn-primary text-base">
             Back to document
           </Link>
           {successVersion > 1 && (
-            <Link href={`/documents/${documentId}/compare`} className="btn-secondary text-sm">
+            <Link href={`/documents/${documentId}/compare`} className="btn-secondary text-base">
               Compare versions
             </Link>
           )}
@@ -77,15 +77,15 @@ export function NewVersionUploadForm({ documentId, currentVersion, title }: Prop
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">
+        <div className="rounded-md bg-red-50 p-3 text-base text-red-700">
           {error}
         </div>
       )}
       <div>
-        <label htmlFor="new-version-summary" className="block text-sm font-medium text-slate-700">
+        <label htmlFor="new-version-summary" className="block text-base font-medium text-slate-700">
           Change summary <span className="text-red-600">*</span>
         </label>
-        <p className="mt-0.5 text-xs text-slate-500">Describe what changed in this version.</p>
+        <p className="mt-0.5 text-sm text-slate-500">Describe what changed in this version.</p>
         <textarea
           id="new-version-summary"
           value={changeSummary}
@@ -98,10 +98,10 @@ export function NewVersionUploadForm({ documentId, currentVersion, title }: Prop
         />
       </div>
       <div>
-        <label htmlFor="new-version-file" className="block text-sm font-medium text-slate-700">
+        <label htmlFor="new-version-file" className="block text-base font-medium text-slate-700">
           New file <span className="text-red-600">*</span>
         </label>
-        <p className="mt-0.5 text-xs text-slate-500">
+        <p className="mt-0.5 text-sm text-slate-500">
           Maximum file size: {MAX_FILE_SIZE_MB} MB. Supported: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX.
         </p>
         <input
@@ -113,7 +113,7 @@ export function NewVersionUploadForm({ documentId, currentVersion, title }: Prop
           required
         />
         {file && (
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-sm text-slate-500">
             {file.name} ({(file.size / 1024).toFixed(1)} KB)
           </p>
         )}

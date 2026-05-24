@@ -78,7 +78,7 @@ export function ChangePasswordForm() {
     return (
       <div className="card p-8 text-center">
         <p className="text-green-700 font-medium">Password updated successfully.</p>
-        <p className="mt-2 text-sm text-slate-600">Redirecting to sign in…</p>
+        <p className="mt-2 text-base text-slate-600">Redirecting to sign in…</p>
         <div className="mt-4 h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-blue-600 mx-auto" />
       </div>
     );
@@ -87,18 +87,18 @@ export function ChangePasswordForm() {
   return (
     <div className="card p-8">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Change password</h1>
-        <p className="mt-2 text-sm text-slate-600">
+        <h1 className="text-3xl font-bold text-slate-900">Change password</h1>
+        <p className="mt-2 text-base text-slate-600">
           Set a new password that meets the policy. You cannot skip this step.
         </p>
-        <ul className="mt-2 text-xs text-slate-500 list-disc list-inside">
+        <ul className="mt-2 text-sm text-slate-500 list-disc list-inside">
           <li>{POLICY.minLength}</li>
           <li>{POLICY.upper}, {POLICY.lower}, {POLICY.number}, {POLICY.special}</li>
         </ul>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="current-password" className="block text-sm font-medium text-slate-700 mb-1">
+          <label htmlFor="current-password" className="block text-base font-medium text-slate-700 mb-1">
             Current password
           </label>
           <div className="relative">
@@ -126,7 +126,7 @@ export function ChangePasswordForm() {
           </div>
         </div>
         <div>
-          <label htmlFor="new-password" className="block text-sm font-medium text-slate-700 mb-1">
+          <label htmlFor="new-password" className="block text-base font-medium text-slate-700 mb-1">
             New password
           </label>
           <div className="relative">
@@ -154,7 +154,7 @@ export function ChangePasswordForm() {
           </div>
         </div>
         <div>
-          <label htmlFor="confirm-password" className="block text-sm font-medium text-slate-700 mb-1">
+          <label htmlFor="confirm-password" className="block text-base font-medium text-slate-700 mb-1">
             Confirm new password
           </label>
           <input
@@ -168,7 +168,7 @@ export function ChangePasswordForm() {
           />
         </div>
         {error && (
-          <div className="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">
+          <div className="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-base text-red-700">
             {error}
           </div>
         )}
@@ -177,7 +177,7 @@ export function ChangePasswordForm() {
         </button>
       </form>
       <p className="mt-4 text-center">
-        <Link href="/dashboard" className="text-sm font-medium text-slate-600 hover:text-slate-900">
+        <Link href="/dashboard" className="text-base font-medium text-slate-600 hover:text-slate-900">
           Back to dashboard
         </Link>
       </p>

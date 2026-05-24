@@ -15,10 +15,10 @@ export default async function ConsultationFeedbackStubPage({ params }: Props) {
     <div className="card max-w-lg">
       <div className="card-body">
         <h1 className="text-lg font-semibold text-slate-900">Consultation feedback</h1>
-        <p className="mt-2 text-sm text-slate-600">
+        <p className="mt-2 text-base text-slate-600">
           Stub page for demo navigation. Agency feedback detail will load from the API in Sprint 3.
         </p>
-        <Link href={`/papers/${id}/consultation`} className="mt-4 inline-block text-sm font-medium text-blue-600 hover:underline">
+        <Link href={`/papers/${id}/consultation`} className="mt-4 inline-block text-base font-medium text-blue-600 hover:underline">
           ← Back to consultation
         </Link>
       </div>

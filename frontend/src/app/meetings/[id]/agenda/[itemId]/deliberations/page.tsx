@@ -50,7 +50,7 @@ export default async function DeliberationsPage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href={`/meetings/${meetingId}/agenda/${itemId}?tab=deliberations`} className="text-sm font-medium text-slate-500 hover:text-slate-700">
+        <Link href={`/meetings/${meetingId}/agenda/${itemId}?tab=deliberations`} className="text-base font-medium text-slate-500 hover:text-slate-700">
           ← Back to agenda item
         </Link>
       </div>
@@ -63,8 +63,8 @@ export default async function DeliberationsPage({ params }: Props) {
           <ul className="mt-6 space-y-4">
             {deliberations.map((n) => (
               <li key={n.id} className="rounded border border-slate-200 bg-slate-50/50 p-3">
-                <p className="text-sm text-slate-800">{n.note}</p>
-                <p className="mt-2 text-xs text-slate-500">{n.authorName ?? '—'} · {formatDate(n.capturedAt)}</p>
+                <p className="text-base text-slate-800">{n.note}</p>
+                <p className="mt-2 text-sm text-slate-500">{n.authorName ?? '—'} · {formatDate(n.capturedAt)}</p>
               </li>
             ))}
           </ul>

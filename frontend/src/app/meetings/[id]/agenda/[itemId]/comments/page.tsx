@@ -48,7 +48,7 @@ export default async function AgendaItemCommentsPage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href={`/meetings/${meetingId}/agenda/${itemId}?tab=activity`} className="text-sm font-medium text-slate-500 hover:text-slate-700">
+        <Link href={`/meetings/${meetingId}/agenda/${itemId}?tab=activity`} className="text-base font-medium text-slate-500 hover:text-slate-700">
           ← Back to agenda item
         </Link>
       </div>
@@ -61,8 +61,8 @@ export default async function AgendaItemCommentsPage({ params }: Props) {
           <ul className="mt-6 space-y-3">
             {comments.map((c) => (
               <li key={c.id} className="border-l-2 border-slate-200 pl-4">
-                <p className="text-sm text-slate-800">{c.text}</p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="text-base text-slate-800">{c.text}</p>
+                <p className="mt-1 text-sm text-slate-500">
                   {c.authorName} · {formatDate(c.createdAt)}
                 </p>
               </li>

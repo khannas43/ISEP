@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   getMyTasks,
@@ -29,26 +29,54 @@ export function DashboardRoleTodoSections({ accessToken, realmRole, currentUserI
   const [awaitingPapers, setAwaitingPapers] = useState<PaperListItem[]>([]);
   const [teamTasks, setTeamTasks] = useState<TaskV1Response[]>([]);
   const [loading, setLoading] = useState(true);
+  const blockTasksApiAfter401 = useRef(false);
+  const blockPapersApiAfter401 = useRef(false);
+
+  useEffect(() => {
+    blockTasksApiAfter401.current = false;
+    blockPapersApiAfter401.current = false;
+  }, [accessToken]);
+
+  const onTasksUnauthorized = useCallback(() => {
+    blockTasksApiAfter401.current = true;
+  }, []);
+
+  const onPapersUnauthorized = useCallback(() => {
+    blockPapersApiAfter401.current = true;
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
     async function run() {
+      if (blockTasksApiAfter401.current) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       try {
         if (realmRole === 'MEMBER') {
-          const rows = await getMyTasks(accessToken, { status: 'PENDING,ESCALATED' });
+          const rows = await getMyTasks(accessToken, {
+            status: 'PENDING,ESCALATED',
+            onUnauthorized: onTasksUnauthorized,
+          });
           if (!cancelled) setMyPending(rows.slice(0, 5));
         } else if (realmRole === 'DELEGATION_LEADER') {
-          const [papers, team] = await Promise.all([
-            getPapers(accessToken, { awaitingMyApproval: true }),
-            getTeamTasks(accessToken),
-          ]);
+          const papersPromise = blockPapersApiAfter401.current
+            ? Promise.resolve([] as PaperListItem[])
+            : getPapers(accessToken, {
+                awaitingMyApproval: true,
+                onUnauthorized: onPapersUnauthorized,
+              });
+          const teamPromise = blockTasksApiAfter401.current
+            ? Promise.resolve([] as TaskV1Response[])
+            : getTeamTasks(accessToken, { onUnauthorized: onTasksUnauthorized });
+          const [papers, team] = await Promise.all([papersPromise, teamPromise]);
           if (!cancelled) {
             setAwaitingPapers(papers.slice(0, 8));
             setTeamTasks(team);
           }
         } else if (realmRole === 'COORDINATOR') {
-          const team = await getTeamTasks(accessToken);
+          const team = await getTeamTasks(accessToken, { onUnauthorized: onTasksUnauthorized });
           if (!cancelled) setTeamTasks(team);
         }
       } catch {
@@ -65,7 +93,7 @@ export function DashboardRoleTodoSections({ accessToken, realmRole, currentUserI
     return () => {
       cancelled = true;
     };
-  }, [accessToken, realmRole]);
+  }, [accessToken, realmRole, onTasksUnauthorized, onPapersUnauthorized]);
 
   if (realmRole !== 'MEMBER' && realmRole !== 'DELEGATION_LEADER' && realmRole !== 'COORDINATOR') {
     return null;
@@ -89,14 +117,14 @@ export function DashboardRoleTodoSections({ accessToken, realmRole, currentUserI
         <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between gap-3 mb-4">
             <h2 className="text-lg font-semibold text-slate-900">My pending tasks</h2>
-            <Link href="/tasks/my" className="text-sm font-medium text-blue-600 hover:underline">
+            <Link href="/tasks/my" className="text-base font-medium text-blue-600 hover:underline">
               View all
             </Link>
           </div>
           {loading ? (
-            <p className="text-sm text-slate-500">Loading tasks…</p>
+            <p className="text-base text-slate-500">Loading tasks…</p>
           ) : myPending.length === 0 ? (
-            <p className="text-sm text-slate-500">No pending or escalated tasks.</p>
+            <p className="text-base text-slate-500">No pending or escalated tasks.</p>
           ) : (
             <ul className="space-y-3">
               {myPending.map((t) => (
@@ -111,7 +139,7 @@ export function DashboardRoleTodoSections({ accessToken, realmRole, currentUserI
                         {t.priority}
                       </span>
                     </div>
-                    <p className="mt-1 text-xs text-slate-500">
+                    <p className="mt-1 text-sm text-slate-500">
                       {t.meetingTitle || 'Meeting'}
                       {t.dueDate && ` · Due ${new Date(t.dueDate).toLocaleDateString()}`}
                     </p>
@@ -128,14 +156,14 @@ export function DashboardRoleTodoSections({ accessToken, realmRole, currentUserI
           <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between gap-3 mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Pending approvals</h2>
-              <Link href="/papers" className="text-sm font-medium text-blue-600 hover:underline">
+              <Link href="/papers" className="text-base font-medium text-blue-600 hover:underline">
                 Papers
               </Link>
             </div>
             {loading ? (
-              <p className="text-sm text-slate-500">Loading…</p>
+              <p className="text-base text-slate-500">Loading…</p>
             ) : awaitingPapers.length === 0 ? (
-              <p className="text-sm text-slate-500">No papers awaiting your stage.</p>
+              <p className="text-base text-slate-500">No papers awaiting your stage.</p>
             ) : (
               <ul className="space-y-2">
                 {awaitingPapers.map((p) => (
@@ -155,14 +183,14 @@ export function DashboardRoleTodoSections({ accessToken, realmRole, currentUserI
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-lg font-semibold text-slate-900">Team tasks (escalated / overdue)</h2>
               <span
-                className={`min-w-[2rem] rounded-full px-2 py-0.5 text-center text-sm font-bold ${
+                className={`min-w-[2rem] rounded-full px-2 py-0.5 text-center text-base font-bold ${
                   teamHotCount > 0 ? 'bg-red-500 text-white' : 'bg-slate-100 text-slate-600'
                 }`}
               >
                 {teamHotCount}
               </span>
             </div>
-            <p className="mt-2 text-sm text-slate-500">
+            <p className="mt-2 text-base text-slate-500">
               Tasks in your meetings that are escalated or past due.{' '}
               <Link href="/tasks/team" className="font-medium text-blue-600 hover:underline">
                 Open team tasks
@@ -175,11 +203,11 @@ export function DashboardRoleTodoSections({ accessToken, realmRole, currentUserI
       {realmRole === 'COORDINATOR' && (
         <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-900 mb-2">Tasks assigned by me</h2>
-          <p className="text-sm text-slate-600">
+          <p className="text-base text-slate-600">
             <span className="text-2xl font-bold text-slate-900">{myAssignedPendingCount}</span>
             <span className="ml-2">open tasks you created (pending, in progress, or escalated).</span>
           </p>
-          <Link href="/tasks/team" className="mt-3 inline-block text-sm font-medium text-blue-600 hover:underline">
+          <Link href="/tasks/team" className="mt-3 inline-block text-base font-medium text-blue-600 hover:underline">
             Manage team tasks →
           </Link>
         </section>

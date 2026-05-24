@@ -60,7 +60,7 @@ export default async function NewCorrespondenceGroupPage({ params: _params }: Pr
       <div className="card">
         <div className="card-body">
         <div className="mb-4">
-          <Link href="/correspondence-groups" className="text-sm font-medium text-blue-600 hover:underline">
+          <Link href="/correspondence-groups" className="text-base font-medium text-blue-600 hover:underline">
             ← Back to Correspondence Groups
           </Link>
         </div>

@@ -31,7 +31,7 @@ export default async function AdminPage() {
               <Link href="/admin/system" className="font-medium text-blue-600 hover:underline">
                 System administration (SCR-SYS-01–05)
               </Link>
-              <span className="ml-2 text-sm text-slate-500">— health, config, workflows, backups</span>
+              <span className="ml-2 text-base text-slate-500">— health, config, workflows, backups</span>
             </li>
             <li>
               <Link href="/admin/audit" className="font-medium text-blue-600 hover:underline">
@@ -42,7 +42,7 @@ export default async function AdminPage() {
         </div>
       </div>
       <p className="mt-6">
-        <Link href="/dashboard" className="text-sm font-medium text-slate-600 hover:text-slate-900">← Dashboard</Link>
+        <Link href="/dashboard" className="text-base font-medium text-slate-600 hover:text-slate-900">← Dashboard</Link>
       </p>
     </>
   );

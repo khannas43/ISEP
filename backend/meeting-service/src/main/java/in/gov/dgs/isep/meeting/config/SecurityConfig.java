@@ -67,7 +67,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/meetings/*/feedback/archive")
                                 .hasAnyRole("SYSTEM_ADMIN", "IC_DIVISION_HEAD", "DELEGATION_LEADER", "COORDINATOR")
                         .requestMatchers(HttpMethod.POST, "/api/v1/meetings/*/mom/generate")
-                                .hasAnyRole("SYSTEM_ADMIN", "IC_DIVISION_HEAD", "DELEGATION_LEADER")
+                                .hasAnyRole("SYSTEM_ADMIN", "IC_DIVISION_HEAD", "DELEGATION_LEADER", "COORDINATOR")
                         .requestMatchers(HttpMethod.GET, "/api/v1/meetings/*/mom", "/api/v1/meetings/*/mom/export")
                                 .authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/meetings/*/analytics", "/api/v1/meetings/*/analytics/export")

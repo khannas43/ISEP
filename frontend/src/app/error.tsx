@@ -36,10 +36,10 @@ export default function ErrorBoundaryUI({
           boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1)',
         }}
       >
-        <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0f172a' }}>
+        <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#0f172a' }}>
           Something went wrong
         </h1>
-        <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#475569' }}>
+        <p style={{ marginTop: '0.5rem', fontSize: '15px', lineHeight: 1.7, color: '#475569' }}>
           An error occurred. You can try again or return to the home page.
         </p>
         <div
@@ -56,7 +56,7 @@ export default function ErrorBoundaryUI({
             onClick={() => reset()}
             style={{
               padding: '0.625rem 1rem',
-              fontSize: '0.875rem',
+              fontSize: '15px',
               fontWeight: 500,
               color: '#fff',
               backgroundColor: '#2563eb',
@@ -74,7 +74,7 @@ export default function ErrorBoundaryUI({
               alignItems: 'center',
               justifyContent: 'center',
               padding: '0.625rem 1rem',
-              fontSize: '0.875rem',
+              fontSize: '15px',
               fontWeight: 500,
               color: '#334155',
               backgroundColor: '#fff',

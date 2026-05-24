@@ -112,7 +112,7 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
           <button
             type="button"
             onClick={() => editor.chain().focus().toggleBold().run()}
-            className={`rounded p-2 text-sm font-medium transition ${editor.isActive('bold') ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
+            className={`rounded p-2 text-base font-medium transition ${editor.isActive('bold') ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
             title="Bold"
           >
             B
@@ -120,7 +120,7 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
           <button
             type="button"
             onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={`rounded p-2 text-sm italic transition ${editor.isActive('italic') ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
+            className={`rounded p-2 text-base italic transition ${editor.isActive('italic') ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
             title="Italic"
           >
             I
@@ -128,7 +128,7 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
           <button
             type="button"
             onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={`rounded p-2 text-sm transition ${editor.isActive('strike') ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
+            className={`rounded p-2 text-base transition ${editor.isActive('strike') ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
             title="Strikethrough (deletion)"
           >
             S
@@ -137,7 +137,7 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
           <button
             type="button"
             onClick={() => editor.chain().focus().toggleHighlight().run()}
-            className={`rounded p-2 text-sm transition ${editor.isActive('highlight') ? 'bg-emerald-200' : 'hover:bg-slate-200'}`}
+            className={`rounded p-2 text-base transition ${editor.isActive('highlight') ? 'bg-emerald-200' : 'hover:bg-slate-200'}`}
             title="Highlight (insertion)"
           >
             Ins
@@ -145,7 +145,7 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
           <button
             type="button"
             onClick={() => editor.chain().focus().toggleMark('insertion').run()}
-            className={`rounded p-2 text-sm transition ${editor.isActive('insertion') ? 'bg-emerald-200' : 'hover:bg-slate-200'}`}
+            className={`rounded p-2 text-base transition ${editor.isActive('insertion') ? 'bg-emerald-200' : 'hover:bg-slate-200'}`}
             title="Mark as insertion (track change)"
           >
             +Ins
@@ -153,7 +153,7 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
           <button
             type="button"
             onClick={() => editor.chain().focus().toggleMark('deletion').run()}
-            className={`rounded p-2 text-sm transition ${editor.isActive('deletion') ? 'bg-red-200' : 'hover:bg-slate-200'}`}
+            className={`rounded p-2 text-base transition ${editor.isActive('deletion') ? 'bg-red-200' : 'hover:bg-slate-200'}`}
             title="Mark as deletion (track change)"
           >
             Del
@@ -162,7 +162,7 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
           <button
             type="button"
             onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            className={`rounded p-2 text-sm transition ${editor.isActive('heading', { level: 2 }) ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
+            className={`rounded p-2 text-base transition ${editor.isActive('heading', { level: 2 }) ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
             title="Heading 2"
           >
             H2
@@ -170,7 +170,7 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
           <button
             type="button"
             onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-            className={`rounded p-2 text-sm transition ${editor.isActive('heading', { level: 3 }) ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
+            className={`rounded p-2 text-base transition ${editor.isActive('heading', { level: 3 }) ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
             title="Heading 3"
           >
             H3
@@ -178,7 +178,7 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
           <button
             type="button"
             onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={`rounded p-2 text-sm transition ${editor.isActive('bulletList') ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
+            className={`rounded p-2 text-base transition ${editor.isActive('bulletList') ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
             title="Bullet list"
           >
             •
@@ -186,7 +186,7 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
           <button
             type="button"
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            className={`rounded p-2 text-sm transition ${editor.isActive('orderedList') ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
+            className={`rounded p-2 text-base transition ${editor.isActive('orderedList') ? 'bg-slate-200' : 'hover:bg-slate-200'}`}
             title="Numbered list"
           >
             1.
@@ -198,14 +198,14 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
 
       {!readOnly && (
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 bg-slate-50 px-4 py-3">
-          <div className="text-xs text-slate-500">
+          <div className="text-sm text-slate-500">
             {lastSaved ? <>Last saved {lastSaved.toLocaleTimeString()}</> : 'Unsaved'}
           </div>
           <div className="flex gap-2">
-            <button type="button" onClick={save} className="btn-secondary text-sm">
+            <button type="button" onClick={save} className="btn-secondary text-base">
               Save draft
             </button>
-            <button type="button" onClick={handleSubmit} className="btn-primary text-sm">
+            <button type="button" onClick={handleSubmit} className="btn-primary text-base">
               Submit for review
             </button>
           </div>
@@ -213,7 +213,7 @@ export function PaperEditor({ paperId, initialContent, onSave, readOnly = false 
       )}
 
       {submitted && (
-        <div className="border-t border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+        <div className="border-t border-emerald-200 bg-emerald-50 px-4 py-3 text-base text-emerald-800">
           Submitted for review (demo). In production this would start the approval workflow.
         </div>
       )}

@@ -40,7 +40,7 @@ export default async function CorrespondenceGroupDetailPage({ params }: Props) {
     <div className="card">
       <div className="card-body">
         <div className="mb-4">
-          <Link href="/correspondence-groups" className="text-sm font-medium text-blue-600 hover:underline">
+          <Link href="/correspondence-groups" className="text-base font-medium text-blue-600 hover:underline">
             ← Back to Correspondence Groups
           </Link>
         </div>
@@ -60,7 +60,7 @@ export default async function CorrespondenceGroupDetailPage({ params }: Props) {
             </Link>
           )}
         </div>
-        <dl className="mt-6 grid gap-3 text-sm">
+        <dl className="mt-6 grid gap-3 text-base">
           <div>
             <dt className="text-slate-500">Parent body</dt>
             <dd className="mt-0.5 font-medium text-slate-900">{cg.parentBodyName ?? '—'}</dd>
@@ -87,10 +87,10 @@ export default async function CorrespondenceGroupDetailPage({ params }: Props) {
           </div>
         </dl>
         <div className="mt-6 flex flex-wrap gap-4">
-          <Link href={`/correspondence-groups/${cgId}/members`} className="btn-secondary text-sm">
+          <Link href={`/correspondence-groups/${cgId}/members`} className="btn-secondary text-base">
             Members
           </Link>
-          <Link href={`/correspondence-groups/${cgId}/submissions`} className="btn-secondary text-sm">
+          <Link href={`/correspondence-groups/${cgId}/submissions`} className="btn-secondary text-base">
             Submissions
           </Link>
         </div>

@@ -78,7 +78,7 @@ export default async function MyTasksPage() {
   const col = (items: TaskV1Response[]) => (
     <ul className="space-y-3">
       {items.length === 0 ? (
-        <li className="text-sm text-slate-500">None</li>
+        <li className="text-base text-slate-500">None</li>
       ) : (
         items.map((t) => (
           <li key={t.taskId}>

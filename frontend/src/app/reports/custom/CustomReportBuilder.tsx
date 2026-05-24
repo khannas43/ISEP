@@ -51,7 +51,7 @@ export function CustomReportBuilder() {
     <div className="mt-6 space-y-6">
       <div className="flex flex-wrap items-end gap-4">
         <label className="flex flex-col gap-1">
-          <span className="text-xs font-medium text-slate-600">Entity</span>
+          <span className="text-sm font-medium text-slate-600">Entity</span>
           <select
             value={entity}
             onChange={(e) => { setEntity(e.target.value); setGenerated(false); }}
@@ -74,11 +74,11 @@ export function CustomReportBuilder() {
 
       {generated && (
         <div className="rounded-lg border border-slate-200">
-          <p className="border-b border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700">
+          <p className="border-b border-slate-200 bg-slate-50 px-4 py-2 text-base font-medium text-slate-700">
             Preview — {ENTITIES.find((e) => e.id === entity)?.label ?? entity}
           </p>
           <div className="overflow-x-auto">
-            <table className="min-w-full text-sm">
+            <table className="min-w-full text-base">
               <thead>
                 <tr className="bg-slate-50">
                   {columns.map((col) => (
@@ -101,7 +101,7 @@ export function CustomReportBuilder() {
               </tbody>
             </table>
           </div>
-          <p className="border-t border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-500">
+          <p className="border-t border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-500">
             Demo data. In production: download Excel / PDF / XML; saved templates; async generation with email delivery.
           </p>
         </div>

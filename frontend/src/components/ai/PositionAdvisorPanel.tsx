@@ -20,7 +20,7 @@ function AdvisorySection({ title, children }: { title: string; children: React.R
   return (
     <div className="border-b border-slate-100 pb-4 last:border-0 last:pb-0">
       <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">{title}</h3>
-      <div className="text-sm text-slate-800">{children}</div>
+      <div className="text-base text-slate-800">{children}</div>
     </div>
   );
 }
@@ -68,7 +68,7 @@ export function PositionAdvisorPanel({ agendaItemId, meetingId }: Props) {
           <div className="flex items-center gap-2">
             <span className="text-lg" aria-hidden>🤖</span>
             <h2 className="text-base font-semibold text-slate-900">AI Position Advisor</h2>
-            <span className="rounded bg-slate-200/80 px-2 py-0.5 text-xs font-medium text-slate-600">
+            <span className="rounded bg-slate-200/80 px-2 py-0.5 text-sm font-medium text-slate-600">
               AI-generated · Non-binding
             </span>
           </div>
@@ -77,7 +77,7 @@ export function PositionAdvisorPanel({ agendaItemId, meetingId }: Props) {
               type="button"
               onClick={fetchAdvisory}
               disabled={loading}
-              className="text-sm font-medium text-blue-600 hover:underline disabled:opacity-50"
+              className="text-base font-medium text-blue-600 hover:underline disabled:opacity-50"
             >
               {loading ? 'Regenerating…' : 'Regenerate'}
             </button>
@@ -91,7 +91,7 @@ export function PositionAdvisorPanel({ agendaItemId, meetingId }: Props) {
             </button>
           </div>
         </div>
-        <p className="text-xs text-slate-500 mt-1">
+        <p className="text-sm text-slate-500 mt-1">
           Based on uploaded agenda paper and India&apos;s history. Last generated:{' '}
           {advisory?.generatedAt ? new Date(advisory.generatedAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }) : '—'}
         </p>
@@ -99,10 +99,10 @@ export function PositionAdvisorPanel({ agendaItemId, meetingId }: Props) {
         {expanded && (
           <>
             {error && (
-              <p className="mt-3 text-sm text-red-600">{error}</p>
+              <p className="mt-3 text-base text-red-600">{error}</p>
             )}
             {loading && !advisory && !error && (
-              <p className="mt-4 text-sm text-slate-500">Loading advisory…</p>
+              <p className="mt-4 text-base text-slate-500">Loading advisory…</p>
             )}
             {advisory && !error && (
               <div className="mt-4 space-y-4">
@@ -113,7 +113,7 @@ export function PositionAdvisorPanel({ agendaItemId, meetingId }: Props) {
                   <p className="whitespace-pre-line">{advisory.historicalContext}</p>
                 </AdvisorySection>
                 <AdvisorySection title="Suggested position for this session">
-                  <div className={`inline-block rounded border px-3 py-1.5 text-sm font-medium ${positionColor}`}>
+                  <div className={`inline-block rounded border px-3 py-1.5 text-base font-medium ${positionColor}`}>
                     {advisory.suggestedPosition.replace(/_/g, ' ')}
                   </div>
                   <p className="mt-2">{advisory.suggestedPositionReasoning}</p>
@@ -126,22 +126,22 @@ export function PositionAdvisorPanel({ agendaItemId, meetingId }: Props) {
                   </ul>
                 </AdvisorySection>
                 {advisory.confidenceScore !== undefined && (
-                  <p className="text-xs text-slate-500">Confidence: {Math.round(advisory.confidenceScore * 100)}%</p>
+                  <p className="text-sm text-slate-500">Confidence: {Math.round(advisory.confidenceScore * 100)}%</p>
                 )}
-                <div className="rounded bg-amber-100/80 border border-amber-200 px-3 py-2 text-sm text-amber-900">
+                <div className="rounded bg-amber-100/80 border border-amber-200 px-3 py-2 text-base text-amber-900">
                   ⚠️ AI-generated advisory. Not an official position. Review, validate, and use as a starting point only.
                 </div>
                 <div className="flex flex-wrap gap-3 pt-2">
                   <Link
                     href={`/meetings/${meetingId}/agenda/${agendaItemId}/feedback/consolidate`}
-                    className="btn-primary text-sm"
+                    className="btn-primary text-base"
                   >
                     Use as starting point →
                   </Link>
                   <button
                     type="button"
                     onClick={() => setDismissed(true)}
-                    className="btn-secondary text-sm"
+                    className="btn-secondary text-base"
                   >
                     Dismiss
                   </button>

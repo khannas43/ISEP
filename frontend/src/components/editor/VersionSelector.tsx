@@ -27,12 +27,12 @@ export function VersionSelector({
   const { t } = useTranslation('common')
 
   return (
-    <div className="flex flex-wrap items-center gap-3 text-sm">
+    <div className="flex flex-wrap items-center gap-3 text-base">
       <label className="text-slate-600">{t('diff.baseVersion')}:</label>
       <select
         value={fromVersion}
         onChange={(e) => onFromChange(Number(e.target.value))}
-        className="rounded border border-slate-300 px-2 py-1 text-sm"
+        className="rounded border border-slate-300 px-2 py-1 text-base"
       >
         {versions.map((v) => (
           <option key={v.id} value={v.version}>
@@ -47,7 +47,7 @@ export function VersionSelector({
       <select
         value={toVersion}
         onChange={(e) => onToChange(Number(e.target.value))}
-        className="rounded border border-slate-300 px-2 py-1 text-sm"
+        className="rounded border border-slate-300 px-2 py-1 text-base"
       >
         {versions
           .filter((v) => v.version > fromVersion)

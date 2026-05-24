@@ -59,12 +59,12 @@ export default async function DocumentsPage({ searchParams }: Props) {
       </div>
       <div className="card mb-6">
         <div className="card-header">
-          <h2 className="text-sm font-semibold text-slate-700">Search</h2>
+          <h2 className="text-base font-semibold text-slate-700">Search</h2>
         </div>
         <div className="card-body">
           <form method="get" action="/documents" className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Title or file name</span>
+              <span className="text-sm font-medium text-slate-600">Title or file name</span>
               <input
                 type="search"
                 name="q"
@@ -81,7 +81,7 @@ export default async function DocumentsPage({ searchParams }: Props) {
         <div className="card">
           <div className="card-body">
             <p className="text-slate-500">{q ? 'No documents match your search.' : 'No documents yet. Upload documents from a meeting\u2019s Documents tab.'}</p>
-            <Link href="/meetings" className="mt-4 inline-block text-sm font-medium text-blue-600 hover:underline">
+            <Link href="/meetings" className="mt-4 inline-block text-base font-medium text-blue-600 hover:underline">
               Go to Meetings →
             </Link>
           </div>
@@ -89,9 +89,9 @@ export default async function DocumentsPage({ searchParams }: Props) {
       ) : (
         <div className="card">
           <div className="card-body">
-            <p className="text-sm text-slate-600 mb-4">{totalElements} document(s)</p>
+            <p className="text-base text-slate-600 mb-4">{totalElements} document(s)</p>
             <div className="overflow-x-auto rounded-lg border border-slate-200">
-              <table className="min-w-full divide-y divide-slate-200 text-sm">
+              <table className="min-w-full divide-y divide-slate-200 text-base">
                 <thead>
                   <tr>
                     <th className="table-header px-4 py-2.5 text-left">Title</th>

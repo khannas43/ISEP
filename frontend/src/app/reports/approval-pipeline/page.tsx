@@ -20,14 +20,14 @@ export default async function ApprovalPipelineReportPage() {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/reports" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Reports</Link>
+        <Link href="/reports" className="text-base font-medium text-slate-500 hover:text-slate-700">← Reports</Link>
       </div>
       <div className="card">
         <div className="card-body">
           <h1 className="page-title">Approval pipeline report</h1>
           <p className="page-subtitle">Papers in approval workflow by stage; ageing; next approver.</p>
           <div className="mt-6 overflow-x-auto">
-            <table className="min-w-full text-sm">
+            <table className="min-w-full text-base">
               <thead>
                 <tr><th className="table-header px-4 py-2 text-left">Paper</th><th className="table-header px-4 py-2 text-left">Stage</th><th className="table-header px-4 py-2 text-left">Next approver</th></tr>
               </thead>

@@ -48,9 +48,9 @@ export function InterventionForm({ meetingId, agendaItems }: Props) {
     return (
       <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4">
         <p className="font-medium text-emerald-800">Intervention recorded.</p>
-        <p className="mt-1 text-sm text-emerald-700">Stored as official record; included in meeting archive.</p>
+        <p className="mt-1 text-base text-emerald-700">Stored as official record; included in meeting archive.</p>
         <div className="mt-4 flex gap-3">
-          <Link href={`/meetings/${meetingId}/live`} className="btn-primary text-sm">Back to live lobby</Link>
+          <Link href={`/meetings/${meetingId}/live`} className="btn-primary text-base">Back to live lobby</Link>
         </div>
       </div>
     );
@@ -58,9 +58,9 @@ export function InterventionForm({ meetingId, agendaItems }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-      {error && <p className="rounded bg-red-50 p-2 text-sm text-red-700">{error}</p>}
+      {error && <p className="rounded bg-red-50 p-2 text-base text-red-700">{error}</p>}
       <div>
-        <label className="block text-sm font-medium text-slate-700">Agenda item</label>
+        <label className="block text-base font-medium text-slate-700">Agenda item</label>
         <select value={agendaItemId} onChange={(e) => setAgendaItemId(e.target.value)} className="input-base mt-1 max-w-md">
           {agendaItems.map((a) => (
             <option key={a.agendaItemId} value={a.agendaItemId}>Item {a.itemNumber}: {a.title}</option>
@@ -68,16 +68,16 @@ export function InterventionForm({ meetingId, agendaItems }: Props) {
         </select>
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Intervention text *</label>
+        <label className="block text-base font-medium text-slate-700">Intervention text *</label>
         <textarea value={text} onChange={(e) => setText(e.target.value)} rows={5} className="input-base mt-1 w-full" required />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-slate-700">Delivered by</label>
+          <label className="block text-base font-medium text-slate-700">Delivered by</label>
           <input type="text" value={deliveredBy} onChange={(e) => setDeliveredBy(e.target.value)} className="input-base mt-1 w-full" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Type</label>
+          <label className="block text-base font-medium text-slate-700">Type</label>
           <select value={type} onChange={(e) => setType(e.target.value)} className="input-base mt-1 w-full">
             {TYPES.map((t) => (
               <option key={t.value} value={t.value}>{t.label}</option>

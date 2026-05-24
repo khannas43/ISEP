@@ -42,7 +42,7 @@ export default async function MeetingSummaryReportPage({ searchParams }: Props) 
   return (
     <div>
       <div className="mb-6">
-        <Link href="/reports" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Reports</Link>
+        <Link href="/reports" className="text-base font-medium text-slate-500 hover:text-slate-700">← Reports</Link>
       </div>
       <div className="card">
         <div className="card-body">
@@ -50,8 +50,8 @@ export default async function MeetingSummaryReportPage({ searchParams }: Props) 
           <p className="page-subtitle">Select a meeting to generate a report: agenda items, documents, positions, tasks, interventions, outcomes.</p>
           {summary && (
             <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
-              <h2 className="text-sm font-semibold text-slate-800">Summary</h2>
-              <dl className="mt-2 grid gap-1 text-sm">
+              <h2 className="text-base font-semibold text-slate-800">Summary</h2>
+              <dl className="mt-2 grid gap-1 text-base">
                 <div><dt className="text-slate-500">Title</dt><dd className="font-medium">{summary.title}</dd></div>
                 <div><dt className="text-slate-500">Body</dt><dd>{summary.bodyName ?? '—'}</dd></div>
                 <div><dt className="text-slate-500">Dates</dt><dd>{summary.startDate} – {summary.endDate}</dd></div>
@@ -61,8 +61,8 @@ export default async function MeetingSummaryReportPage({ searchParams }: Props) 
             </div>
           )}
           <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <p className="text-sm text-slate-600">Select a meeting to view summary (from API when backend is available):</p>
-            <ul className="mt-2 space-y-1 text-sm">
+            <p className="text-base text-slate-600">Select a meeting to view summary (from API when backend is available):</p>
+            <ul className="mt-2 space-y-1 text-base">
               {meetings.map((m) => (
                 <li key={m.meetingId}>
                   <Link href={`/reports/meeting-summary?meetingId=${encodeURIComponent(m.meetingId)}`} className="text-blue-600 hover:underline">

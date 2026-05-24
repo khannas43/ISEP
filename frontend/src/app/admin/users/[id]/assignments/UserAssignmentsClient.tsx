@@ -78,7 +78,7 @@ export function UserAssignmentsClient({ userId, initialData }: Props) {
 
   if (!initialData) {
     return (
-      <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-slate-700">
+      <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-base text-slate-700">
         Could not load assignments. The user may not exist or you may not have permission.
       </div>
     );
@@ -87,13 +87,13 @@ export function UserAssignmentsClient({ userId, initialData }: Props) {
   return (
     <div className="space-y-6">
       {error && (
-        <p className="rounded bg-red-50 px-4 py-2 text-sm text-red-700" role="alert">
+        <p className="rounded bg-red-50 px-4 py-2 text-base text-red-700" role="alert">
           {error}
         </p>
       )}
 
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <p className="text-sm text-slate-600">
+        <p className="text-base text-slate-600">
           Select committees and correspondence groups to assign this user to. Click Save to apply.
         </p>
         <button
@@ -108,11 +108,11 @@ export function UserAssignmentsClient({ userId, initialData }: Props) {
 
       <div className="card">
         <div className="card-header">
-          <h2 className="text-sm font-semibold text-slate-700">Committees (international bodies)</h2>
+          <h2 className="text-base font-semibold text-slate-700">Committees (international bodies)</h2>
         </div>
         <div className="card-body">
           {bodies.length === 0 ? (
-            <p className="text-slate-500 text-sm">No committees in the system. Add bodies first.</p>
+            <p className="text-slate-500 text-base">No committees in the system. Add bodies first.</p>
           ) : (
             <ul className="space-y-2">
               {bodies.map((b) => (
@@ -125,7 +125,7 @@ export function UserAssignmentsClient({ userId, initialData }: Props) {
                     className="h-4 w-4 rounded border-slate-300"
                     aria-label={`Assign to ${b.name}`}
                   />
-                  <label htmlFor={`body-${b.bodyId}`} className="text-sm font-medium text-slate-900 cursor-pointer">
+                  <label htmlFor={`body-${b.bodyId}`} className="text-base font-medium text-slate-900 cursor-pointer">
                     {b.name}
                     {b.abbreviation && (
                       <span className="ml-2 text-slate-500 font-normal">({b.abbreviation})</span>
@@ -140,11 +140,11 @@ export function UserAssignmentsClient({ userId, initialData }: Props) {
 
       <div className="card">
         <div className="card-header">
-          <h2 className="text-sm font-semibold text-slate-700">Correspondence groups</h2>
+          <h2 className="text-base font-semibold text-slate-700">Correspondence groups</h2>
         </div>
         <div className="card-body">
           {cgs.length === 0 ? (
-            <p className="text-slate-500 text-sm">No correspondence groups. Create CGs under Correspondence Groups.</p>
+            <p className="text-slate-500 text-base">No correspondence groups. Create CGs under Correspondence Groups.</p>
           ) : (
             <ul className="space-y-2">
               {cgs.map((c) => (
@@ -157,7 +157,7 @@ export function UserAssignmentsClient({ userId, initialData }: Props) {
                     className="h-4 w-4 rounded border-slate-300"
                     aria-label={`Assign to ${c.name}`}
                   />
-                  <label htmlFor={`cg-${c.cgId}`} className="text-sm font-medium text-slate-900 cursor-pointer">
+                  <label htmlFor={`cg-${c.cgId}`} className="text-base font-medium text-slate-900 cursor-pointer">
                     {c.name}
                     {c.parentBodyName && (
                       <span className="ml-2 text-slate-500 font-normal">— {c.parentBodyName}</span>

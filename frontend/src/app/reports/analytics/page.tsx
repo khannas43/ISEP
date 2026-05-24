@@ -43,7 +43,7 @@ export default async function AnalyticsReportPage() {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/reports" className="text-sm font-medium text-slate-500 hover:text-slate-700">
+        <Link href="/reports" className="text-base font-medium text-slate-500 hover:text-slate-700">
           ← Reports
         </Link>
       </div>
@@ -65,33 +65,33 @@ export default async function AnalyticsReportPage() {
       <div className="card">
         <div className="card-body">
           <h2 className="text-base font-semibold text-slate-900">Organisation snapshot</h2>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-1 text-base text-slate-600">
             Submissions per committee and task counts from the API when available. Date range and drill-down can extend
             this view in production.
           </p>
 
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-4">
-              <p className="text-xs font-medium uppercase text-slate-500">Tasks total</p>
+              <p className="text-sm font-medium uppercase text-slate-500">Tasks total</p>
               <p className="mt-1 text-2xl font-semibold text-slate-900">{taskStats.total}</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-4">
-              <p className="text-xs font-medium uppercase text-slate-500">Tasks completed</p>
+              <p className="text-sm font-medium uppercase text-slate-500">Tasks completed</p>
               <p className="mt-1 text-2xl font-semibold text-emerald-600">{taskStats.completed}</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-4">
-              <p className="text-xs font-medium uppercase text-slate-500">In progress</p>
+              <p className="text-sm font-medium uppercase text-slate-500">In progress</p>
               <p className="mt-1 text-2xl font-semibold text-amber-600">{taskStats.inProgress}</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-4">
-              <p className="text-xs font-medium uppercase text-slate-500">Pending</p>
+              <p className="text-sm font-medium uppercase text-slate-500">Pending</p>
               <p className="mt-1 text-2xl font-semibold text-slate-900">{taskStats.pending}</p>
             </div>
           </div>
 
           <h3 className="mt-8 text-base font-semibold text-slate-900">By body / committee</h3>
           <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200">
-            <table className="min-w-full text-sm">
+            <table className="min-w-full text-base">
               <thead>
                 <tr className="bg-slate-50">
                   <th className="table-header px-4 py-2.5 text-left">Body</th>
@@ -110,7 +110,7 @@ export default async function AnalyticsReportPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-4 text-xs text-slate-500">Empty table when the API is unavailable or returns no bodies.</p>
+          <p className="mt-4 text-sm text-slate-500">Empty table when the API is unavailable or returns no bodies.</p>
         </div>
       </div>
     </div>

@@ -29,7 +29,7 @@ export default async function LiveAgendaBoardPage({ params }: Props) {
       <div className="card">
         <div className="card-body">
           <p className="text-slate-600">Agenda item not found.</p>
-          <Link href={`/meetings/${meetingId}/live`} className="mt-4 inline-block text-sm text-blue-600 hover:underline">← Live lobby</Link>
+          <Link href={`/meetings/${meetingId}/live`} className="mt-4 inline-block text-base text-blue-600 hover:underline">← Live lobby</Link>
         </div>
       </div>
     );
@@ -44,27 +44,27 @@ export default async function LiveAgendaBoardPage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href={`/meetings/${meetingId}/live`} className="text-sm font-medium text-slate-500 hover:text-slate-700">← Live lobby</Link>
+        <Link href={`/meetings/${meetingId}/live`} className="text-base font-medium text-slate-500 hover:text-slate-700">← Live lobby</Link>
       </div>
       <div className="card mb-6">
         <div className="card-body">
           <h1 className="page-title">Item {agendaItem.itemNumber}: {agendaItem.title}</h1>
-          <h2 className="mt-4 text-sm font-semibold text-slate-700">India&apos;s finalized position (reference)</h2>
+          <h2 className="mt-4 text-base font-semibold text-slate-700">India&apos;s finalized position (reference)</h2>
           <p className="mt-2 rounded bg-slate-50 p-3 text-slate-800">{consolidatedPosition}</p>
         </div>
       </div>
       <div className="card mb-6">
         <div className="card-header flex items-center justify-between">
           <h2 className="text-base font-semibold text-slate-900">Live inputs</h2>
-          <button type="button" disabled className="btn-secondary text-sm opacity-70">Lock discussion (DL only, demo)</button>
+          <button type="button" disabled className="btn-secondary text-base opacity-70">Lock discussion (DL only, demo)</button>
         </div>
         <div className="card-body">
-          <p className="text-sm text-slate-600 mb-4">Delegation members can post last-minute updates. DL locks when position is confirmed.</p>
+          <p className="text-base text-slate-600 mb-4">Delegation members can post last-minute updates. DL locks when position is confirmed.</p>
           <ul className="space-y-3">
             {livePosts.map((p) => (
               <li key={p.id} className="border-l-2 border-slate-200 pl-4">
                 <p className="text-slate-800">{p.text}</p>
-                <p className="text-xs text-slate-500">{p.author} · {new Date(p.at).toLocaleString()}</p>
+                <p className="text-sm text-slate-500">{p.author} · {new Date(p.at).toLocaleString()}</p>
               </li>
             ))}
           </ul>

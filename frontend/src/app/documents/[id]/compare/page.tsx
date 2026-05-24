@@ -60,7 +60,7 @@ export default async function DocumentComparePage({ params, searchParams }: Prop
     return (
       <div className="page-container">
         <p className="text-slate-600">{t('diff.notEnoughVersions')}</p>
-        <Link href={`/documents/${id}`} className="mt-4 inline-block text-sm text-blue-600 hover:underline">
+        <Link href={`/documents/${id}`} className="mt-4 inline-block text-base text-blue-600 hover:underline">
           ← {t('diff.backToEditor')}
         </Link>
       </div>
@@ -82,7 +82,7 @@ export default async function DocumentComparePage({ params, searchParams }: Prop
     <div className="page-container max-w-4xl">
       <div className="mb-6 flex flex-wrap items-center gap-4">
         <h1 className="page-title">{t('diff.pageTitle')}</h1>
-        <Link href={`/documents/${id}/editor`} className="text-sm text-blue-600 hover:underline">
+        <Link href={`/documents/${id}/editor`} className="text-base text-blue-600 hover:underline">
           ← {t('diff.backToEditor')}
         </Link>
       </div>

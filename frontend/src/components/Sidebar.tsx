@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { getApiUrl, getUnreadNotificationCount, type TaskV1Response } from '@/lib/api';
 
 type NavItemSimple = { href: string; label: string };
@@ -14,7 +14,7 @@ type NavItemExpandable = {
   roles?: string[];
 };
 const nav: (NavItemSimple | NavItemExpandable)[] = [
-  { href: '/dashboard/executive', label: 'Dashboard' },
+  { href: '/dashboard/', label: 'Dashboard' },
   {
     label: 'Bodies',
     items: [
@@ -89,12 +89,13 @@ function NavLink({
   badge?: number;
 }) {
   const base =
-    'flex items-center gap-3 rounded-r-md py-2.5 pl-[13px] pr-3 text-[13.5px] transition-all duration-150';
+    'flex items-center gap-3 rounded-r-md py-2.5 pl-[13px] pr-3 text-base font-medium transition-all duration-150';
   const active =
     'border-l-[3px] border-[var(--gold-400)] bg-[var(--navy-700)] font-semibold text-white';
   const inactive =
-    'border-l-[3px] border-transparent font-normal text-white/65 hover:bg-[var(--navy-800)] hover:text-white';
-  const dis = 'cursor-not-allowed border-l-[3px] border-transparent text-white/40';
+    'border-l-[3px] border-transparent text-white/80 hover:bg-[var(--navy-800)] hover:text-white';
+  const dis =
+    'cursor-not-allowed border-l-[3px] border-transparent font-medium text-white/40';
 
   if (disabled) {
     return <span className={`${base} ${dis}`}>{label}</span>;
@@ -148,6 +149,28 @@ export function Sidebar() {
     Account: false,
   });
 
+  // Open the nav group that contains the current route (stable dep: pathname string only).
+  useEffect(() => {
+    setOpenSections((prev) => {
+      let next = prev;
+      let changed = false;
+      for (const item of nav) {
+        if (!('items' in item)) continue;
+        const expandable = item as NavItemExpandable;
+        const label = expandable.label;
+        const hasMatch = expandable.items.some(
+          (sub) => pathname === sub.href || pathname.startsWith(`${sub.href}/`)
+        );
+        if (hasMatch && !prev[label]) {
+          if (!changed) next = { ...prev };
+          changed = true;
+          next[label] = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, [pathname]);
+
   // Only show role-restricted items when user has at least one of the required roles.
   // Do not show Admin / Add Body etc. when user has no app role (avoids "Access denied" on click).
   const canShow = (itemRoles?: readonly string[], disabled?: boolean) => {
@@ -159,18 +182,43 @@ export function Sidebar() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [taskOverdueBadge, setTaskOverdueBadge] = useState(0);
   const accessToken = (session as { accessToken?: string } | null)?.accessToken;
+  /** Skip API calls for this bearer token until it changes (avoids 401 storms if session refetches). */
+  const tasksUnauthorizedForToken = useRef<string | undefined>(undefined);
+  const notificationsUnauthorizedForToken = useRef<string | undefined>(undefined);
   useEffect(() => {
-    if (!accessToken) return;
-    getUnreadNotificationCount(accessToken).then(setUnreadCount).catch(() => {});
+    if (tasksUnauthorizedForToken.current !== undefined && accessToken !== tasksUnauthorizedForToken.current) {
+      tasksUnauthorizedForToken.current = undefined;
+    }
+    if (notificationsUnauthorizedForToken.current !== undefined && accessToken !== notificationsUnauthorizedForToken.current) {
+      notificationsUnauthorizedForToken.current = undefined;
+    }
+  }, [accessToken]);
+  const onNotificationsUnauthorized = useCallback(() => {
+    if (accessToken) notificationsUnauthorizedForToken.current = accessToken;
   }, [accessToken]);
   useEffect(() => {
     if (!accessToken) return;
+    if (notificationsUnauthorizedForToken.current === accessToken) return;
+    getUnreadNotificationCount(accessToken, { onUnauthorized: onNotificationsUnauthorized })
+      .then(setUnreadCount)
+      .catch(() => {});
+  }, [accessToken, onNotificationsUnauthorized]);
+  useEffect(() => {
+    if (!accessToken) return;
+    if (tasksUnauthorizedForToken.current === accessToken) return;
     fetch(`${getApiUrl()}/api/v1/tasks/my`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
-      .then((r) => (r.ok ? r.json() : []))
-      .then((data: TaskV1Response[]) => {
-        const list = Array.isArray(data) ? data : [];
+      .then(async (r) => {
+        if (r.status === 401) {
+          tasksUnauthorizedForToken.current = accessToken;
+          return [] as TaskV1Response[];
+        }
+        if (!r.ok) return [] as TaskV1Response[];
+        const data = await r.json();
+        return Array.isArray(data) ? data : [];
+      })
+      .then((list) => {
         setTaskOverdueBadge(list.filter((t) => t.isOverdue).length);
       })
       .catch(() => setTaskOverdueBadge(0));
@@ -205,7 +253,7 @@ export function Sidebar() {
         </button>
         {!collapsed && (
           <>
-            <Link href="/dashboard/executive" className="flex min-w-0 flex-1 items-center gap-2.5 px-2 py-1">
+            <Link href="/dashboard/" className="flex min-w-0 flex-1 items-center gap-2.5 px-2 py-1">
               <Image
                 src="/dgs-logo-light.jpeg"
                 alt="DGS"
@@ -220,7 +268,7 @@ export function Sidebar() {
                 >
                   ISEP
                 </div>
-                <div className="truncate text-[10px] uppercase tracking-wide text-white/45">DGS · MoPSW</div>
+                <div className="truncate text-sm uppercase tracking-wide text-white/45">DGS · MoPSW</div>
               </div>
             </Link>
             {session?.user && (
@@ -265,8 +313,8 @@ export function Sidebar() {
                 <button
                   type="button"
                   onClick={() => setOpenSections((s) => ({ ...s, [label]: !isOpen }))}
-                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                    hasActive ? 'text-white' : 'text-white/65 hover:bg-[var(--navy-800)] hover:text-white'
+                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-base font-medium transition-colors ${
+                    hasActive ? 'text-white' : 'text-white/80 hover:bg-[var(--navy-800)] hover:text-white'
                   }`}
                 >
                   {label}
@@ -310,11 +358,11 @@ export function Sidebar() {
       {!collapsed && (
       <div className="shrink-0 border-t border-white/[0.08] px-4 py-3">
         <div className="px-0 py-1">
-          <p className="truncate text-[13px] font-semibold text-white" title={session?.user?.email ?? undefined}>
+          <p className="truncate text-sm font-semibold text-white" title={session?.user?.email ?? undefined}>
             {session?.user?.name ?? session?.user?.email ?? 'User'}
           </p>
           <span
-            className="mt-1 inline-block rounded px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-white/80"
+            className="mt-1 inline-block rounded px-2 py-0.5 text-sm font-medium uppercase tracking-wide text-white/80"
             style={{ background: 'var(--navy-500)' }}
             title={roles.length > 0 ? roles.join(', ') : undefined}
           >
@@ -336,7 +384,7 @@ export function Sidebar() {
               : null;
             void signOut({ callbackUrl: keycloakLogout ?? '/' });
           }}
-          className="mt-2 flex w-full items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-white/50 transition-colors hover:bg-[var(--navy-800)] hover:text-white"
+          className="mt-2 flex w-full items-center justify-center rounded-lg px-3 py-2 text-base font-medium text-white/50 transition-colors hover:bg-[var(--navy-800)] hover:text-white"
         >
           Sign out
         </button>

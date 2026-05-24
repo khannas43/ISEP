@@ -64,12 +64,12 @@ export default async function BodiesListPage({ searchParams }: Props) {
 
       <div className="card mb-6">
         <div className="card-header">
-          <h2 className="text-sm font-semibold text-slate-700">Search</h2>
+          <h2 className="text-base font-semibold text-slate-700">Search</h2>
         </div>
         <div className="card-body">
           <form method="get" action="/bodies" className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Name or abbreviation</span>
+              <span className="text-sm font-medium text-slate-600">Name or abbreviation</span>
               <input
                 type="search"
                 name="q"
@@ -120,7 +120,7 @@ export default async function BodiesListPage({ searchParams }: Props) {
                   </td>
                   {canEdit && (
                     <td className="table-cell">
-                      <Link href={`/bodies/${b.bodyId}/edit`} className="text-sm font-medium text-blue-600 hover:underline">
+                      <Link href={`/bodies/${b.bodyId}/edit`} className="text-base font-medium text-blue-600 hover:underline">
                         Edit
                       </Link>
                     </td>

@@ -31,20 +31,20 @@ export default async function PaperViewPage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/papers" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Papers list</Link>
+        <Link href="/papers" className="text-base font-medium text-slate-500 hover:text-slate-700">← Papers list</Link>
       </div>
       <div className="card">
         <div className="card-body">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h1 className="page-title">{paper.title}</h1>
-            <span className="rounded bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-800">FINALIZED</span>
+            <span className="rounded bg-emerald-100 px-3 py-1 text-base font-medium text-emerald-800">FINALIZED</span>
           </div>
           <p className="mt-1 text-slate-600">{paper.meetingTitle ?? '—'} · {paper.agendaItemTitle ?? '—'}</p>
           <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-6">
             <p className="text-slate-700">[Final document content — read-only. Download button would generate presigned URL.]</p>
           </div>
           <h2 className="mt-8 text-base font-semibold text-slate-900">Approval audit trail</h2>
-          <ul className="mt-2 space-y-2 text-sm text-slate-600">
+          <ul className="mt-2 space-y-2 text-base text-slate-600">
             {paper.approvalStages.map((s) => (
               <li key={`${s.stage}-${s.approver}-${s.action}`}>{s.stage}: {s.approver} — {s.action}</li>
             ))}

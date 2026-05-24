@@ -22,7 +22,7 @@ export function LiveTab({ meetingId, meetingTitle, agendaItems, interventions }:
       <div className="card">
         <div className="card-header flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-lg font-semibold text-slate-900">Live meeting</h2>
-          <Link href={`/meetings/${meetingId}/live`} className="btn-primary text-sm">
+          <Link href={`/meetings/${meetingId}/live`} className="btn-primary text-base">
             Open live meeting lobby →
           </Link>
         </div>
@@ -30,7 +30,7 @@ export function LiveTab({ meetingId, meetingTitle, agendaItems, interventions }:
           <p className="text-slate-600">
             When the meeting status is <strong>Active</strong>, participants can use the live lobby to see the current agenda item, post last-minute position updates, and record intervention statements.
           </p>
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-base text-slate-500">
             This meeting: <strong>{meetingTitle}</strong>. Use the link above to open the full live interface.
           </p>
         </div>
@@ -47,7 +47,7 @@ export function LiveTab({ meetingId, meetingTitle, agendaItems, interventions }:
                 <li key={a.agendaItemId}>
                   <Link
                     href={`/meetings/${meetingId}/live/agenda/${a.agendaItemId}`}
-                    className="text-sm font-medium text-blue-600 hover:underline"
+                    className="text-base font-medium text-blue-600 hover:underline"
                   >
                     Item {a.itemNumber}: {a.title}
                   </Link>
@@ -61,7 +61,7 @@ export function LiveTab({ meetingId, meetingTitle, agendaItems, interventions }:
       <div className="card">
         <div className="card-header flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-base font-semibold text-slate-900">Intervention statements (recorded)</h3>
-          <Link href={`/meetings/${meetingId}/live/interventions/new`} className="btn-secondary text-sm">
+          <Link href={`/meetings/${meetingId}/live/interventions/new`} className="btn-secondary text-base">
             Record intervention
           </Link>
         </div>
@@ -72,11 +72,11 @@ export function LiveTab({ meetingId, meetingTitle, agendaItems, interventions }:
             <ul className="space-y-4">
               {interventions.map((i) => (
                 <li key={i.interventionId} className="border-b border-slate-100 pb-4 last:border-0 last:pb-0">
-                  <p className="text-sm text-slate-500">
+                  <p className="text-base text-slate-500">
                     {i.agendaItemTitle} · {formatTime(i.deliveredAt)} · {i.deliveredBy}
                   </p>
                   <p className="mt-1 text-slate-800">{i.text}</p>
-                  <span className="mt-2 inline-block rounded bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">
+                  <span className="mt-2 inline-block rounded bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-600">
                     {i.type.replace(/_/g, ' ')}
                   </span>
                 </li>

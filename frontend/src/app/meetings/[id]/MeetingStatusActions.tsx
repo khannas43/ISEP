@@ -32,7 +32,7 @@ export function MeetingStatusActions({ meetingId, currentStatus, canChangeStatus
           type="button"
           onClick={() => handleStatus('ACTIVE')}
           disabled={loading}
-          className="rounded-lg bg-emerald-600 px-3.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700 disabled:opacity-50"
+          className="rounded-lg bg-emerald-600 px-3.5 py-2 text-base font-medium text-white shadow-sm hover:bg-emerald-700 disabled:opacity-50"
         >
           Mark Active
         </button>
@@ -42,12 +42,12 @@ export function MeetingStatusActions({ meetingId, currentStatus, canChangeStatus
           type="button"
           onClick={() => handleStatus('CONCLUDED')}
           disabled={loading}
-          className="rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50"
+          className="rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-base font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50"
         >
           Mark Concluded
         </button>
       )}
-      {error && <span className="text-sm text-red-600">{error}</span>}
+      {error && <span className="text-base text-red-600">{error}</span>}
     </div>
   );
 }

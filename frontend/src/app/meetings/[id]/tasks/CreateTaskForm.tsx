@@ -57,12 +57,12 @@ export function CreateTaskForm({ meetingId, userList, priorityOptions, statusOpt
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">
+        <div className="rounded-md bg-red-50 p-3 text-base text-red-700">
           {error}
         </div>
       )}
       <div>
-        <label className="block text-sm font-medium text-slate-700">Title <span className="text-red-600">*</span></label>
+        <label className="block text-base font-medium text-slate-700">Title <span className="text-red-600">*</span></label>
         <input
           type="text"
           value={title}
@@ -74,7 +74,7 @@ export function CreateTaskForm({ meetingId, userList, priorityOptions, statusOpt
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Description</label>
+        <label className="block text-base font-medium text-slate-700">Description</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -84,7 +84,7 @@ export function CreateTaskForm({ meetingId, userList, priorityOptions, statusOpt
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Assigned to <span className="text-red-600">*</span></label>
+        <label className="block text-base font-medium text-slate-700">Assigned to <span className="text-red-600">*</span></label>
         <select
           value={assignedToId}
           onChange={(e) => setAssignedToId(e.target.value)}
@@ -101,7 +101,7 @@ export function CreateTaskForm({ meetingId, userList, priorityOptions, statusOpt
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-slate-700">Priority</label>
+          <label className="block text-base font-medium text-slate-700">Priority</label>
           <select
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
@@ -113,7 +113,7 @@ export function CreateTaskForm({ meetingId, userList, priorityOptions, statusOpt
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Due date</label>
+          <label className="block text-base font-medium text-slate-700">Due date</label>
           <input
             type="datetime-local"
             value={dueDate}
@@ -123,7 +123,7 @@ export function CreateTaskForm({ meetingId, userList, priorityOptions, statusOpt
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Status</label>
+        <label className="block text-base font-medium text-slate-700">Status</label>
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { getLogicalPathname } from '@/lib/appBasePath';
 
 const ALL_TABS = [
   { id: 'overview', label: 'Overview' },
@@ -41,19 +42,22 @@ export function MeetingTabs({
       (t.id !== 'outcomes' || showOutcomesTab)
   );
 
-  const momHref = `/meetings/${_meetingId}/mom`;
-  const isMomActive = pathname.endsWith('/mom');
+  const meetingRoot = `/meetings/${_meetingId}/`;
+  const momHref = `/meetings/${_meetingId}/mom/`;
+  const logicalPath = getLogicalPathname(pathname).replace(/\/$/, '') || '/';
+  const momPath = `/meetings/${_meetingId}/mom`;
+  const isMomActive = logicalPath === momPath || logicalPath.startsWith(`${momPath}/`);
 
   return (
     <nav className="flex flex-wrap gap-1 border-b border-slate-200 bg-white/80" aria-label="Meeting sections">
       {tabs.map((tab) => {
-        const isActive = current === tab.id;
-        const href = `${pathname}?tab=${tab.id}`;
+        const isActive = !isMomActive && current === tab.id;
+        const href = `${meetingRoot}?tab=${tab.id}`;
         return (
           <Link
             key={tab.id}
             href={href}
-            className={`border-b-2 px-4 py-3.5 text-sm font-medium transition-colors ${
+            className={`border-b-2 px-4 py-3.5 text-base font-medium transition-colors ${
               isActive
                 ? 'border-blue-600 text-blue-600'
                 : 'border-transparent text-slate-500 hover:border-slate-200 hover:text-slate-700'
@@ -65,7 +69,7 @@ export function MeetingTabs({
       })}
       <Link
         href={momHref}
-        className={`border-b-2 px-4 py-3.5 text-sm font-medium transition-colors ${
+        className={`border-b-2 px-4 py-3.5 text-base font-medium transition-colors ${
           isMomActive
             ? 'border-blue-600 text-blue-600'
             : 'border-transparent text-slate-500 hover:border-slate-200 hover:text-slate-700'

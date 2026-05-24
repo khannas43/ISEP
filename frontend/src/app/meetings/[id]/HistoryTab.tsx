@@ -29,7 +29,7 @@ export function HistoryTab({ entries }: Props) {
     <div className="card">
       <div className="card-body">
         <h2 className="text-lg font-semibold text-slate-900">Timeline / History</h2>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-base text-slate-500">
           Chronological audit trail of meeting status changes. Read-only.
         </p>
 
@@ -43,25 +43,25 @@ export function HistoryTab({ entries }: Props) {
                 className="flex gap-4 rounded-lg border border-slate-100 bg-slate-50/80 px-4 py-3"
               >
                 <div className="flex-1 min-w-0">
-                  <div className="flex flex-wrap items-center gap-2 text-sm">
+                  <div className="flex flex-wrap items-center gap-2 text-base">
                     <span className="font-medium text-slate-900">
                       {entry.changedByName ?? entry.changedBy}
                     </span>
                     <span className="text-slate-500">changed status</span>
-                    <span className="rounded bg-slate-200 px-1.5 py-0.5 font-mono text-xs text-slate-700">
+                    <span className="rounded bg-slate-200 px-1.5 py-0.5 font-mono text-sm text-slate-700">
                       {formatStatus(entry.fromStatus)}
                     </span>
                     <span className="text-slate-400">→</span>
-                    <span className="rounded bg-slate-200 px-1.5 py-0.5 font-mono text-xs text-slate-700">
+                    <span className="rounded bg-slate-200 px-1.5 py-0.5 font-mono text-sm text-slate-700">
                       {formatStatus(entry.toStatus)}
                     </span>
                   </div>
                   {entry.notes && (
-                    <p className="mt-1 text-sm text-slate-600">{entry.notes}</p>
+                    <p className="mt-1 text-base text-slate-600">{entry.notes}</p>
                   )}
                 </div>
                 <time
-                  className="shrink-0 text-xs text-slate-500"
+                  className="shrink-0 text-sm text-slate-500"
                   dateTime={entry.changedAt}
                 >
                   {formatDate(entry.changedAt)}

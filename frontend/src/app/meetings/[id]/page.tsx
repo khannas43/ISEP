@@ -112,14 +112,30 @@ async function getMeetingDocuments(meetingId: string, accessToken: string): Prom
   return Array.isArray(data) ? data : data.content ?? [];
 }
 
-type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ tab?: string }> };
+const VALID_MEETING_TABS = new Set([
+  'overview',
+  'agenda',
+  'documents',
+  'participants',
+  'tasks',
+  'correspondence',
+  'live',
+  'outcomes',
+  'history',
+]);
+
+type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ tab?: string | string[] }> };
 
 export default async function MeetingDetailPage({ params, searchParams }: Props) {
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect('/login');
 
   const { id } = await params;
-  const { tab = 'overview' } = await searchParams;
+  const sp = await searchParams;
+  const rawTab = sp?.tab;
+  const tabParam = Array.isArray(rawTab) ? rawTab[0] : rawTab;
+  const tab =
+    tabParam && VALID_MEETING_TABS.has(tabParam) ? tabParam : 'overview';
 
   // Resolve "new" or "create" so the create form always works even when [id] matches first
   if (id === 'new') redirect('/meetings/create');
@@ -148,7 +164,7 @@ export default async function MeetingDetailPage({ params, searchParams }: Props)
     return (
       <>
         <div className="mb-6">
-          <Link href="/meetings" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Back to Meetings</Link>
+          <Link href="/meetings" className="text-base font-medium text-slate-500 hover:text-slate-700">← Back to Meetings</Link>
         </div>
         <div className="page-header">
           <h1 className="page-title">Create Meeting</h1>
@@ -180,8 +196,8 @@ export default async function MeetingDetailPage({ params, searchParams }: Props)
   const roles = (session as { roles?: string[] }).roles ?? [];
   const isViewer = roles.includes('VIEWER');
   const isMember = roles.includes('MEMBER');
-  if (tab === 'participants' && isViewer) redirect(`/meetings/${id}?tab=overview`);
-  if (tab === 'history' && (isViewer || isMember)) redirect(`/meetings/${id}?tab=overview`);
+  if (tab === 'participants' && isViewer) redirect(`/meetings/${id}/?tab=overview`);
+  if (tab === 'history' && (isViewer || isMember)) redirect(`/meetings/${id}/?tab=overview`);
   const canManageParticipants = roles.includes('SYSTEM_ADMIN') || roles.includes('COORDINATOR');
 
   let meetingRoleOptions: { code: string; label: string }[] = [];
@@ -277,18 +293,10 @@ export default async function MeetingDetailPage({ params, searchParams }: Props)
   return (
     <div>
       <div className="mb-6">
-        <Link href="/meetings" className="text-sm font-medium text-slate-500 hover:text-slate-700">
+        <Link href="/meetings" className="text-base font-medium text-slate-500 hover:text-slate-700">
           ← Back to Meetings
         </Link>
       </div>
-
-      {showPreparednessBanner && (
-        <MeetingPreparednessBanner
-          meetingId={meeting.meetingId}
-          meetingTitle={meeting.title}
-          startDate={meeting.startDate}
-        />
-      )}
 
       <div className="card mb-6 overflow-hidden">
         <div className="card-body">
@@ -335,7 +343,7 @@ export default async function MeetingDetailPage({ params, searchParams }: Props)
             </div>
           </div>
 
-          <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-3 text-sm sm:grid-cols-4">
+          <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-3 text-base sm:grid-cols-4">
             <div>
               <dt className="text-slate-500">Dates</dt>
               <dd className="font-medium text-slate-900">{formatDisplayDate(meeting.startDate)} – {formatDisplayDate(meeting.endDate)}</dd>
@@ -349,14 +357,6 @@ export default async function MeetingDetailPage({ params, searchParams }: Props)
               <dd className="font-medium text-slate-900">{meeting.meetingType.replace(/_/g, ' ')}</dd>
             </div>
           </dl>
-
-          <div className="mt-5 flex flex-wrap gap-6 rounded-lg border border-slate-100 bg-slate-50/80 px-4 py-3 text-sm">
-            <span className="text-slate-600">Participants: <strong className="text-slate-900">{participants.length}</strong></span>
-            <span className="text-slate-600">Agenda items: <strong className="text-slate-900">{agendaItems.length}</strong></span>
-            <span className="text-slate-600">Documents: <strong className="text-slate-900">{documents.length}</strong></span>
-            <span className="text-slate-600">Tasks: <strong className="text-slate-900">{tasks.length}</strong></span>
-            <span className="text-slate-600">Papers in approval: <strong className="text-slate-900">0</strong></span>
-          </div>
         </div>
       </div>
 
@@ -372,26 +372,46 @@ export default async function MeetingDetailPage({ params, searchParams }: Props)
 
       <div className="mt-6">
         {tab === 'overview' && (
-          <div className="card">
-            <div className="card-body">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <h2 className="text-lg font-semibold text-slate-900">Overview</h2>
-                {canEditMeeting && (
-                  <Link
-                    href={`/meetings/${meeting.meetingId}/edit`}
-                    className="btn-secondary text-sm"
-                  >
-                    Update overview
-                  </Link>
+          <>
+            <div className="card mb-6 overflow-hidden">
+              <div className="card-body py-3">
+                <div className="flex flex-wrap gap-6 text-base">
+                  <span className="text-slate-600">Participants: <strong className="text-slate-900">{participants.length}</strong></span>
+                  <span className="text-slate-600">Agenda items: <strong className="text-slate-900">{agendaItems.length}</strong></span>
+                  <span className="text-slate-600">Documents: <strong className="text-slate-900">{documents.length}</strong></span>
+                  <span className="text-slate-600">Tasks: <strong className="text-slate-900">{tasks.length}</strong></span>
+                  <span className="text-slate-600">Papers in approval: <strong className="text-slate-900">0</strong></span>
+                </div>
+              </div>
+            </div>
+            {showPreparednessBanner && (
+              <MeetingPreparednessBanner
+                meetingId={meeting.meetingId}
+                meetingTitle={meeting.title}
+                startDate={meeting.startDate}
+              />
+            )}
+            <div className="card">
+              <div className="card-body">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <h2 className="text-lg font-semibold text-slate-900">Overview</h2>
+                  {canEditMeeting && (
+                    <Link
+                      href={`/meetings/${meeting.meetingId}/edit`}
+                      className="btn-secondary text-base"
+                    >
+                      Update overview
+                    </Link>
+                  )}
+                </div>
+                {meeting.notes ? (
+                  <p className="mt-2 whitespace-pre-wrap text-slate-700">{meeting.notes}</p>
+                ) : (
+                  <p className="mt-2 text-slate-500">No notes or agenda overview for this meeting.</p>
                 )}
               </div>
-              {meeting.notes ? (
-                <p className="mt-2 whitespace-pre-wrap text-slate-700">{meeting.notes}</p>
-              ) : (
-                <p className="mt-2 text-slate-500">No notes or agenda overview for this meeting.</p>
-              )}
             </div>
-          </div>
+          </>
         )}
         {tab === 'agenda' && (
           <AgendaTab

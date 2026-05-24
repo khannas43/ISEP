@@ -30,10 +30,10 @@ export function PreferencesForm() {
           <li key={t.id} className="flex items-center justify-between rounded-lg border border-slate-200 p-4">
             <span className="font-medium text-slate-900">{t.label}</span>
             <div className="flex gap-4">
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-base">
                 <input name={`${t.id}_portal`} type="checkbox" defaultChecked className="rounded" /> In-portal
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex items-center gap-2 text-base">
                 <input name={`${t.id}_email`} type="checkbox" defaultChecked className="rounded" /> Email
               </label>
             </div>
@@ -44,7 +44,7 @@ export function PreferencesForm() {
         <button type="submit" disabled={saving} className="btn-primary">
           {saving ? 'Saving…' : 'Save preferences'}
         </button>
-        {saved && <span className="text-sm text-emerald-600">Preferences saved.</span>}
+        {saved && <span className="text-base text-emerald-600">Preferences saved.</span>}
       </div>
     </form>
   );

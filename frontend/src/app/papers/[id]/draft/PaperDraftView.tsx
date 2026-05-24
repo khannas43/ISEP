@@ -110,7 +110,7 @@ export function PaperDraftView({
             <PaperStatusBadge status={status} />
           </span>
           {draftSource === 'mock' && (
-            <span className="ml-2 inline-block rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+            <span className="ml-2 inline-block rounded bg-slate-100 px-2 py-0.5 text-sm text-slate-600">
               Offline draft (backend not connected)
             </span>
           )}
@@ -121,25 +121,25 @@ export function PaperDraftView({
             currentStatus={status}
             onSubmitted={() => router.refresh()}
           />
-          <Link href={`/papers/${paperId}/consultation`} className="btn-secondary text-sm">
+          <Link href={`/papers/${paperId}/consultation`} className="btn-secondary text-base">
             External consultation
           </Link>
-          <Link href={`/papers/${paperId}/approval`} className="btn-secondary text-sm">
+          <Link href={`/papers/${paperId}/approval`} className="btn-secondary text-base">
             Approval workflow
           </Link>
-          <Link href="/papers" className="btn-secondary text-sm">
+          <Link href="/papers" className="btn-secondary text-base">
             Papers list
           </Link>
         </div>
       </div>
 
       {saveError && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-base text-red-700">
           {saveError}
         </div>
       )}
 
-      <p className="text-sm text-slate-600">
+      <p className="text-base text-slate-600">
         Use the toolbar for bold, italic, lists, and track changes: <strong>+Ins</strong> marks new text (green),{' '}
         <strong>Del</strong> marks deleted text (red strikethrough). Content auto-saves every 60 seconds.
         {draftSource === 'api' && ' Draft is synced with the server so all reviewers see the same content.'}
@@ -153,7 +153,7 @@ export function PaperDraftView({
       />
 
       {saving && (
-        <p className="text-xs text-slate-500">Saving…</p>
+        <p className="text-sm text-slate-500">Saving…</p>
       )}
     </div>
   );

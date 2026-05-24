@@ -33,25 +33,25 @@ export function DLDashboard({
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-6">
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Upcoming meetings</h3>
+            <h3 className="text-base font-medium text-slate-500">Upcoming meetings</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{upcomingMeetings.length}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Papers in pipeline</h3>
+            <h3 className="text-base font-medium text-slate-500">Papers in pipeline</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{papersInPipeline.length}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Delegation tasks</h3>
+            <h3 className="text-base font-medium text-slate-500">Delegation tasks</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{delegationTasksCount}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Feedback to consolidate</h3>
+            <h3 className="text-base font-medium text-slate-500">Feedback to consolidate</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{feedbackConsolidationCount}</p>
           </div>
         </div>
@@ -61,18 +61,18 @@ export function DLDashboard({
         <div className="card">
           <div className="card-header flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Upcoming meetings</h2>
-            <Link href="/meetings" className="text-sm font-medium text-blue-600 hover:underline">View all</Link>
+            <Link href="/meetings" className="text-base font-medium text-blue-600 hover:underline">View all</Link>
           </div>
           <div className="card-body">
             {upcomingMeetings.length === 0 ? (
-              <p className="text-sm text-slate-500">No upcoming meetings.</p>
+              <p className="text-base text-slate-500">No upcoming meetings.</p>
             ) : (
               <ul className="space-y-2">
                 {upcomingMeetings.slice(0, 5).map((m) => (
                   <li key={m.meetingId}>
                     <Link href={`/meetings/${m.meetingId}`} className="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2 hover:bg-slate-50">
                       <span className="font-medium text-slate-800">{m.title}</span>
-                      <span className="text-xs text-slate-500">{m.startDate ? new Date(m.startDate).toLocaleDateString() : '—'}</span>
+                      <span className="text-sm text-slate-500">{m.startDate ? new Date(m.startDate).toLocaleDateString() : '—'}</span>
                     </Link>
                   </li>
                 ))}
@@ -83,18 +83,18 @@ export function DLDashboard({
         <div className="card">
           <div className="card-header flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Papers in pipeline</h2>
-            <Link href="/papers" className="text-sm font-medium text-blue-600 hover:underline">View all</Link>
+            <Link href="/papers" className="text-base font-medium text-blue-600 hover:underline">View all</Link>
           </div>
           <div className="card-body">
             {papersInPipeline.length === 0 ? (
-              <p className="text-sm text-slate-500">No papers in approval pipeline.</p>
+              <p className="text-base text-slate-500">No papers in approval pipeline.</p>
             ) : (
               <ul className="space-y-2">
                 {papersInPipeline.slice(0, 5).map((p) => (
                   <li key={p.id}>
                     <Link href={`/papers/${p.id}/approval`} className="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2 hover:bg-slate-50">
                       <span className="font-medium text-slate-800">{p.title}</span>
-                      <span className="text-xs text-slate-500">{p.stage}</span>
+                      <span className="text-sm text-slate-500">{p.stage}</span>
                     </Link>
                   </li>
                 ))}

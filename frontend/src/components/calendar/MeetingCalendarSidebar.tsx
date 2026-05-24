@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -25,13 +24,14 @@ function dayKey(iso: string): string {
 export function MeetingCalendarSidebar() {
   const { t } = useTranslation('common');
   const { data: session } = useSession();
-  const router = useRouter();
   const accessToken = (session as { accessToken?: string } | null)?.accessToken;
 
   const [meetings, setMeetings] = useState<MeetingDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [tooltip, setTooltip] = useState<TileTooltip | null>(null);
+  /** Meeting IDs to highlight after clicking a day that has meetings */
+  const [highlightedMeetingIds, setHighlightedMeetingIds] = useState<Set<string> | null>(null);
 
   useEffect(() => {
     if (!accessToken) {
@@ -96,6 +96,25 @@ export function MeetingCalendarSidebar() {
 
   const committeeLabel = (m: MeetingDto) => m.committeeShortName ?? m.bodyName;
 
+  const handleDayClick = useCallback(
+    (date: Date) => {
+      const dayMeetings = getMeetingsForDate(date);
+      if (dayMeetings.length === 0) {
+        setHighlightedMeetingIds(null);
+        return;
+      }
+      setSelectedDate(date);
+      const ids = new Set(dayMeetings.map((m) => m.meetingId));
+      setHighlightedMeetingIds(ids);
+      const firstId = dayMeetings[0].meetingId;
+      requestAnimationFrame(() => {
+        const el = document.getElementById(`cal-sidebar-meeting-${firstId}`);
+        el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    },
+    [getMeetingsForDate]
+  );
+
   const handleMouseEnter = useCallback(
     (e: React.MouseEvent<HTMLElement>, date: Date) => {
       const dayMeetings = getMeetingsForDate(date);
@@ -147,9 +166,9 @@ export function MeetingCalendarSidebar() {
         {t('calendar.upcomingMeetings')}
       </p>
 
-      {loading && <p className="text-xs text-slate-500">{t('common.loading')}</p>}
+      {loading && <p className="text-sm text-slate-500">{t('common.loading')}</p>}
       {!loading && meetings.length === 0 && (
-        <p className="text-xs text-slate-500">{t('calendar.noMeetings')}</p>
+        <p className="text-sm text-slate-500">{t('calendar.noMeetings')}</p>
       )}
 
       {meetings.length > 0 && (
@@ -158,19 +177,14 @@ export function MeetingCalendarSidebar() {
           onChange={(v) => setSelectedDate(v as Date)}
           tileContent={tileContent}
           tileClassName={tileClassName}
-          onClickDay={(date) => {
-            const dayMeetings = getMeetingsForDate(date);
-            if (dayMeetings.length > 0) {
-              router.push(`/meetings/${dayMeetings[0].meetingId}`);
-            }
-          }}
-          className="!w-full !border-0 !bg-transparent !shadow-none text-sm"
+          onClickDay={(date) => handleDayClick(date)}
+          className="!w-full !border-0 !bg-transparent !shadow-none text-base"
         />
       )}
 
       {tooltip && (
         <div
-          className="pointer-events-none fixed z-50 max-w-48 rounded-lg border border-slate-200 bg-white p-3 text-xs shadow-lg"
+          className="pointer-events-none fixed z-50 max-w-48 rounded-lg border border-slate-200 bg-white p-3 text-sm shadow-lg"
           style={{ left: tooltip.x, top: tooltip.y }}
         >
           <p className="truncate font-semibold text-slate-800">{tooltip.meeting.title}</p>
@@ -186,24 +200,38 @@ export function MeetingCalendarSidebar() {
       )}
 
       {meetings.length > 0 && (
-        <div className="mt-3 space-y-1">
-          {meetings.slice(0, 5).map((m) => (
-            <Link
-              key={m.meetingId}
-              href={`/meetings/${m.meetingId}`}
-              className="group flex items-start gap-2 rounded px-1 py-1 hover:bg-slate-50"
-            >
-              <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-blue-400" />
-              <span className="line-clamp-2 text-xs leading-snug text-slate-700 group-hover:text-blue-700">
-                {startIso(m)} · {committeeLabel(m)} · {m.title}
-              </span>
-            </Link>
-          ))}
-          {meetings.length > 5 && (
-            <Link href="/calendar" className="block px-1 text-xs text-blue-600 hover:underline">
-              {t('calendar.viewAll', { count: meetings.length })}
-            </Link>
-          )}
+        <div className="mt-3">
+          <div className="max-h-52 space-y-1 overflow-y-auto pr-0.5">
+            {meetings.map((m) => {
+              const isHighlighted = highlightedMeetingIds?.has(m.meetingId) ?? false;
+              return (
+                <Link
+                  key={m.meetingId}
+                  id={`cal-sidebar-meeting-${m.meetingId}`}
+                  href={`/meetings/${m.meetingId}`}
+                  className={`group flex items-start gap-2 rounded px-1 py-1 transition-colors hover:bg-slate-50 ${
+                    isHighlighted ? 'bg-blue-50 ring-1 ring-blue-300 ring-inset' : ''
+                  }`}
+                >
+                  <span
+                    className={`mt-1 h-2 w-2 shrink-0 rounded-full ${
+                      isHighlighted ? 'bg-blue-600' : 'bg-blue-400'
+                    }`}
+                  />
+                  <span
+                    className={`line-clamp-2 text-base font-medium leading-snug group-hover:text-blue-700 ${
+                      isHighlighted ? 'text-slate-900' : 'text-slate-800'
+                    }`}
+                  >
+                    {startIso(m)} · {committeeLabel(m)} · {m.title}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+          <Link href="/calendar" className="mt-2 block px-1 text-sm text-blue-600 hover:underline">
+            {t('calendar.viewAll', { count: meetings.length })}
+          </Link>
         </div>
       )}
     </div>

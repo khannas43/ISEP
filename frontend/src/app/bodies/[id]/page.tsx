@@ -36,7 +36,7 @@ export default async function BodyDetailPage({ params }: { params: Promise<{ id:
   return (
     <>
       <div className="mb-6">
-        <Link href="/bodies" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Back to Bodies</Link>
+        <Link href="/bodies" className="text-base font-medium text-slate-500 hover:text-slate-700">← Back to Bodies</Link>
       </div>
       <div className="page-header">
         <div>
@@ -90,9 +90,9 @@ export default async function BodyDetailPage({ params }: { params: Promise<{ id:
       </div>
 
       <div className="mt-6 flex flex-wrap gap-4">
-        <Link href="/bodies" className="text-sm font-medium text-blue-600 hover:underline">← Bodies list</Link>
-        <Link href="/dashboard" className="text-sm font-medium text-blue-600 hover:underline">Dashboard</Link>
-        <Link href={`/meetings?bodyId=${body.bodyId}`} className="text-sm font-medium text-blue-600 hover:underline">Meetings for this body</Link>
+        <Link href="/bodies" className="text-base font-medium text-blue-600 hover:underline">← Bodies list</Link>
+        <Link href="/dashboard" className="text-base font-medium text-blue-600 hover:underline">Dashboard</Link>
+        <Link href={`/meetings?bodyId=${body.bodyId}`} className="text-base font-medium text-blue-600 hover:underline">Meetings for this body</Link>
       </div>
     </>
   );

@@ -1,5 +1,6 @@
 # Next.js / frontend build output
 .next/
+.next-trash-*/
 out/
 
 # Dependencies

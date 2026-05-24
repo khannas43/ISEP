@@ -34,10 +34,10 @@ export function PaperRejectForm({ paperId }: Props) {
     return (
       <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4">
         <p className="font-medium text-amber-800">Rejection recorded.</p>
-        <p className="mt-1 text-sm text-amber-700">Submitter and stakeholders would be notified; document unlocked at selected stage.</p>
+        <p className="mt-1 text-base text-amber-700">Submitter and stakeholders would be notified; document unlocked at selected stage.</p>
         <div className="mt-4 flex gap-3">
-          <Link href={`/papers/${paperId}/approval`} className="btn-primary text-sm">Back to approval</Link>
-          <Link href="/papers" className="btn-secondary text-sm">Papers list</Link>
+          <Link href={`/papers/${paperId}/approval`} className="btn-primary text-base">Back to approval</Link>
+          <Link href="/papers" className="btn-secondary text-base">Papers list</Link>
         </div>
       </div>
     );
@@ -46,10 +46,10 @@ export function PaperRejectForm({ paperId }: Props) {
   return (
     <form onSubmit={handleSubmit} className="mt-6 space-y-4">
       {error && (
-        <div className="rounded bg-red-50 text-red-700 px-4 py-2 text-sm">{error}</div>
+        <div className="rounded bg-red-50 text-red-700 px-4 py-2 text-base">{error}</div>
       )}
       <div>
-        <label className="block text-sm font-medium text-slate-700">Rejection comments (min 50 characters) *</label>
+        <label className="block text-base font-medium text-slate-700">Rejection comments (min 50 characters) *</label>
         <textarea
           value={comments}
           onChange={(e) => setComments(e.target.value)}
@@ -58,10 +58,10 @@ export function PaperRejectForm({ paperId }: Props) {
           placeholder="Explain why the paper is being returned..."
           required
         />
-        <p className="mt-1 text-xs text-slate-500">{comments.length} characters</p>
+        <p className="mt-1 text-sm text-slate-500">{comments.length} characters</p>
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Return to stage</label>
+        <label className="block text-base font-medium text-slate-700">Return to stage</label>
         <select
           value={returnToStage}
           onChange={(e) => setReturnToStage(e.target.value)}

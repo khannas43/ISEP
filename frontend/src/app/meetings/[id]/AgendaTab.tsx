@@ -48,7 +48,7 @@ export function AgendaTab({ meetingId, agendaItems, canAdd }: Props) {
           <p className="mt-4 text-slate-500">No agenda items yet. Add items to structure this meeting&apos;s agenda.</p>
         ) : (
           <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200">
-            <table className="min-w-full divide-y divide-slate-200 text-sm">
+            <table className="min-w-full divide-y divide-slate-200 text-base">
               <thead>
                 <tr>
                   <th className="table-header px-4 py-2.5 text-left">#</th>
@@ -90,7 +90,7 @@ export function AgendaTab({ meetingId, agendaItems, canAdd }: Props) {
                       <td className="table-cell text-right">
                         <Link
                           href={`/meetings/${meetingId}/agenda/${item.agendaItemId}/edit`}
-                          className="text-sm font-medium text-blue-600 hover:underline"
+                          className="text-base font-medium text-blue-600 hover:underline"
                         >
                           Edit
                         </Link>

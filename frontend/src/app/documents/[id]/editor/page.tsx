@@ -25,12 +25,12 @@ function EditorFetchFailed({ reason }: { reason: 'network' | 'server' }) {
   return (
     <div className="flex min-h-[calc(100vh-6rem)] flex-col gap-4">
       <h1 className="page-title">Editor unavailable</h1>
-      <p className="text-sm text-slate-600">
+      <p className="text-base text-slate-600">
         {reason === 'network'
           ? 'The document service could not be reached. Check that the API is running and NEXT_PUBLIC_API_URL is correct.'
           : 'The document service returned an error. Try again later.'}
       </p>
-      <Link href="/documents/" className="text-sm font-medium text-blue-600 hover:text-blue-800">
+      <Link href="/documents/" className="text-base font-medium text-blue-600 hover:text-blue-800">
         Back to documents
       </Link>
     </div>
@@ -41,17 +41,19 @@ function EditorFetchFailed({ reason }: { reason: 'network' | 'server' }) {
  * TipTap collaborative editor (TASK-S2-01 Layer 2). Loads state from GET /api/v1/documents/{id}/editor.
  */
 export default async function DocumentEditorPage({ params }: Props) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user) redirect('/login');
-
   const { id } = await params;
+  const editorCallbackPath = `/documents/${id}/editor/`;
+  const editorReturnQuery = `/?callbackUrl=${encodeURIComponent(sanitizeCallbackUrl(editorCallbackPath))}`;
+
+  const session = await getServerSession(authOptions);
+  if (!session?.user) redirect(editorReturnQuery);
+
   const accessToken = (session as { accessToken?: string }).accessToken;
   const userId = (session.user as { id?: string }).id ?? '';
   const userName = session.user?.name ?? session.user?.email ?? '';
-  const editorCallbackPath = `/documents/${id}/editor/`;
 
   if (!accessToken) {
-    redirect(`/login/?callbackUrl=${encodeURIComponent(sanitizeCallbackUrl(editorCallbackPath))}`);
+    redirect(editorReturnQuery);
   }
 
   // redirect() and notFound() throw — keep them outside try/catch so they are not mistaken for fetch failures.
@@ -66,7 +68,7 @@ export default async function DocumentEditorPage({ params }: Props) {
   }
 
   if (res.status === 401) {
-    redirect(`/login/?callbackUrl=${encodeURIComponent(sanitizeCallbackUrl(editorCallbackPath))}`);
+    redirect(editorReturnQuery);
   }
   if (res.status === 404 || res.status === 403) {
     notFound();
@@ -95,12 +97,12 @@ export default async function DocumentEditorPage({ params }: Props) {
   return (
     <div className="flex min-h-[calc(100vh-6rem)] flex-col gap-4 bg-[var(--slate-50)]">
       <div className="flex flex-wrap items-center gap-4">
-        <Link href={`/documents/${id}`} className="text-sm font-medium text-slate-500 hover:text-slate-700">
+        <Link href={`/documents/${id}`} className="text-base font-medium text-slate-500 hover:text-slate-700">
           ← Document
         </Link>
         <Link
           href={`/documents/${id}/compare`}
-          className="text-sm font-medium text-[var(--navy-600)] hover:text-[var(--navy-800)]"
+          className="text-base font-medium text-[var(--navy-600)] hover:text-[var(--navy-800)]"
         >
           {t('diff.pageTitle')}
         </Link>

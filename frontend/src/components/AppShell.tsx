@@ -63,7 +63,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen bg-slate-50">
       <Sidebar />
-      <main className="min-h-screen min-w-0 flex-1 overflow-auto pl-0 pr-0">
+      <main className="min-h-screen min-w-0 w-full flex-1 overflow-auto pl-0 pr-0">
         {isExecutiveDashboard ? (
           <div className="m-0 min-h-screen w-full max-w-none p-0">{children}</div>
         ) : (

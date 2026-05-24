@@ -43,8 +43,8 @@ export function SADashboard({ userName, usersTotal, activeMeetingsCount, papersI
                   aria-hidden
                 />
                 <span className="font-medium text-slate-700">{h.service}</span>
-                <span className="text-sm text-slate-500">{h.status === 'up' ? 'Up' : 'Down'}</span>
-                {h.message && <span className="text-xs text-slate-400">{h.message}</span>}
+                <span className="text-base text-slate-500">{h.status === 'up' ? 'Up' : 'Down'}</span>
+                {h.message && <span className="text-sm text-slate-400">{h.message}</span>}
               </li>
             ))}
           </ul>
@@ -55,25 +55,25 @@ export function SADashboard({ userName, usersTotal, activeMeetingsCount, papersI
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-6">
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Registered users</h3>
+            <h3 className="text-base font-medium text-slate-500">Registered users</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{usersTotal}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Active meetings</h3>
+            <h3 className="text-base font-medium text-slate-500">Active meetings</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{activeMeetingsCount}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Pending system alerts</h3>
+            <h3 className="text-base font-medium text-slate-500">Pending system alerts</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">0</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Papers in approval</h3>
+            <h3 className="text-base font-medium text-slate-500">Papers in approval</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{papersInApprovalCount}</p>
           </div>
         </div>
@@ -91,56 +91,56 @@ export function SADashboard({ userName, usersTotal, activeMeetingsCount, papersI
               className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-left transition-colors hover:bg-slate-50"
             >
               <span className="font-medium text-slate-800">User management</span>
-              <span className="text-sm text-blue-600">→</span>
+              <span className="text-base text-blue-600">→</span>
             </Link>
             <Link
               href="/admin"
               className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-left transition-colors hover:bg-slate-50"
             >
               <span className="font-medium text-slate-800">Admin home</span>
-              <span className="text-sm text-blue-600">→</span>
+              <span className="text-base text-blue-600">→</span>
             </Link>
             <Link
               href="/bodies"
               className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-left transition-colors hover:bg-slate-50"
             >
               <span className="font-medium text-slate-800">International Bodies</span>
-              <span className="text-sm text-blue-600">→</span>
+              <span className="text-base text-blue-600">→</span>
             </Link>
             <Link
               href="/meetings"
               className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-left transition-colors hover:bg-slate-50"
             >
               <span className="font-medium text-slate-800">Meetings</span>
-              <span className="text-sm text-blue-600">→</span>
+              <span className="text-base text-blue-600">→</span>
             </Link>
             <Link
               href="/meetings/create"
               className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-left transition-colors hover:bg-slate-50"
             >
               <span className="font-medium text-slate-800">Create Meeting</span>
-              <span className="text-sm text-blue-600">→</span>
+              <span className="text-base text-blue-600">→</span>
             </Link>
             <Link
               href="/admin/system/config"
               className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-left transition-colors hover:bg-slate-50"
             >
               <span className="font-medium text-slate-800">System configuration</span>
-              <span className="text-sm text-blue-600">→</span>
+              <span className="text-base text-blue-600">→</span>
             </Link>
             <Link
               href="/admin/audit"
               className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-left transition-colors hover:bg-slate-50"
             >
               <span className="font-medium text-slate-800">Audit log</span>
-              <span className="text-sm text-blue-600">→</span>
+              <span className="text-base text-blue-600">→</span>
             </Link>
             <Link
               href="/admin/system/health"
               className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3 text-left transition-colors hover:bg-slate-50"
             >
               <span className="font-medium text-slate-800">System health</span>
-              <span className="text-sm text-blue-600">→</span>
+              <span className="text-base text-blue-600">→</span>
             </Link>
           </div>
         </div>
@@ -150,22 +150,22 @@ export function SADashboard({ userName, usersTotal, activeMeetingsCount, papersI
           <div className="card">
             <div className="card-header flex items-center justify-between">
               <h2 className="text-base font-semibold text-slate-900">Recent audit events</h2>
-              <Link href="/admin/audit" className="text-sm font-medium text-blue-600 hover:underline">View all</Link>
+              <Link href="/admin/audit" className="text-base font-medium text-blue-600 hover:underline">View all</Link>
             </div>
             <div className="card-body">
-              <p className="text-sm text-slate-500">{recentAuditCount > 0 ? `${recentAuditCount} recent entries in audit log.` : 'Audit log available from System admin.'}</p>
+              <p className="text-base text-slate-500">{recentAuditCount > 0 ? `${recentAuditCount} recent entries in audit log.` : 'Audit log available from System admin.'}</p>
               <p className="mt-2">
-                <Link href="/admin/audit" className="text-sm font-medium text-blue-600 hover:underline">Open audit log →</Link>
+                <Link href="/admin/audit" className="text-base font-medium text-blue-600 hover:underline">Open audit log →</Link>
               </p>
             </div>
           </div>
           <div className="card">
             <div className="card-header flex items-center justify-between">
               <h2 className="text-base font-semibold text-slate-900">System announcement</h2>
-              <Link href="/admin/announcements/new" className="text-sm font-medium text-blue-600 hover:underline">New</Link>
+              <Link href="/admin/announcements/new" className="text-base font-medium text-blue-600 hover:underline">New</Link>
             </div>
             <div className="card-body">
-              <p className="text-sm text-slate-500">Broadcast messages to all users. Compose from Admin → New announcement.</p>
+              <p className="text-base text-slate-500">Broadcast messages to all users. Compose from Admin → New announcement.</p>
             </div>
           </div>
         </div>

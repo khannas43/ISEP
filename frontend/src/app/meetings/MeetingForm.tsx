@@ -31,12 +31,12 @@ export function MeetingForm({ bodies, meetingTypeOptions }: Props) {
   return (
     <form onSubmit={handleSubmit} className="max-w-xl space-y-4">
       {error && (
-        <div className="rounded bg-red-50 text-red-700 px-4 py-2 text-sm">
+        <div className="rounded bg-red-50 text-red-700 px-4 py-2 text-base">
           {error}
         </div>
       )}
       <div>
-        <label htmlFor="bodyId" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="bodyId" className="block text-base font-medium text-slate-700 mb-1">
           Body *
         </label>
         <select
@@ -54,7 +54,7 @@ export function MeetingForm({ bodies, meetingTypeOptions }: Props) {
         </select>
       </div>
       <div>
-        <label htmlFor="title" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="title" className="block text-base font-medium text-slate-700 mb-1">
           Title *
         </label>
         <input
@@ -66,7 +66,7 @@ export function MeetingForm({ bodies, meetingTypeOptions }: Props) {
         />
       </div>
       <div>
-        <label htmlFor="sessionNumber" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="sessionNumber" className="block text-base font-medium text-slate-700 mb-1">
           Session number
         </label>
         <input
@@ -78,7 +78,7 @@ export function MeetingForm({ bodies, meetingTypeOptions }: Props) {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label htmlFor="startDate" className="block text-sm font-medium text-slate-700 mb-1">
+          <label htmlFor="startDate" className="block text-base font-medium text-slate-700 mb-1">
             Start date *
           </label>
           <input
@@ -90,7 +90,7 @@ export function MeetingForm({ bodies, meetingTypeOptions }: Props) {
           />
         </div>
         <div>
-          <label htmlFor="endDate" className="block text-sm font-medium text-slate-700 mb-1">
+          <label htmlFor="endDate" className="block text-base font-medium text-slate-700 mb-1">
             End date *
           </label>
           <input
@@ -103,7 +103,7 @@ export function MeetingForm({ bodies, meetingTypeOptions }: Props) {
         </div>
       </div>
       <div>
-        <label htmlFor="location" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="location" className="block text-base font-medium text-slate-700 mb-1">
           Location
         </label>
         <input
@@ -114,7 +114,7 @@ export function MeetingForm({ bodies, meetingTypeOptions }: Props) {
         />
       </div>
       <div>
-        <label htmlFor="meetingType" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="meetingType" className="block text-base font-medium text-slate-700 mb-1">
           Meeting type *
         </label>
         <select
@@ -132,7 +132,7 @@ export function MeetingForm({ bodies, meetingTypeOptions }: Props) {
         </select>
       </div>
       <div>
-        <label htmlFor="notes" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="notes" className="block text-base font-medium text-slate-700 mb-1">
           Notes / agenda overview
         </label>
         <textarea

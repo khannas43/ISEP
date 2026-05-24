@@ -128,12 +128,12 @@ export default async function CorrespondenceGroupsPage({ searchParams }: Props) 
       </div>
       <div className="card mb-6">
         <div className="card-header">
-          <h2 className="text-sm font-semibold text-slate-700">Search</h2>
+          <h2 className="text-base font-semibold text-slate-700">Search</h2>
         </div>
         <div className="card-body">
           <form method="get" action="/correspondence-groups" className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Name, parent body, or India lead</span>
+              <span className="text-sm font-medium text-slate-600">Name, parent body, or India lead</span>
               <input
                 type="search"
                 name="q"
@@ -156,7 +156,7 @@ export default async function CorrespondenceGroupsPage({ searchParams }: Props) 
         <div className="card">
           <div className="card-body">
             <div className="overflow-x-auto rounded-lg border border-slate-200">
-              <table className="min-w-full divide-y divide-slate-200 text-sm">
+              <table className="min-w-full divide-y divide-slate-200 text-base">
                 <thead>
                   <tr>
                     <th className="table-header px-4 py-2.5 text-left">

@@ -7,7 +7,7 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { authOptions } from '@/lib/auth';
-import { getMeetingsPage, getPapers, getDashboardPendingActions, type MeetingDto } from '@/lib/api';
+import { getMeetingsPage, getPapers, getMyTasksSummary, type MeetingDto } from '@/lib/api';
 import { ISEPExecutiveDashboard } from '../ISEPExecutiveDashboard';
 import { ExecutiveDashboardSummary } from './ExecutiveDashboardSummary';
 
@@ -84,15 +84,24 @@ export default async function ExecutiveDashboardPage({ searchParams }: Props) {
     let upcoming: MeetingDto[] = [];
     let archived: MeetingDto[] = [];
     let papersByStage = { draft: 0, inReview: 0, finalized: 0 };
-    let taskCounts = { overdue: 0, dueSoon: 0, myPending: 0 };
+    let taskSummary = {
+      overdue: 0,
+      inProgress: 0,
+      completed: 0,
+      totalAssigned: 0,
+      meetingCount: 0,
+    };
     const insights: string[] = [];
 
     try {
-      const [page, papers, actions] = await Promise.all([
+      const [page, papers, summary] = await Promise.all([
         getMeetingsPage(accessToken, { size: 200 }),
         getPapers(accessToken),
-        getDashboardPendingActions(accessToken, role),
+        getMyTasksSummary(accessToken),
       ]);
+      if (summary) {
+        taskSummary = summary;
+      }
       const meetings = page.content ?? [];
       const grouped = groupMeetings(meetings);
       inProgress = grouped.inProgress;
@@ -106,17 +115,12 @@ export default async function ExecutiveDashboardPage({ searchParams }: Props) {
         else papersByStage.inReview++;
       }
 
-      const overdue = actions.filter((a) => a.type === 'TASK_OVERDUE' || (a.dueDate && a.dueDate.toLowerCase() === 'overdue')).length;
-      taskCounts = {
-        overdue,
-        dueSoon: Math.max(0, actions.length - overdue),
-        myPending: actions.length,
-      };
-
       if (inProgress.length > 0) insights.push(`${inProgress.length} meeting${inProgress.length !== 1 ? 's' : ''} in progress.`);
       if (upcoming.length > 0) insights.push(`${upcoming.length} upcoming meeting${upcoming.length !== 1 ? 's' : ''}.`);
       if (papersByStage.inReview > 0) insights.push(`${papersByStage.inReview} paper${papersByStage.inReview !== 1 ? 's' : ''} in review / awaiting approval.`);
-      if (taskCounts.overdue > 0) insights.push(`${taskCounts.overdue} overdue action${taskCounts.overdue !== 1 ? 's' : ''} — review tasks.`);
+      if (taskSummary.overdue > 0) {
+        insights.push(`${taskSummary.overdue} overdue task${taskSummary.overdue !== 1 ? 's' : ''} — review My tasks.`);
+      }
       if (insights.length === 0) insights.push('No meetings in progress. Add or open a meeting for detailed preparedness.');
     } catch (err) {
       console.error('[Dashboard] Failed to load summary (check API_URL and frontend→nginx→Kong).', err);
@@ -135,7 +139,7 @@ export default async function ExecutiveDashboardPage({ searchParams }: Props) {
         upcoming={upcoming}
         archived={archived}
         papersByStage={papersByStage}
-        taskCounts={taskCounts}
+        taskSummary={taskSummary}
         insights={insights}
         meetingsForDetail={meetingsForDetail}
         accessToken={accessToken}

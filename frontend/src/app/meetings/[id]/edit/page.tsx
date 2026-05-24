@@ -60,7 +60,7 @@ export default async function EditMeetingPage({ params }: Props) {
       <div className="mb-6">
         <Link
           href={`/meetings/${id}`}
-          className="text-sm font-medium text-slate-500 hover:text-slate-700"
+          className="text-base font-medium text-slate-500 hover:text-slate-700"
         >
           ← Back to meeting
         </Link>

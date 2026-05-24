@@ -64,12 +64,12 @@ export function DocumentUploadForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">
+        <div className="rounded-md bg-red-50 p-3 text-base text-red-700">
           {error}
         </div>
       )}
       <div>
-        <label className="block text-sm font-medium text-slate-700">Title <span className="text-red-600">*</span></label>
+        <label className="block text-base font-medium text-slate-700">Title <span className="text-red-600">*</span></label>
         <input
           type="text"
           value={title}
@@ -82,7 +82,7 @@ export function DocumentUploadForm({
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-slate-700">Document type</label>
+          <label className="block text-base font-medium text-slate-700">Document type</label>
           <select
             value={documentType}
             onChange={(e) => setDocumentType(e.target.value)}
@@ -94,7 +94,7 @@ export function DocumentUploadForm({
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Source</label>
+          <label className="block text-base font-medium text-slate-700">Source</label>
           <select
             value={source}
             onChange={(e) => setSource(e.target.value)}
@@ -108,7 +108,7 @@ export function DocumentUploadForm({
       </div>
       {agendaItems.length > 0 && (
         <div>
-          <label className="block text-sm font-medium text-slate-700">Agenda item (optional)</label>
+          <label className="block text-base font-medium text-slate-700">Agenda item (optional)</label>
           <select
             value={agendaItemId}
             onChange={(e) => setAgendaItemId(e.target.value)}
@@ -124,8 +124,8 @@ export function DocumentUploadForm({
         </div>
       )}
       <div>
-        <label className="block text-sm font-medium text-slate-700">File <span className="text-red-600">*</span></label>
-        <p className="mt-0.5 text-xs text-slate-500">Maximum file size: 20 MB. Supported: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX.</p>
+        <label className="block text-base font-medium text-slate-700">File <span className="text-red-600">*</span></label>
+        <p className="mt-0.5 text-sm text-slate-500">Maximum file size: 20 MB. Supported: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX.</p>
         <input
           type="file"
           accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.*"
@@ -134,7 +134,7 @@ export function DocumentUploadForm({
           required
         />
         {file && (
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-sm text-slate-500">
             {file.name} ({(file.size / 1024).toFixed(1)} KB)
           </p>
         )}

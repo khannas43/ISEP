@@ -20,7 +20,7 @@ export default async function SystemAdminPage() {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/admin" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Admin</Link>
+        <Link href="/admin" className="text-base font-medium text-slate-500 hover:text-slate-700">← Admin</Link>
       </div>
       <div className="page-header">
         <div>
@@ -33,7 +33,7 @@ export default async function SystemAdminPage() {
           <Link key={href} href={href} className="card flex flex-col overflow-hidden transition-shadow hover:shadow-md">
             <div className="card-body">
               <h2 className="font-semibold text-slate-900">{label}</h2>
-              <p className="mt-1 text-sm text-slate-600">{desc}</p>
+              <p className="mt-1 text-base text-slate-600">{desc}</p>
             </div>
           </Link>
         ))}

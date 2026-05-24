@@ -65,6 +65,15 @@ public class PaperController {
         return ResponseEntity.ok(list);
     }
 
+    @Transactional(readOnly = true)
+    @GetMapping("/{id}")
+    public ResponseEntity<PaperListItem> getById(@PathVariable("id") UUID id) {
+        return paperRepository.findById(id)
+                .map(PaperController::toListItem)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping("/{id}/workflow/submit")
     public ResponseEntity<PaperApprovalDto> submitWorkflow(
             @PathVariable("id") UUID id,

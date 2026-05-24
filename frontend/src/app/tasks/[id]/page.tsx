@@ -54,7 +54,7 @@ export default async function TaskDetailPage({ params }: Props) {
       <div className="mb-6">
         <Link
           href={task.meetingId ? `/meetings/${task.meetingId}?tab=tasks` : '/tasks/my'}
-          className="text-sm font-medium text-slate-500 hover:text-slate-700"
+          className="text-base font-medium text-slate-500 hover:text-slate-700"
         >
           ← Back to {task.meetingId ? 'Meeting tasks' : 'My tasks'}
         </Link>
@@ -64,7 +64,7 @@ export default async function TaskDetailPage({ params }: Props) {
           <div className="flex flex-wrap items-start justify-between gap-4">
             <h1 className="page-title">{task.title}</h1>
             <span
-              className={`rounded px-3 py-1 text-sm font-medium ${
+              className={`rounded px-3 py-1 text-base font-medium ${
                 task.status === 'COMPLETED'
                   ? 'bg-slate-100 text-slate-700'
                   : task.status === 'IN_PROGRESS'
@@ -79,11 +79,11 @@ export default async function TaskDetailPage({ params }: Props) {
           </div>
           {task.description && <p className="mt-2 text-slate-700">{task.description}</p>}
           {task.isOverdue && (
-            <p className="mt-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800" role="status">
+            <p className="mt-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-base text-red-800" role="status">
               This task is overdue.
             </p>
           )}
-          <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-4">
+          <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 text-base sm:grid-cols-4">
             <div>
               <dt className="text-slate-500">Assignees</dt>
               <dd className="font-medium break-all text-slate-900">{assignees}</dd>
@@ -109,11 +109,11 @@ export default async function TaskDetailPage({ params }: Props) {
           </dl>
           <div className="mt-6 flex gap-3">
             {task.meetingId && (
-              <Link href={`/meetings/${task.meetingId}/tasks/${task.taskId}`} className="btn-secondary text-sm">
+              <Link href={`/meetings/${task.meetingId}/tasks/${task.taskId}`} className="btn-secondary text-base">
                 Open in meeting context
               </Link>
             )}
-            <Link href="/tasks/my" className="btn-secondary text-sm">
+            <Link href="/tasks/my" className="btn-secondary text-base">
               My tasks
             </Link>
           </div>

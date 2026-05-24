@@ -1,6 +1,7 @@
 'use client'
 
 import { useEditor, EditorContent } from '@tiptap/react'
+import type { Editor as TiptapEditor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import Highlight from '@tiptap/extension-highlight'
@@ -12,6 +13,33 @@ import { TrackInsert } from './extensions/TrackInsert'
 import { TrackDelete } from './extensions/TrackDelete'
 import { EditorToolbar } from './EditorToolbar'
 import { PresenceBar, type ConnectedUser } from './PresenceBar'
+
+/** Deterministic peer list for awareness → JSON comparison (order-independent). */
+function remotePeersFromAwareness(
+  awareness: WebsocketProvider['awareness'],
+  selfClientId: number
+): ConnectedUser[] {
+  const next: ConnectedUser[] = []
+  awareness.getStates().forEach((state, clientId) => {
+    if (clientId === selfClientId) return
+    const u = state.user as { name?: string; color?: string } | undefined
+    if (u?.name) {
+      next.push({
+        clientId: String(clientId),
+        name: u.name,
+        color: u.color ?? '#64748b',
+      })
+    }
+  })
+  next.sort((a, b) => a.clientId.localeCompare(b.clientId, undefined, { numeric: true }))
+  return next
+}
+
+function connectedPeersJson(peers: ConnectedUser[]): string {
+  return JSON.stringify(
+    peers.map((u) => ({ clientId: u.clientId, name: u.name, color: u.color }))
+  )
+}
 import { colourForUser } from './cursorColours'
 import { useTranslation } from '@/i18n/client'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -142,8 +170,10 @@ export function CollaborativeEditor({
       isLocked,
     })
   }
-  const { t } = useTranslation('common')
+  const { t, i18n } = useTranslation('common')
   const { data: session } = useSession()
+  const accessTokenRef = useRef<string | undefined>(undefined)
+  accessTokenRef.current = (session as { accessToken?: string } | null)?.accessToken
   const [trackChanges, setTrackChanges] = useState(false)
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved' | 'conflict'>('saved')
   const [displayVersion, setDisplayVersion] = useState(initialVersion)
@@ -184,13 +214,16 @@ export function CollaborativeEditor({
     }
   }, [isLocked, provider])
 
+  const onSaveStatusChangeRef = useRef(onSaveStatusChange)
+  onSaveStatusChangeRef.current = onSaveStatusChange
+
   const persistToBackend = useCallback(
     async (html: string, json: object, ydocState?: Uint8Array) => {
-      const accessToken = (session as { accessToken?: string } | null)?.accessToken
+      const accessToken = accessTokenRef.current
       if (!accessToken || isLocked) return
 
       setSaveStatus('saving')
-      onSaveStatusChange?.('saving')
+      onSaveStatusChangeRef.current?.('saving')
 
       try {
         const res = await fetch(`${getApiUrl()}/api/v1/documents/${documentId}/content`, {
@@ -211,7 +244,7 @@ export function CollaborativeEditor({
           const body = await res.json().catch(() => ({}))
           if (body?.error === 'VERSION_CONFLICT') {
             setSaveStatus('conflict')
-            onSaveStatusChange?.('conflict')
+            onSaveStatusChangeRef.current?.('conflict')
             if (typeof body.currentVersion === 'number') {
               versionRef.current = body.currentVersion
             }
@@ -227,20 +260,21 @@ export function CollaborativeEditor({
           setDisplayVersion(saved.version)
         }
         setSaveStatus('saved')
-        onSaveStatusChange?.('saved')
+        onSaveStatusChangeRef.current?.('saved')
       } catch {
         setSaveStatus('unsaved')
-        onSaveStatusChange?.('unsaved')
+        onSaveStatusChangeRef.current?.('unsaved')
       }
     },
-    [documentId, isLocked, onSaveStatusChange, session]
+    [documentId, isLocked]
   )
 
+  // Must not depend on connectedUsers / awareness UI state — only ydoc, provider, locale, local user.
   const extensions = useMemo(
     () => [
       StarterKit.configure({ undoRedo: false }),
       Placeholder.configure({
-        placeholder: t('editor.placeholder'),
+        placeholder: i18n.t('editor.placeholder'),
       }),
       Highlight,
       TrackInsert,
@@ -257,14 +291,21 @@ export function CollaborativeEditor({
         },
       }),
     ],
-    [currentUser.fullName, provider, t, userColor, ydoc]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- i18n singleton; locale changes tracked via i18n.language
+    [currentUser.fullName, provider, userColor, ydoc, i18n.language]
   )
 
-  const editor = useEditor({
-    extensions,
-    editable: !isLocked,
-    immediatelyRender: false,
-    onCreate: ({ editor: ed }) => {
+  const editorProps = useMemo(
+    () => ({
+      attributes: {
+        class: 'prose prose-sm max-w-none focus:outline-none min-h-[240px] p-6',
+      },
+    }),
+    []
+  )
+
+  const onCreate = useCallback(
+    ({ editor: ed }: { editor: TiptapEditor }) => {
       const fragment = ydoc.getXmlFragment('default')
       const hasYjsBody = fragment.length > 0
       const hasYdocFromServer = Boolean(initialYdocState && initialYdocState.length > 0)
@@ -273,17 +314,36 @@ export function CollaborativeEditor({
         ed.commands.setContent(html)
       }
     },
-    onUpdate: () => {
-      if (isLocked) return
-      setSaveStatus('unsaved')
-      onSaveStatusChange?.('unsaved')
+    [ydoc, initialContent, initialYdocState]
+  )
+
+  const onUpdate = useCallback(() => {
+    if (isLocked) return
+    setSaveStatus((prev) => {
+      if (prev === 'unsaved') return prev
+      return 'unsaved'
+    })
+    onSaveStatusChangeRef.current?.('unsaved')
+  }, [isLocked])
+
+  const editor = useEditor(
+    {
+      extensions,
+      editable: !isLocked,
+      immediatelyRender: false,
+      shouldRerenderOnTransaction: false,
+      onCreate,
+      onUpdate,
+      editorProps,
     },
-    editorProps: {
-      attributes: {
-        class: 'prose prose-sm max-w-none focus:outline-none min-h-[240px] p-6',
-      },
-    },
-  })
+    // Recreate only when extensions / editorProps identity changes — not on isLocked (use setEditable).
+    [extensions, editorProps]
+  )
+
+  useEffect(() => {
+    if (!editor || editor.isDestroyed) return
+    editor.setEditable(!isLocked)
+  }, [editor, isLocked])
 
   useEffect(() => {
     versionRef.current = initialVersion
@@ -306,33 +366,40 @@ export function CollaborativeEditor({
     }
   }, [isLocked, provider])
 
+  /** Last serialized remote peer set — deep equality so cursor/field churn does not re-render. */
+  const lastConnectedPeersJsonRef = useRef<string>('[]')
+
   useEffect(() => {
-    const updateUsers = () => {
-      const states = provider.awareness.getStates()
-      const self = provider.awareness.clientID
-      const next: ConnectedUser[] = []
-      states.forEach((state, clientId) => {
-        if (clientId === self) return
-        const u = state.user as { name?: string; color?: string } | undefined
-        if (u?.name) {
-          next.push({
-            clientId: String(clientId),
-            name: u.name,
-            color: u.color ?? '#64748b',
-          })
-        }
-      })
+    lastConnectedPeersJsonRef.current = '[]'
+    const selfId = provider.awareness.clientID
+    let rafId = 0
+
+    const flushPeers = () => {
+      rafId = 0
+      const next = remotePeersFromAwareness(provider.awareness, selfId)
+      const json = connectedPeersJson(next)
+      if (json === lastConnectedPeersJsonRef.current) return
+      lastConnectedPeersJsonRef.current = json
       setConnectedUsers(next)
     }
+
+    const scheduleFlush = () => {
+      if (rafId !== 0) return
+      rafId = requestAnimationFrame(flushPeers)
+    }
+
     provider.awareness.setLocalStateField('user', {
       name: currentUser.fullName,
       color: userColor,
     })
-    provider.awareness.on('update', updateUsers)
-    updateUsers()
+    provider.awareness.on('update', scheduleFlush)
+    flushPeers()
+
     return () => {
-      provider.awareness.off('update', updateUsers)
+      if (rafId !== 0) cancelAnimationFrame(rafId)
+      provider.awareness.off('update', scheduleFlush)
     }
+    // provider is stable per (documentId, wsUrl) cache entry; do not depend on awareness-driven state.
   }, [currentUser.fullName, provider, userColor])
 
   useEffect(() => {
@@ -363,21 +430,21 @@ export function CollaborativeEditor({
         />
       )}
       {isLocked && (
-        <div className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-900">
+        <div className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-base text-amber-900">
           {t('editor.locked')}
         </div>
       )}
       {saveStatus === 'conflict' && (
         <div
           role="alert"
-          className="border-b border-red-200 bg-red-50 px-4 py-2 text-sm text-red-900"
+          className="border-b border-red-200 bg-red-50 px-4 py-2 text-base text-red-900"
         >
           {t('editor.versionConflict')}
         </div>
       )}
       <EditorContent editor={editor} className="flex-1 overflow-y-auto" />
       {!isLocked && (
-        <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-500">
+        <p className="border-t border-slate-100 px-4 py-2 text-sm text-slate-500">
           {t('editor.version', { version: displayVersion })} ·{' '}
           {currentUser.fullName || currentUser.userId}
         </p>

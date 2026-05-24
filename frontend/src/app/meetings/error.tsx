@@ -18,7 +18,7 @@ export default function MeetingsError({
     <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4 py-12">
       <div className="card max-w-md p-8 text-center">
         <h1 className="text-xl font-bold text-slate-900">Something went wrong</h1>
-        <p className="mt-2 text-sm text-slate-600">
+        <p className="mt-2 text-base text-slate-600">
           An error occurred on the meetings page. You can try again or go back to the list.
         </p>
         <div className="mt-6 flex flex-wrap gap-3 justify-center">

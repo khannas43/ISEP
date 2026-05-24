@@ -59,8 +59,8 @@ export function BodyForm({
         <div
           className={
             isBackendUnavailable
-              ? 'rounded border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800'
-              : 'rounded bg-red-50 text-red-700 px-4 py-2 text-sm'
+              ? 'rounded border border-amber-200 bg-amber-50 px-4 py-3 text-base text-amber-800'
+              : 'rounded bg-red-50 text-red-700 px-4 py-2 text-base'
           }
           role="alert"
         >
@@ -74,7 +74,7 @@ export function BodyForm({
         </div>
       )}
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="name" className="block text-base font-medium text-slate-700 mb-1">
           Name *
         </label>
         <input
@@ -87,7 +87,7 @@ export function BodyForm({
         />
       </div>
       <div>
-        <label htmlFor="abbreviation" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="abbreviation" className="block text-base font-medium text-slate-700 mb-1">
           Abbreviation
         </label>
         <input
@@ -99,7 +99,7 @@ export function BodyForm({
         />
       </div>
       <div>
-        <label htmlFor="bodyType" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="bodyType" className="block text-base font-medium text-slate-700 mb-1">
           Body type *
         </label>
         <select
@@ -117,7 +117,7 @@ export function BodyForm({
         </select>
       </div>
       <div>
-        <label htmlFor="parentBodyId" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="parentBodyId" className="block text-base font-medium text-slate-700 mb-1">
           Parent body
         </label>
         <select
@@ -137,7 +137,7 @@ export function BodyForm({
         </select>
       </div>
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-slate-700 mb-1">
+        <label htmlFor="description" className="block text-base font-medium text-slate-700 mb-1">
           Description
         </label>
         <textarea
@@ -156,7 +156,7 @@ export function BodyForm({
           defaultChecked={initial?.isActive ?? true}
           className="rounded border-slate-300"
         />
-        <label htmlFor="isActive" className="text-sm text-slate-700">
+        <label htmlFor="isActive" className="text-base text-slate-700">
           Active
         </label>
       </div>

@@ -69,12 +69,12 @@ export default async function AgendaPage({ searchParams }: Props) {
       </div>
       <div className="card mb-6">
         <div className="card-header">
-          <h2 className="text-sm font-semibold text-slate-700">Search</h2>
+          <h2 className="text-base font-semibold text-slate-700">Search</h2>
         </div>
         <div className="card-body">
           <form method="get" action="/agenda" className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Meeting title or body</span>
+              <span className="text-sm font-medium text-slate-600">Meeting title or body</span>
               <input type="search" name="q" defaultValue={q} placeholder="Search meetings…" className="input-base min-w-[220px]" />
             </label>
             <button type="submit" className="btn-secondary">Search</button>
@@ -87,7 +87,7 @@ export default async function AgendaPage({ searchParams }: Props) {
             <p className="text-slate-500">{q ? 'No meetings match your search.' : 'No active or planned meetings. Create a meeting from the Meetings list to add agenda items.'}</p>
           ) : (
             <div className="overflow-x-auto rounded-lg border border-slate-200">
-              <table className="min-w-full divide-y divide-slate-200 text-sm">
+              <table className="min-w-full divide-y divide-slate-200 text-base">
                 <thead>
                   <tr>
                     <th className="table-header px-4 py-2.5 text-left">Meeting</th>
@@ -114,7 +114,7 @@ export default async function AgendaPage({ searchParams }: Props) {
             </div>
           )}
           <div className="mt-4">
-            <Link href="/meetings" className="text-sm font-medium text-blue-600 hover:underline">
+            <Link href="/meetings" className="text-base font-medium text-blue-600 hover:underline">
               ← All meetings
             </Link>
           </div>

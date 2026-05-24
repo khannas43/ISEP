@@ -11,7 +11,7 @@ export default async function NotificationPreferencesPage() {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/notifications" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Notifications</Link>
+        <Link href="/notifications" className="text-base font-medium text-slate-500 hover:text-slate-700">← Notifications</Link>
       </div>
       <div className="card">
         <div className="card-body">

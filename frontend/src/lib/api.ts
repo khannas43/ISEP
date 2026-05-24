@@ -485,9 +485,20 @@ export type PaperListItem = {
   agendaItemTitle?: string | null;
 };
 
+/** GET /api/v1/papers/{paperId} — single paper (incl. cleanCopyDocumentId). */
+export async function getPaper(accessToken: string, paperId: string): Promise<PaperListItem | null> {
+  const res = await fetch(`${getApiUrl()}/api/v1/papers/${encodeURIComponent(paperId)}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    cache: 'no-store',
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error('Failed to load paper');
+  return (await res.json()) as PaperListItem;
+}
+
 export async function getPapers(
   accessToken: string,
-  opts?: { awaitingMyApproval?: boolean }
+  opts?: { awaitingMyApproval?: boolean; onUnauthorized?: () => void }
 ): Promise<PaperListItem[]> {
   const params = new URLSearchParams();
   if (opts?.awaitingMyApproval) params.set('awaitingMyApproval', 'true');
@@ -496,13 +507,20 @@ export async function getPapers(
     headers: { Authorization: `Bearer ${accessToken}` },
     cache: 'no-store',
   });
+  if (res.status === 401 || res.status === 403) {
+    opts?.onUnauthorized?.();
+    return [];
+  }
   if (!res.ok) return [];
   const data = await res.json();
   return Array.isArray(data) ? data : [];
 }
 
 /** GET /api/v1/tasks/my — optional status CSV e.g. PENDING,ESCALATED */
-export async function getMyTasks(accessToken: string, opts?: { status?: string }): Promise<TaskV1Response[]> {
+export async function getMyTasks(
+  accessToken: string,
+  opts?: { status?: string; onUnauthorized?: () => void }
+): Promise<TaskV1Response[]> {
   const params = new URLSearchParams();
   if (opts?.status) params.set('status', opts.status);
   const q = params.toString();
@@ -510,16 +528,60 @@ export async function getMyTasks(accessToken: string, opts?: { status?: string }
     headers: { Authorization: `Bearer ${accessToken}` },
     cache: 'no-store',
   });
+  if (res.status === 401 || res.status === 403) {
+    opts?.onUnauthorized?.();
+    return [];
+  }
   if (!res.ok) return [];
   const data = await res.json();
   return Array.isArray(data) ? data : [];
 }
 
-export async function getTeamTasks(accessToken: string): Promise<TaskV1Response[]> {
+/** GET /api/v1/tasks/my?summary=true — dashboard task widget counts */
+export type MyTasksSummaryDto = {
+  overdue: number;
+  inProgress: number;
+  completed: number;
+  totalAssigned: number;
+  meetingCount: number;
+};
+
+export async function getMyTasksSummary(
+  accessToken: string,
+  opts?: { onUnauthorized?: () => void }
+): Promise<MyTasksSummaryDto | null> {
+  const res = await fetch(`${getApiUrl()}/api/v1/tasks/my?summary=true`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    cache: 'no-store',
+  });
+  if (res.status === 401) {
+    opts?.onUnauthorized?.();
+    return null;
+  }
+  if (!res.ok) return null;
+  const data = (await res.json()) as Record<string, unknown>;
+  if (typeof data.overdue !== 'number') return null;
+  return {
+    overdue: data.overdue as number,
+    inProgress: typeof data.inProgress === 'number' ? data.inProgress : 0,
+    completed: typeof data.completed === 'number' ? data.completed : 0,
+    totalAssigned: typeof data.totalAssigned === 'number' ? data.totalAssigned : 0,
+    meetingCount: typeof data.meetingCount === 'number' ? data.meetingCount : 0,
+  };
+}
+
+export async function getTeamTasks(
+  accessToken: string,
+  opts?: { onUnauthorized?: () => void }
+): Promise<TaskV1Response[]> {
   const res = await fetch(`${getApiUrl()}/api/v1/tasks/team`, {
     headers: { Authorization: `Bearer ${accessToken}` },
     cache: 'no-store',
   });
+  if (res.status === 401) {
+    opts?.onUnauthorized?.();
+    return [];
+  }
   if (!res.ok) return [];
   const data = await res.json();
   return Array.isArray(data) ? data : [];
@@ -577,7 +639,7 @@ export async function getDocumentConsultations(
     `${getApiUrl()}/api/v1/documents/${encodeURIComponent(documentId)}/consultations`,
     { headers: { Authorization: `Bearer ${accessToken}` }, cache: 'no-store' }
   );
-  if (!res.ok) return [];
+  if (!res.ok) throw new Error('Could not load consultations.');
   const data = await res.json();
   return Array.isArray(data) ? (data as ConsultationDto[]) : [];
 }
@@ -794,12 +856,19 @@ export async function getNotifications(
   return { content: Array.isArray(content) ? content : [], totalElements: data.totalElements ?? content.length };
 }
 
-export async function getUnreadNotificationCount(accessToken: string): Promise<number> {
+export async function getUnreadNotificationCount(
+  accessToken: string,
+  opts?: { onUnauthorized?: () => void }
+): Promise<number> {
   try {
     const res = await fetch(`${getApiUrl()}/api/v1/notifications/unread-count`, {
       headers: { Authorization: `Bearer ${accessToken}` },
       cache: 'no-store',
     });
+    if (res.status === 401) {
+      opts?.onUnauthorized?.();
+      return 0;
+    }
     if (!res.ok) return 0;
     const data = await res.json();
     const c = data.count;

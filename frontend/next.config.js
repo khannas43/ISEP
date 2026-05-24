@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
 
 /**
  * Same rules as `src/lib/appBasePath.ts`: pathname of NEXT_PUBLIC_NEXTAUTH_URL / NEXTAUTH_URL,
@@ -30,14 +31,21 @@ const nextConfig = {
   ...(basePath ? { basePath } : {}),
   trailingSlash: true, // avoid 308 redirect /isep/ -> /isep which causes loop behind proxy
   /**
-   * Webpack’s filesystem cache can fail with PackFileCacheStrategy / “Unable to snapshot resolve
-   * dependencies” (e.g. project path quirks). That may leave client chunks unregistered so
-   * /_next/static/chunks/main-app.js returns 404 while webpack.js still 200 — blank hydrated UI.
-   * Disabling cache in dev avoids that; production builds still use the default cache.
+   * Dev static 404 (login unstyled): HTML points at chunk names that are not on disk when the
+   * webpack cache and .next manifest drift. Avoid `cache: false` (causes the same drift).
+   * - Filesystem cache under `node_modules/.cache` (not .next) reduces PackFile “snapshot” issues
+   *   on paths with spaces and keeps emits aligned with the dev server manifest.
+   * - If assets still 404: stop dev, run `npm run dev:clean`, wait for “Ready”, hard-refresh the browser.
    */
   webpack: (config, { dev }) => {
     if (dev) {
-      config.cache = false;
+      config.cache = {
+        type: 'filesystem',
+        cacheDirectory: path.join(__dirname, 'node_modules', '.cache', 'webpack'),
+        buildDependencies: {
+          config: [__filename],
+        },
+      };
     }
     return config;
   },

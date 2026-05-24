@@ -24,7 +24,7 @@ export function DocumentsTab({ meetingId, documents, agendaItems, canUpload }: P
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Documents</h2>
-            <p className="mt-1 text-sm text-slate-500">Documents linked to this meeting.</p>
+            <p className="mt-1 text-base text-slate-500">Documents linked to this meeting.</p>
           </div>
           {canUpload && (
             <Link href={`/meetings/${meetingId}/documents/upload`} className="btn-primary">
@@ -36,7 +36,7 @@ export function DocumentsTab({ meetingId, documents, agendaItems, canUpload }: P
           <p className="mt-4 text-slate-500">No documents uploaded yet.</p>
         ) : (
           <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200">
-            <table className="min-w-full divide-y divide-slate-200 text-sm">
+            <table className="min-w-full divide-y divide-slate-200 text-base">
               <thead>
                 <tr>
                   <th className="table-header px-4 py-2.5 text-left">Title</th>
@@ -63,11 +63,11 @@ export function DocumentsTab({ meetingId, documents, agendaItems, canUpload }: P
                     <td className="table-cell text-slate-600">
                       {d.uploadedAt ? formatDisplayDate(d.uploadedAt) : '—'}
                       {d.uploadedByName && (
-                        <span className="block text-xs text-slate-500">{d.uploadedByName}</span>
+                        <span className="block text-sm text-slate-500">{d.uploadedByName}</span>
                       )}
                     </td>
                     <td className="table-cell text-right">
-                      <Link href={`/documents/${d.documentId}`} className="text-sm font-medium text-blue-600 hover:underline">
+                      <Link href={`/documents/${d.documentId}`} className="text-base font-medium text-blue-600 hover:underline">
                         View
                       </Link>
                     </td>

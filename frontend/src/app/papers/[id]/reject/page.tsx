@@ -31,13 +31,13 @@ export default async function PaperRejectPage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href={`/papers/${id}/approval`} className="text-sm font-medium text-slate-500 hover:text-slate-700">← Approval workflow</Link>
+        <Link href={`/papers/${id}/approval`} className="text-base font-medium text-slate-500 hover:text-slate-700">← Approval workflow</Link>
       </div>
       <div className="card">
         <div className="card-body">
           <h1 className="page-title">Reject / return paper</h1>
           <p className="page-subtitle">{paper.title}</p>
-          <p className="mt-2 text-sm text-slate-600">Provide mandatory rejection comments (min 50 characters) and select the stage to return the paper to.</p>
+          <p className="mt-2 text-base text-slate-600">Provide mandatory rejection comments (min 50 characters) and select the stage to return the paper to.</p>
           <PaperRejectForm paperId={id} paperTitle={paper.title} />
         </div>
       </div>

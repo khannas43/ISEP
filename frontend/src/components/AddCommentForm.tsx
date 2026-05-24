@@ -54,7 +54,7 @@ export function AddCommentForm({ contextLabel = 'document', documentId }: Props)
   return (
     <div className="mt-8 border-t border-slate-200 pt-6">
       <h2 className="text-base font-semibold text-slate-900">Add comment</h2>
-      <p className="mt-1 text-sm text-slate-600">Edit within 30 min; no delete (soft-hide).</p>
+      <p className="mt-1 text-base text-slate-600">Edit within 30 min; no delete (soft-hide).</p>
       <form onSubmit={handleSubmit} className="mt-4 space-y-3">
         <textarea
           value={content}
@@ -64,7 +64,7 @@ export function AddCommentForm({ contextLabel = 'document', documentId }: Props)
           placeholder={`Comment on this ${contextLabel}…`}
         />
         <div className="flex flex-wrap items-center gap-4">
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex items-center gap-2 text-base">
             <span className="text-slate-600">Visibility:</span>
             <select
               value={visibility}
@@ -75,11 +75,11 @@ export function AddCommentForm({ contextLabel = 'document', documentId }: Props)
               <option value="INTERNAL">Internal</option>
             </select>
           </label>
-          <button type="submit" disabled={saving || !content.trim()} className="btn-primary text-sm">
+          <button type="submit" disabled={saving || !content.trim()} className="btn-primary text-base">
             {saving ? 'Posting…' : 'Post comment'}
           </button>
-          {saved && <span className="text-sm text-emerald-600">Comment added.</span>}
-          {error && <span className="text-sm text-red-600">{error}</span>}
+          {saved && <span className="text-base text-emerald-600">Comment added.</span>}
+          {error && <span className="text-base text-red-600">{error}</span>}
         </div>
       </form>
     </div>

@@ -46,12 +46,12 @@ export function OutcomeForm({ meetingId, agendaItems }: Props) {
 
   return (
     <div className="mt-6 border-t border-slate-200 pt-6">
-      <h3 className="text-sm font-semibold text-slate-900">Add outcome</h3>
-      {saved && <p className="mt-2 text-sm text-emerald-600">Outcome saved.</p>}
+      <h3 className="text-base font-semibold text-slate-900">Add outcome</h3>
+      {saved && <p className="mt-2 text-base text-emerald-600">Outcome saved.</p>}
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-        {error && <p className="rounded bg-red-50 p-2 text-sm text-red-700">{error}</p>}
+        {error && <p className="rounded bg-red-50 p-2 text-base text-red-700">{error}</p>}
         <div>
-          <label className="block text-sm font-medium text-slate-700">Agenda item</label>
+          <label className="block text-base font-medium text-slate-700">Agenda item</label>
           <select
             value={agendaItemId}
             onChange={(e) => setAgendaItemId(e.target.value)}
@@ -65,7 +65,7 @@ export function OutcomeForm({ meetingId, agendaItems }: Props) {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Decision *</label>
+          <label className="block text-base font-medium text-slate-700">Decision *</label>
           <textarea
             value={decision}
             onChange={(e) => setDecision(e.target.value)}
@@ -75,7 +75,7 @@ export function OutcomeForm({ meetingId, agendaItems }: Props) {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Resolution ref</label>
+          <label className="block text-base font-medium text-slate-700">Resolution ref</label>
           <input
             type="text"
             value={resolutionRef}
@@ -84,7 +84,7 @@ export function OutcomeForm({ meetingId, agendaItems }: Props) {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700">Next steps</label>
+          <label className="block text-base font-medium text-slate-700">Next steps</label>
           <textarea
             value={nextSteps}
             onChange={(e) => setNextSteps(e.target.value)}

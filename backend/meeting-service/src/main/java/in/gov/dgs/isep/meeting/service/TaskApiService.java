@@ -35,6 +35,8 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -186,7 +188,7 @@ public class TaskApiService {
     }
 
     @Transactional(readOnly = true)
-    public Object listMy(UUID userId, String statusCsv, UUID meetingIdFilter, Boolean countOnly) {
+    public Object listMy(UUID userId, String statusCsv, UUID meetingIdFilter, Boolean countOnly, Boolean summary) {
         if (userId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
@@ -197,6 +199,9 @@ public class TaskApiService {
         if (statusCsv != null && !statusCsv.isBlank()) {
             Set<String> wanted = Set.of(statusCsv.split(",")).stream().map(s -> s.trim().toUpperCase(Locale.ROOT)).collect(Collectors.toSet());
             tasks = tasks.stream().filter(t -> wanted.contains(t.getStatus().toUpperCase(Locale.ROOT))).toList();
+        }
+        if (Boolean.TRUE.equals(summary)) {
+            return summarizeMyTasks(tasks);
         }
         if (Boolean.TRUE.equals(countOnly)) {
             return Map.of("count", (long) tasks.size());
@@ -210,30 +215,60 @@ public class TaskApiService {
         return rows;
     }
 
+    /** Counts for dashboard: overdue, open (pending / in progress / escalated, not overdue), completed, totals. */
+    private Map<String, Object> summarizeMyTasks(List<Task> tasks) {
+        Instant startOfToday = LocalDate.now(ZoneOffset.UTC).atStartOfDay(ZoneOffset.UTC).toInstant();
+        int overdue = 0;
+        int inProgress = 0;
+        int completed = 0;
+        Set<UUID> meetingIds = new HashSet<>();
+        for (Task t : tasks) {
+            if (t.getMeeting() != null) {
+                meetingIds.add(t.getMeeting().getMeetingId());
+            }
+            String st = t.getStatus() != null ? t.getStatus().toUpperCase(Locale.ROOT) : "";
+            if ("COMPLETED".equals(st)) {
+                completed++;
+                continue;
+            }
+            boolean od = ("PENDING".equals(st) || "IN_PROGRESS".equals(st))
+                    && t.getDueDate() != null
+                    && t.getDueDate().isBefore(startOfToday);
+            if (od) {
+                overdue++;
+            } else if ("PENDING".equals(st) || "IN_PROGRESS".equals(st) || "ESCALATED".equals(st)) {
+                inProgress++;
+            }
+        }
+        Map<String, Object> out = new HashMap<>();
+        out.put("overdue", overdue);
+        out.put("inProgress", inProgress);
+        out.put("completed", completed);
+        out.put("totalAssigned", tasks.size());
+        out.put("meetingCount", meetingIds.size());
+        return out;
+    }
+
     @Transactional(readOnly = true)
     public List<TaskResponse> listTeam(UUID userId, UUID meetingIdFilter, Authentication auth) {
         if (userId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        boolean admin = hasAnyRole(auth, "SYSTEM_ADMIN");
         List<Task> tasks;
-        if (admin) {
+        if (hasAnyRole(auth, "SYSTEM_ADMIN")) {
             if (meetingIdFilter != null) {
                 tasks = taskRepository.findByMeetingMeetingIdOrderByDueDateAsc(meetingIdFilter);
             } else {
                 tasks = taskRepository.findAll();
             }
-        } else if (hasAnyRole(auth, "DELEGATION_LEADER", "COORDINATOR")) {
+        } else if (hasAnyRole(auth, "COORDINATOR")) {
+            // All tasks in any meeting where the user is a participant (any meeting role).
             Set<UUID> meetingIds = participantRepository.findByUserUserId(userId).stream()
-                    .filter(p -> {
-                        String r = p.getMeetingRole();
-                        return r != null && ("COORDINATOR".equalsIgnoreCase(r) || "DELEGATION_LEADER".equalsIgnoreCase(r));
-                    })
                     .map(p -> p.getMeeting().getMeetingId())
                     .collect(Collectors.toSet());
             if (meetingIdFilter != null) {
                 if (!meetingIds.contains(meetingIdFilter)) {
-                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not allowed for this meeting");
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not a participant of this meeting");
                 }
                 meetingIds = Set.of(meetingIdFilter);
             }
@@ -241,6 +276,40 @@ public class TaskApiService {
                 return List.of();
             }
             tasks = taskRepository.findByMeetingMeetingIdInOrderByDueDateAsc(meetingIds);
+        } else if (hasAnyRole(auth, "DELEGATION_LEADER")) {
+            // Meetings where this user is delegation leader; tasks assigned to MEMBER participants in those meetings.
+            Set<UUID> dlMeetings = participantRepository.findByUserUserId(userId).stream()
+                    .filter(p -> p.getMeetingRole() != null && "DELEGATION_LEADER".equalsIgnoreCase(p.getMeetingRole()))
+                    .map(p -> p.getMeeting().getMeetingId())
+                    .collect(Collectors.toSet());
+            if (meetingIdFilter != null) {
+                if (!dlMeetings.contains(meetingIdFilter)) {
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not allowed for this meeting");
+                }
+                dlMeetings = Set.of(meetingIdFilter);
+            }
+            if (dlMeetings.isEmpty()) {
+                return List.of();
+            }
+            Map<UUID, Set<UUID>> memberIdsByMeeting = new HashMap<>();
+            for (UUID mid : dlMeetings) {
+                Set<UUID> members = participantRepository.findByMeetingMeetingIdOrderByAssignedAtAsc(mid).stream()
+                        .filter(p -> p.getMeetingRole() != null && "MEMBER".equalsIgnoreCase(p.getMeetingRole()))
+                        .map(p -> p.getUser().getUserId())
+                        .collect(Collectors.toSet());
+                memberIdsByMeeting.put(mid, members);
+            }
+            List<Task> candidates = taskRepository.findByMeetingMeetingIdInOrderByDueDateAsc(dlMeetings);
+            tasks = candidates.stream()
+                    .filter(t -> {
+                        UUID mid = t.getMeeting() != null ? t.getMeeting().getMeetingId() : null;
+                        if (mid == null) {
+                            return false;
+                        }
+                        Set<UUID> team = memberIdsByMeeting.getOrDefault(mid, Set.of());
+                        return loadAssigneeIds(t).stream().anyMatch(team::contains);
+                    })
+                    .toList();
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }

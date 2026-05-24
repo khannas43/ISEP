@@ -59,18 +59,18 @@ export function AnnouncementForm() {
     return (
       <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-6">
         <p className="font-medium text-emerald-800">Announcement published.</p>
-        <p className="mt-1 text-sm text-emerald-700">
+        <p className="mt-1 text-base text-emerald-700">
           It has been broadcast to the selected scope and will appear as a pinned banner. In production, recipients would also receive an email.
         </p>
         <div className="mt-4 flex gap-3">
           <button
             type="button"
             onClick={() => { setStep('compose'); setSubject(''); setBody(''); setError(null); }}
-            className="btn-secondary text-sm"
+            className="btn-secondary text-base"
           >
             Create another
           </button>
-          <Link href="/admin" className="btn-secondary text-sm">Back to Admin</Link>
+          <Link href="/admin" className="btn-secondary text-base">Back to Admin</Link>
         </div>
       </div>
     );
@@ -80,8 +80,8 @@ export function AnnouncementForm() {
     return (
       <div className="mt-6 space-y-4">
         <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-          <h2 className="text-sm font-semibold text-slate-700">Preview — confirm before sending</h2>
-          <dl className="mt-3 space-y-2 text-sm">
+          <h2 className="text-base font-semibold text-slate-700">Preview — confirm before sending</h2>
+          <dl className="mt-3 space-y-2 text-base">
             <div>
               <dt className="text-slate-500">Subject</dt>
               <dd className="font-medium text-slate-900">{subject}</dd>
@@ -100,7 +100,7 @@ export function AnnouncementForm() {
             </div>
           </dl>
         </div>
-        {error && <p className="text-sm text-red-600" role="alert">{error}</p>}
+        {error && <p className="text-base text-red-600" role="alert">{error}</p>}
         <div className="flex gap-3">
           <button
             type="button"
@@ -121,7 +121,7 @@ export function AnnouncementForm() {
   return (
     <form onSubmit={handlePreview} className="mt-6 space-y-4">
       <div>
-        <label htmlFor="subject" className="block text-sm font-medium text-slate-700">Subject *</label>
+        <label htmlFor="subject" className="block text-base font-medium text-slate-700">Subject *</label>
         <input
           id="subject"
           name="subject"
@@ -134,7 +134,7 @@ export function AnnouncementForm() {
         />
       </div>
       <div>
-        <label htmlFor="body" className="block text-sm font-medium text-slate-700">Message body</label>
+        <label htmlFor="body" className="block text-base font-medium text-slate-700">Message body</label>
         <textarea
           id="body"
           name="body"
@@ -146,7 +146,7 @@ export function AnnouncementForm() {
         />
       </div>
       <div>
-        <label htmlFor="urgency" className="block text-sm font-medium text-slate-700">Urgency</label>
+        <label htmlFor="urgency" className="block text-base font-medium text-slate-700">Urgency</label>
         <select
           id="urgency"
           name="urgency"
@@ -160,7 +160,7 @@ export function AnnouncementForm() {
         </select>
       </div>
       <div>
-        <label htmlFor="scope" className="block text-sm font-medium text-slate-700">Recipient scope</label>
+        <label htmlFor="scope" className="block text-base font-medium text-slate-700">Recipient scope</label>
         <select
           id="scope"
           name="scope"

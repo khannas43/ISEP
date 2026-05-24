@@ -77,7 +77,7 @@ export function AgendaItemTabs({
             <Link
               key={tab.id}
               href={href}
-              className={`border-b-2 px-4 py-3.5 text-sm font-medium transition-colors ${
+              className={`border-b-2 px-4 py-3.5 text-base font-medium transition-colors ${
                 isActive
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-slate-500 hover:border-slate-200 hover:text-slate-700'
@@ -97,7 +97,7 @@ export function AgendaItemTabs({
                 <h2 className="text-lg font-semibold text-slate-900">Documents</h2>
                 <Link
                   href={`/meetings/${meetingId}/documents/upload`}
-                  className="btn-secondary text-sm"
+                  className="btn-secondary text-base"
                 >
                   Legacy upload page
                 </Link>
@@ -117,7 +117,7 @@ export function AgendaItemTabs({
                       <Link href={`/documents/${d.documentId}`} className="text-blue-600 hover:underline">
                         {d.title}
                       </Link>
-                      <span className="ml-2 text-sm text-slate-500">({d.documentType}, v{d.currentVersion})</span>
+                      <span className="ml-2 text-base text-slate-500">({d.documentType}, v{d.currentVersion})</span>
                     </li>
                   ))}
                 </ul>
@@ -134,19 +134,19 @@ export function AgendaItemTabs({
                 <div className="flex gap-2">
                   <Link
                     href={`/meetings/${meetingId}/agenda/${itemId}/feedback/submit`}
-                    className="btn-secondary text-sm"
+                    className="btn-secondary text-base"
                   >
                     Submit feedback (Member)
                   </Link>
                   <Link
                     href={`/meetings/${meetingId}/agenda/${itemId}/feedback/consolidate`}
-                    className="btn-primary text-sm"
+                    className="btn-primary text-base"
                   >
                     Consolidate (Coordinator)
                   </Link>
                 </div>
               </div>
-              <p className="mt-1 text-sm text-slate-600">
+              <p className="mt-1 text-base text-slate-600">
                 Position distribution: Support {feedback.filter((f) => f.position === 'SUPPORT').length}, Object{' '}
                 {feedback.filter((f) => f.position === 'OBJECT').length}, Neutral {feedback.filter((f) => f.position === 'NEUTRAL').length}, Abstain{' '}
                 {feedback.filter((f) => f.position === 'ABSTAIN').length}
@@ -159,18 +159,18 @@ export function AgendaItemTabs({
                     <li key={f.feedbackId} className="rounded border border-slate-200 p-4">
                       <div className="flex items-center justify-between">
                         <span className="font-medium text-slate-900">{f.userName ?? '—'}</span>
-                        <span className={`rounded px-2 py-0.5 text-xs font-medium ${
+                        <span className={`rounded px-2 py-0.5 text-sm font-medium ${
                           f.position === 'SUPPORT' ? 'bg-emerald-100 text-emerald-800' :
                           f.position === 'OBJECT' ? 'bg-red-100 text-red-800' :
                           f.position === 'NEUTRAL' ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-700'
                         }`}>
                           {f.position ?? 'NEUTRAL'}
                         </span>
-                        <span className="text-xs text-slate-500">{f.status}</span>
+                        <span className="text-sm text-slate-500">{f.status}</span>
                       </div>
-                      {f.comments && <p className="mt-2 text-sm text-slate-700">{f.comments}</p>}
-                      {f.suggestedAmendments && <p className="mt-1 text-sm text-slate-600">Amendments: {f.suggestedAmendments}</p>}
-                      {f.submittedAt && <p className="mt-1 text-xs text-slate-500">Submitted {formatDate(f.submittedAt)}</p>}
+                      {f.comments && <p className="mt-2 text-base text-slate-700">{f.comments}</p>}
+                      {f.suggestedAmendments && <p className="mt-1 text-base text-slate-600">Amendments: {f.suggestedAmendments}</p>}
+                      {f.submittedAt && <p className="mt-1 text-sm text-slate-500">Submitted {formatDate(f.submittedAt)}</p>}
                     </li>
                   ))}
                 </ul>
@@ -203,7 +203,7 @@ export function AgendaItemTabs({
                       >
                         {taskRow.title}
                       </Link>
-                      <span className="ml-2 text-sm text-slate-500">
+                      <span className="ml-2 text-base text-slate-500">
                         {taskRow.assignedToName ?? 'Unassigned'} · {taskRow.status} · Due {taskRow.dueDate ?? '—'}
                       </span>
                     </li>
@@ -218,7 +218,7 @@ export function AgendaItemTabs({
           <div className="card">
             <div className="card-body">
               <h2 className="text-lg font-semibold text-slate-900">Paper drafts</h2>
-              <p className="mt-1 text-sm text-slate-600">India&apos;s formal papers (submissions, interventions) linked to this agenda item.</p>
+              <p className="mt-1 text-base text-slate-600">India&apos;s formal papers (submissions, interventions) linked to this agenda item.</p>
               {papers.length === 0 ? (
                 <p className="mt-4 text-slate-500">No papers yet. Create from consolidation or document workflow.</p>
               ) : (
@@ -228,8 +228,8 @@ export function AgendaItemTabs({
                       <Link href={`/papers/${p.paperId}/draft`} className="font-medium text-blue-600 hover:underline">
                         {p.title}
                       </Link>
-                      <span className="ml-2 rounded bg-slate-100 px-2 py-0.5 text-xs text-slate-600">{p.status}</span>
-                      <span className="ml-2 text-sm text-slate-500">Stage: {p.currentStage ?? '—'}</span>
+                      <span className="ml-2 rounded bg-slate-100 px-2 py-0.5 text-sm text-slate-600">{p.status}</span>
+                      <span className="ml-2 text-base text-slate-500">Stage: {p.currentStage ?? '—'}</span>
                     </li>
                   ))}
                 </ul>
@@ -243,19 +243,19 @@ export function AgendaItemTabs({
             <div className="card-body">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h2 className="text-lg font-semibold text-slate-900">Deliberation notes</h2>
-                <Link href={`/meetings/${meetingId}/agenda/${itemId}/deliberations`} className="text-sm font-medium text-blue-600 hover:underline">
+                <Link href={`/meetings/${meetingId}/agenda/${itemId}/deliberations`} className="text-base font-medium text-blue-600 hover:underline">
                   Open full page →
                 </Link>
               </div>
-              <p className="mt-1 text-sm text-slate-600">Internal notes (not shared with IMO).</p>
+              <p className="mt-1 text-base text-slate-600">Internal notes (not shared with IMO).</p>
               {deliberations.length === 0 ? (
                 <p className="mt-4 text-slate-500">No deliberation notes yet.</p>
               ) : (
                 <ul className="mt-4 space-y-4">
                   {deliberations.map((n) => (
                     <li key={n.id} className="rounded border border-slate-200 bg-slate-50/50 p-3">
-                      <p className="text-sm text-slate-800">{n.note}</p>
-                      <p className="mt-2 text-xs text-slate-500">{n.authorName ?? '—'} · {formatDate(n.capturedAt)}</p>
+                      <p className="text-base text-slate-800">{n.note}</p>
+                      <p className="mt-2 text-sm text-slate-500">{n.authorName ?? '—'} · {formatDate(n.capturedAt)}</p>
                     </li>
                   ))}
                 </ul>
@@ -269,7 +269,7 @@ export function AgendaItemTabs({
             <div className="card-body">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h2 className="text-lg font-semibold text-slate-900">Activity / comments</h2>
-                <Link href={`/meetings/${meetingId}/agenda/${itemId}/comments`} className="text-sm font-medium text-blue-600 hover:underline">
+                <Link href={`/meetings/${meetingId}/agenda/${itemId}/comments`} className="text-base font-medium text-blue-600 hover:underline">
                   Open comments page →
                 </Link>
               </div>
@@ -279,8 +279,8 @@ export function AgendaItemTabs({
                 <ul className="mt-4 space-y-3">
                   {comments.map((c) => (
                     <li key={c.id} className="border-l-2 border-slate-200 pl-4">
-                      <p className="text-sm text-slate-800">{c.text}</p>
-                      <p className="mt-1 text-xs text-slate-500">
+                      <p className="text-base text-slate-800">{c.text}</p>
+                      <p className="mt-1 text-sm text-slate-500">
                         {c.authorName} · {formatDate(c.createdAt)}
                       </p>
                     </li>

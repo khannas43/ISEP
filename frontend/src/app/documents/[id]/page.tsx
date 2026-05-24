@@ -77,11 +77,11 @@ export default async function DocumentDetailPage({ params }: Props) {
       <div className="card-body">
         <div className="mb-4">
           {doc.meetingId ? (
-            <Link href={`/meetings/${doc.meetingId}?tab=documents`} className="text-sm font-medium text-blue-600 hover:underline">
+            <Link href={`/meetings/${doc.meetingId}?tab=documents`} className="text-base font-medium text-blue-600 hover:underline">
               ← Back to Meeting Documents
             </Link>
           ) : (
-            <Link href="/documents" className="text-sm font-medium text-blue-600 hover:underline">
+            <Link href="/documents" className="text-base font-medium text-blue-600 hover:underline">
               ← Back to Document Library
             </Link>
           )}
@@ -90,7 +90,7 @@ export default async function DocumentDetailPage({ params }: Props) {
         <p className="mt-1 text-slate-600">
           {doc.documentType?.replace(/_/g, ' ')} · {doc.source?.replace(/_/g, ' ')} · Version {doc.currentVersion ?? 1}
         </p>
-        <dl className="mt-6 grid gap-3 text-sm">
+        <dl className="mt-6 grid gap-3 text-base">
           <div>
             <dt className="text-slate-500">File name</dt>
             <dd className="mt-0.5 font-medium text-slate-900">{doc.fileName ?? '—'}</dd>
@@ -116,8 +116,8 @@ export default async function DocumentDetailPage({ params }: Props) {
 
         {doc.meetingId && (
           <div className="mt-6 border-t border-slate-200 pt-6">
-            <h2 className="text-sm font-semibold text-slate-700 mb-3">Linked meeting</h2>
-            <p className="text-slate-600 text-sm mb-2">
+            <h2 className="text-base font-semibold text-slate-700 mb-3">Linked meeting</h2>
+            <p className="text-slate-600 text-base mb-2">
               This document is used in the following meeting{linkedMeeting ? '' : ' (details unavailable)'}.
             </p>
             {linkedMeeting ? (
@@ -130,12 +130,12 @@ export default async function DocumentDetailPage({ params }: Props) {
                     >
                       {linkedMeeting.title}
                     </Link>
-                    <p className="mt-0.5 text-sm text-slate-500">
+                    <p className="mt-0.5 text-base text-slate-500">
                       {linkedMeeting.bodyName}
                       {linkedMeeting.startDate && ` · ${formatDisplayDate(linkedMeeting.startDate)}`}
                     </p>
                     {doc.agendaItemId && (
-                      <p className="mt-1 text-sm">
+                      <p className="mt-1 text-base">
                         {agendaItemTitle ? (
                           <Link
                             href={`/meetings/${doc.meetingId}/agenda/${doc.agendaItemId}`}
@@ -156,7 +156,7 @@ export default async function DocumentDetailPage({ params }: Props) {
                   </div>
                   <Link
                     href={`/meetings/${doc.meetingId}?tab=documents`}
-                    className="btn-secondary text-sm shrink-0"
+                    className="btn-secondary text-base shrink-0"
                   >
                     Open meeting
                   </Link>
@@ -176,19 +176,19 @@ export default async function DocumentDetailPage({ params }: Props) {
         )}
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href={`/documents/${documentId}/editor`} className="btn-primary text-sm">
+          <Link href={`/documents/${documentId}/editor`} className="btn-primary text-base">
             Open in editor
           </Link>
           <a
             href={`/api/documents/${documentId}/download`}
-            className="btn-secondary text-sm"
+            className="btn-secondary text-base"
             download
           >
             Download
           </a>
-          <Link href={`/documents/${documentId}/new-version`} className="btn-secondary text-sm">Upload new version</Link>
-          <Link href={`/documents/${documentId}/compare`} className="btn-secondary text-sm">Compare versions</Link>
-          <Link href={`/documents/${documentId}/comments`} className="btn-secondary text-sm">Comments</Link>
+          <Link href={`/documents/${documentId}/new-version`} className="btn-secondary text-base">Upload new version</Link>
+          <Link href={`/documents/${documentId}/compare`} className="btn-secondary text-base">Compare versions</Link>
+          <Link href={`/documents/${documentId}/comments`} className="btn-secondary text-base">Comments</Link>
         </div>
       </div>
     </div>

@@ -38,25 +38,25 @@ export function MEDashboard({
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-6">
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Overdue tasks</h3>
+            <h3 className="text-base font-medium text-slate-500">Overdue tasks</h3>
             <p className="mt-1 text-3xl font-semibold text-red-600">{myTasksOverdue.length}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Due soon</h3>
+            <h3 className="text-base font-medium text-slate-500">Due soon</h3>
             <p className="mt-1 text-3xl font-semibold text-amber-600">{myTasksDueSoon.length}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Agenda items for feedback</h3>
+            <h3 className="text-base font-medium text-slate-500">Agenda items for feedback</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{agendaItemsForFeedback.length}</p>
           </div>
         </div>
         <div className="card">
           <div className="card-body">
-            <h3 className="text-sm font-medium text-slate-500">Upcoming deadlines</h3>
+            <h3 className="text-base font-medium text-slate-500">Upcoming deadlines</h3>
             <p className="mt-1 text-3xl font-semibold text-slate-900">{deadlinesCount}</p>
           </div>
         </div>
@@ -66,12 +66,12 @@ export function MEDashboard({
         <div className="card">
           <div className="card-header flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">My tasks</h2>
-            <Link href="/tasks" className="text-sm font-medium text-blue-600 hover:underline">View all</Link>
+            <Link href="/tasks" className="text-base font-medium text-blue-600 hover:underline">View all</Link>
           </div>
           <div className="card-body">
             {myTasksOverdue.length > 0 && (
               <>
-                <p className="text-xs font-medium text-slate-500 uppercase">Overdue</p>
+                <p className="text-sm font-medium text-slate-500 uppercase">Overdue</p>
                 <ul className="mt-2 space-y-2">
                   {myTasksOverdue.slice(0, 3).map((t) => (
                     <li key={t.id}>
@@ -85,7 +85,7 @@ export function MEDashboard({
             )}
             {myTasksDueSoon.length > 0 && (
               <>
-                <p className="mt-4 text-xs font-medium text-slate-500 uppercase">Due soon</p>
+                <p className="mt-4 text-sm font-medium text-slate-500 uppercase">Due soon</p>
                 <ul className="mt-2 space-y-2">
                   {myTasksDueSoon.slice(0, 3).map((t) => (
                     <li key={t.id}>
@@ -98,18 +98,18 @@ export function MEDashboard({
               </>
             )}
             {myTasksOverdue.length === 0 && myTasksDueSoon.length === 0 && (
-              <p className="text-sm text-slate-500">No tasks due. Check back later.</p>
+              <p className="text-base text-slate-500">No tasks due. Check back later.</p>
             )}
           </div>
         </div>
         <div className="card">
           <div className="card-header flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Agenda items for my feedback</h2>
-            <Link href="/meetings" className="text-sm font-medium text-blue-600 hover:underline">Meetings</Link>
+            <Link href="/meetings" className="text-base font-medium text-blue-600 hover:underline">Meetings</Link>
           </div>
           <div className="card-body">
             {agendaItemsForFeedback.length === 0 ? (
-              <p className="text-sm text-slate-500">No agenda items pending your feedback.</p>
+              <p className="text-base text-slate-500">No agenda items pending your feedback.</p>
             ) : (
               <ul className="space-y-2">
                 {agendaItemsForFeedback.slice(0, 5).map((a) => (
@@ -126,11 +126,11 @@ export function MEDashboard({
         <div className="card">
           <div className="card-header flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Co-draft papers</h2>
-            <Link href="/papers" className="text-sm font-medium text-blue-600 hover:underline">View all</Link>
+            <Link href="/papers" className="text-base font-medium text-blue-600 hover:underline">View all</Link>
           </div>
           <div className="card-body">
             {coDraftPapers.length === 0 ? (
-              <p className="text-sm text-slate-500">No papers you are co-drafting.</p>
+              <p className="text-base text-slate-500">No papers you are co-drafting.</p>
             ) : (
               <ul className="space-y-2">
                 {coDraftPapers.slice(0, 3).map((p) => (
@@ -147,11 +147,11 @@ export function MEDashboard({
         <div className="card">
           <div className="card-header flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Recent documents</h2>
-            <Link href="/documents" className="text-sm font-medium text-blue-600 hover:underline">Library</Link>
+            <Link href="/documents" className="text-base font-medium text-blue-600 hover:underline">Library</Link>
           </div>
           <div className="card-body">
             {recentDocs.length === 0 ? (
-              <p className="text-sm text-slate-500">No recent documents.</p>
+              <p className="text-base text-slate-500">No recent documents.</p>
             ) : (
               <ul className="space-y-2">
                 {recentDocs.slice(0, 3).map((d) => (

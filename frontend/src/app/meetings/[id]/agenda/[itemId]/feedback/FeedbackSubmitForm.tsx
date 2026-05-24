@@ -70,16 +70,16 @@ export function FeedbackSubmitForm({ meetingId, itemId, agendaItemTitle, deadlin
         <p className="font-medium text-emerald-800">
           {submitMode === 'submit' ? 'Feedback submitted successfully.' : 'Feedback saved as draft.'}
         </p>
-        <p className="mt-1 text-sm text-emerald-700">
+        <p className="mt-1 text-base text-emerald-700">
           {submitMode === 'submit'
             ? 'It has been sent to the coordinator for consolidation.'
             : 'You can return later to submit, or the coordinator will see it in the list.'}
         </p>
         <div className="mt-4 flex gap-3">
-          <Link href={`/meetings/${meetingId}/agenda/${itemId}?tab=feedback`} className="btn-primary text-sm">
+          <Link href={`/meetings/${meetingId}/agenda/${itemId}?tab=feedback`} className="btn-primary text-base">
             View in Agenda Item
           </Link>
-          <Link href={`/meetings/${meetingId}?tab=agenda`} className="btn-secondary text-sm">
+          <Link href={`/meetings/${meetingId}?tab=agenda`} className="btn-secondary text-base">
             Back to Agenda
           </Link>
         </div>
@@ -90,12 +90,12 @@ export function FeedbackSubmitForm({ meetingId, itemId, agendaItemTitle, deadlin
   return (
     <form onSubmit={handleSubmit} className="mt-6 space-y-6">
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-base text-red-800">
           {error}
         </div>
       )}
       <div>
-        <label className="block text-sm font-medium text-slate-700">Position</label>
+        <label className="block text-base font-medium text-slate-700">Position</label>
         <select
           value={position}
           onChange={(e) => setPosition(e.target.value)}
@@ -109,7 +109,7 @@ export function FeedbackSubmitForm({ meetingId, itemId, agendaItemTitle, deadlin
         </select>
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Comments (required)</label>
+        <label className="block text-base font-medium text-slate-700">Comments (required)</label>
         <textarea
           value={comments}
           onChange={(e) => setComments(e.target.value)}
@@ -119,7 +119,7 @@ export function FeedbackSubmitForm({ meetingId, itemId, agendaItemTitle, deadlin
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700">Suggested amendments</label>
+        <label className="block text-base font-medium text-slate-700">Suggested amendments</label>
         <textarea
           value={amendments}
           onChange={(e) => setAmendments(e.target.value)}
@@ -129,7 +129,7 @@ export function FeedbackSubmitForm({ meetingId, itemId, agendaItemTitle, deadlin
         />
       </div>
       {deadline && (
-        <p className="text-sm text-slate-500">Deadline: {deadline}</p>
+        <p className="text-base text-slate-500">Deadline: {deadline}</p>
       )}
       <div className="flex flex-wrap gap-3">
         <button type="submit" disabled={saving} className="btn-primary">

@@ -52,12 +52,12 @@ export function FeedbackConsolidateView({ meetingId, itemId, agendaItem, feedbac
       <div className="card">
         <div className="card-body">
           <p className="font-medium text-emerald-800">Consolidation finalized (demo).</p>
-          <p className="mt-1 text-sm text-emerald-700">Ready for Delegation Leader review.</p>
+          <p className="mt-1 text-base text-emerald-700">Ready for Delegation Leader review.</p>
           <div className="mt-4 flex gap-3">
-            <Link href={`/meetings/${meetingId}/agenda/${itemId}`} className="btn-primary text-sm">
+            <Link href={`/meetings/${meetingId}/agenda/${itemId}`} className="btn-primary text-base">
               Back to Agenda Item
             </Link>
-            <Link href={`/meetings/${meetingId}?tab=agenda`} className="btn-secondary text-sm">
+            <Link href={`/meetings/${meetingId}?tab=agenda`} className="btn-secondary text-base">
               Agenda list
             </Link>
           </div>
@@ -77,26 +77,26 @@ export function FeedbackConsolidateView({ meetingId, itemId, agendaItem, feedbac
         <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Left: member list */}
           <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-4">
-            <h2 className="text-sm font-semibold text-slate-900">Members</h2>
+            <h2 className="text-base font-semibold text-slate-900">Members</h2>
             <ul className="mt-2 space-y-1">
               {feedback.map((f) => (
                 <li key={f.userId}>
                   <button
                     type="button"
                     onClick={() => setSelectedId(f.userId)}
-                    className={`w-full rounded px-2 py-1.5 text-left text-sm ${
+                    className={`w-full rounded px-2 py-1.5 text-left text-base ${
                       selectedId === f.userId ? 'bg-blue-100 text-blue-900' : 'hover:bg-slate-100'
                     }`}
                   >
                     {f.userName}
-                    <span className="ml-2 text-xs text-slate-500">({f.status})</span>
+                    <span className="ml-2 text-sm text-slate-500">({f.status})</span>
                   </button>
                 </li>
               ))}
             </ul>
             <div className="mt-4 border-t border-slate-200 pt-3">
-              <p className="text-xs font-medium text-slate-600">Position distribution</p>
-              <p className="mt-1 text-sm text-slate-700">
+              <p className="text-sm font-medium text-slate-600">Position distribution</p>
+              <p className="mt-1 text-base text-slate-700">
                 Support {supportCount}, Object {objectCount}, Neutral {neutralCount}, Abstain {abstainCount}
               </p>
             </div>
@@ -104,15 +104,15 @@ export function FeedbackConsolidateView({ meetingId, itemId, agendaItem, feedbac
 
           {/* Centre: selected member feedback */}
           <div className="rounded-lg border border-slate-200 p-4">
-            <h2 className="text-sm font-semibold text-slate-900">Selected input</h2>
+            <h2 className="text-base font-semibold text-slate-900">Selected input</h2>
             {selected ? (
-              <div className="mt-3 space-y-2 text-sm">
+              <div className="mt-3 space-y-2 text-base">
                 <p><span className="font-medium text-slate-600">Position:</span> {selected.position}</p>
                 <p><span className="font-medium text-slate-600">Comments:</span> {selected.comments || '—'}</p>
                 {(selected.suggestedAmendments ?? (selected as { amendments?: string }).amendments) && (
                   <p><span className="font-medium text-slate-600">Amendments:</span> {selected.suggestedAmendments ?? (selected as { amendments?: string }).amendments}</p>
                 )}
-                <p className="text-xs text-slate-500">Submitted {formatDate(selected.submittedAt)}</p>
+                <p className="text-sm text-slate-500">Submitted {formatDate(selected.submittedAt)}</p>
               </div>
             ) : (
               <p className="mt-2 text-slate-500">Select a member from the list.</p>
@@ -121,14 +121,14 @@ export function FeedbackConsolidateView({ meetingId, itemId, agendaItem, feedbac
 
           {/* Right: consolidation workspace */}
           <div className="rounded-lg border border-slate-200 p-4">
-            <h2 className="text-sm font-semibold text-slate-900">Consolidated position</h2>
+            <h2 className="text-base font-semibold text-slate-900">Consolidated position</h2>
             <div className="mt-3 space-y-3">
               <div>
-                <label className="block text-xs font-medium text-slate-600">Position</label>
+                <label className="block text-sm font-medium text-slate-600">Position</label>
                 <select
                   value={consolidatedPosition}
                   onChange={(e) => setConsolidatedPosition(e.target.value)}
-                  className="input-base mt-1 w-full text-sm"
+                  className="input-base mt-1 w-full text-base"
                 >
                   <option value="SUPPORT">Support</option>
                   <option value="OBJECT">Object</option>
@@ -137,12 +137,12 @@ export function FeedbackConsolidateView({ meetingId, itemId, agendaItem, feedbac
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-600">Consolidated text</label>
+                <label className="block text-sm font-medium text-slate-600">Consolidated text</label>
                 <textarea
                   value={consolidatedText}
                   onChange={(e) => setConsolidatedText(e.target.value)}
                   rows={6}
-                  className="input-base mt-1 w-full text-sm"
+                  className="input-base mt-1 w-full text-base"
                   placeholder="Draft the consolidated group position..."
                 />
               </div>

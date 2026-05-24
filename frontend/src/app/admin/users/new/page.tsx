@@ -23,7 +23,7 @@ export default async function NewUserPage() {
   return (
     <>
       <div className="mb-6">
-        <Link href="/admin/users" className="text-sm font-medium text-slate-500 hover:text-slate-700">
+        <Link href="/admin/users" className="text-base font-medium text-slate-500 hover:text-slate-700">
           ← Back to User list
         </Link>
       </div>

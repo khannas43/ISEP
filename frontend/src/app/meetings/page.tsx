@@ -53,14 +53,14 @@ async function getMeetings(
 
 function meetingStatusBadge(s: string): string {
   const map: Record<string, string> = {
-    ACTIVE: 'rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-800',
-    CONCLUDED: 'rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700',
-    ARCHIVED: 'rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700',
-    CANCELLED: 'rounded-full bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-800',
-    PLANNED: 'rounded-full bg-[var(--navy-100)] px-2 py-0.5 text-xs font-semibold text-[var(--navy-800)]',
+    ACTIVE: 'rounded-full bg-emerald-50 px-2 py-0.5 text-base font-semibold text-emerald-800',
+    CONCLUDED: 'rounded-full bg-slate-100 px-2 py-0.5 text-base font-semibold text-slate-700',
+    ARCHIVED: 'rounded-full bg-slate-100 px-2 py-0.5 text-base font-semibold text-slate-700',
+    CANCELLED: 'rounded-full bg-red-50 px-2 py-0.5 text-base font-semibold text-red-800',
+    PLANNED: 'rounded-full bg-[var(--navy-100)] px-2 py-0.5 text-base font-semibold text-[var(--navy-800)]',
   };
   const key = (s || '').toUpperCase();
-  return map[key] ?? 'rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700';
+  return map[key] ?? 'rounded-full bg-slate-100 px-2 py-0.5 text-base font-semibold text-slate-700';
 }
 
 function meetingListAccent(status: string | undefined): string {
@@ -201,12 +201,12 @@ export default async function MeetingsListPage({ searchParams }: Props) {
           />
           <div>
             <h1
-              className="text-2xl font-bold tracking-tight text-[var(--navy-800)] sm:text-3xl"
+              className="text-3xl font-bold tracking-tight text-[var(--navy-800)]"
               style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
             >
               Meetings
             </h1>
-            <p className="mt-1 text-sm text-[var(--slate-500)]">Browse and filter meetings by body, status, and type.</p>
+            <p className="mt-1 text-base text-[var(--slate-500)]">Browse and filter meetings by body, status, and type.</p>
           </div>
         </div>
         {canCreateMeeting && (
@@ -218,12 +218,12 @@ export default async function MeetingsListPage({ searchParams }: Props) {
 
       <div className="card mb-6">
         <div className="card-header">
-          <h2 className="text-sm font-semibold text-slate-700">Filters</h2>
+          <h2 className="text-base font-semibold text-slate-700">Filters</h2>
         </div>
         <div className="card-body">
           <form method="get" action="/meetings" className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Search</span>
+              <span className="text-base font-medium text-slate-600">Search</span>
               <input
                 type="search"
                 name="q"
@@ -233,7 +233,7 @@ export default async function MeetingsListPage({ searchParams }: Props) {
               />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Body</span>
+              <span className="text-base font-medium text-slate-600">Body</span>
               <select name="bodyId" defaultValue={bodyId ?? ''} className="input-base min-w-[200px]">
                 <option value="">All bodies</option>
                 {bodies.map((b) => (
@@ -244,7 +244,7 @@ export default async function MeetingsListPage({ searchParams }: Props) {
               </select>
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Status</span>
+              <span className="text-base font-medium text-slate-600">Status</span>
               <select name="status" defaultValue={status ?? ''} className="input-base min-w-[140px]">
                 {statusOptions.map((o) => (
                   <option key={o.value} value={o.value}>{o.label}</option>
@@ -252,7 +252,7 @@ export default async function MeetingsListPage({ searchParams }: Props) {
               </select>
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Year</span>
+              <span className="text-base font-medium text-slate-600">Year</span>
               <select name="year" defaultValue={params.year ?? ''} className="input-base min-w-[100px]">
                 {yearOptions.map((o) => (
                   <option key={o.value} value={o.value}>{o.label}</option>
@@ -260,7 +260,7 @@ export default async function MeetingsListPage({ searchParams }: Props) {
               </select>
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Type</span>
+              <span className="text-base font-medium text-slate-600">Type</span>
               <select name="meetingType" defaultValue={meetingType ?? ''} className="input-base min-w-[120px]">
                 {meetingTypeOptions.map((o) => (
                   <option key={o.value} value={o.value}>{o.label}</option>
@@ -274,7 +274,7 @@ export default async function MeetingsListPage({ searchParams }: Props) {
         </div>
       </div>
 
-      <div className="mb-4 flex flex-wrap gap-2 text-xs font-medium text-[var(--slate-600)]">
+      <div className="mb-4 flex flex-wrap gap-2 text-base font-medium text-[var(--slate-600)]">
         <span className="self-center text-[var(--slate-500)]">Sort:</span>
         <Link href={buildSortUrl(params, 'title')} className="rounded-md bg-white px-2 py-1 ring-1 ring-[var(--slate-200)] hover:bg-[var(--slate-50)]">
           Title {sortBy === 'title' && (sortDir === 'asc' ? '↑' : '↓')}
@@ -295,7 +295,7 @@ export default async function MeetingsListPage({ searchParams }: Props) {
           <div className="rounded-xl border border-[var(--slate-200)] bg-white py-12 text-center shadow-sm">
             <p className="text-[var(--slate-500)]">No meetings found. Try adjusting your filters.</p>
             {!accessToken && (
-              <p className="mt-2 text-sm text-amber-600">You may need to sign in again so the app can load data from the API.</p>
+              <p className="mt-2 text-base text-amber-600">You may need to sign in again so the app can load data from the API.</p>
             )}
           </div>
         ) : (
@@ -315,25 +315,25 @@ export default async function MeetingsListPage({ searchParams }: Props) {
                 <div className="flex flex-wrap items-start justify-between gap-4 px-5 py-4">
                   <div className="min-w-0 flex-1">
                     <div className="mb-2 flex flex-wrap items-center gap-2">
-                      <span className="rounded-full bg-[var(--navy-100)] px-2.5 py-0.5 text-xs font-semibold text-[var(--navy-800)]">
+                      <span className="rounded-full bg-[var(--navy-100)] px-2.5 py-0.5 text-base font-semibold text-[var(--navy-800)]">
                         {m.bodyName}
                       </span>
                       <span className={meetingStatusBadge(m.status)}>{m.status}</span>
                     </div>
                     <Link
                       href={`/meetings/${m.meetingId}`}
-                      className="text-lg font-semibold text-[var(--navy-800)] hover:text-[var(--navy-600)]"
+                      className="text-3xl font-semibold text-[var(--navy-800)] hover:text-[var(--navy-600)]"
                     >
                       {m.title}
                     </Link>
-                    <p className="mt-1 text-sm text-[var(--slate-500)]">
+                    <p className="mt-1 text-base text-[var(--slate-500)]">
                       {when} · {m.meetingType.replace(/_/g, ' ')}
                       {m.sessionNumber ? ` · Session ${m.sessionNumber}` : ''}
                     </p>
                   </div>
                   <Link
                     href={`/meetings/${m.meetingId}`}
-                    className="shrink-0 text-sm font-medium text-[var(--navy-500)] hover:underline"
+                    className="shrink-0 text-base font-medium text-[var(--navy-500)] hover:underline"
                   >
                     Open →
                   </Link>
@@ -345,7 +345,7 @@ export default async function MeetingsListPage({ searchParams }: Props) {
       </div>
 
       {meetingsPage.totalPages > 1 && (
-        <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
+        <div className="mt-4 flex flex-wrap items-center gap-4 text-base">
           {page > 0 && (
             <Link
               href={`/meetings?${new URLSearchParams(

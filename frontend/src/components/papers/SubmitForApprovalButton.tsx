@@ -37,7 +37,7 @@ export function SubmitForApprovalButton({ paperId, currentStatus, onSubmitted }:
         type="button"
         onClick={() => void submit()}
         disabled={submitting || !accessToken}
-        className="btn-primary text-sm"
+        className="btn-primary text-base"
       >
         {submitting ? t('common.saving') : t('paper.submitForApproval')}
       </button>

@@ -105,13 +105,13 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
   }
 
   if (status === 'loading' || loading) {
-    return <p className="text-sm text-slate-500">{t('common.loading')}</p>
+    return <p className="text-base text-slate-500">{t('common.loading')}</p>
   }
   if (!accessToken) {
-    return <p className="text-sm text-amber-700">{t('common.error')}</p>
+    return <p className="text-base text-amber-700">{t('common.error')}</p>
   }
   if (error || !diff) {
-    return <p className="text-sm text-red-600">{t('common.error')}</p>
+    return <p className="text-base text-red-600">{t('common.error')}</p>
   }
 
   const pendingChanges = diff.changes.filter(
@@ -125,7 +125,7 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h2 className="text-base font-medium text-slate-900">{t('diff.title')}</h2>
-          <p className="text-xs text-slate-500">
+          <p className="text-sm text-slate-500">
             {t('diff.comparing', {
               from: fromVersion,
               fromDate: formatDateTime(diff.fromSavedAt),
@@ -140,7 +140,7 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
               type="button"
               onClick={() => void generateCleanCopy('REJECT_ALL')}
               disabled={generating}
-              className="rounded border-2 border-red-400 bg-white px-3 py-1.5 text-xs font-medium text-red-700 hover:bg-red-50 disabled:opacity-50"
+              className="rounded border-2 border-red-400 bg-white px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-50 disabled:opacity-50"
             >
               {t('diff.rejectAll')}
             </button>
@@ -148,7 +148,7 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
               type="button"
               onClick={() => void generateCleanCopy('ACCEPT_ALL')}
               disabled={generating}
-              className="rounded bg-[var(--navy-600)] px-3 py-1.5 text-xs font-medium text-white hover:bg-[var(--navy-700)] disabled:opacity-50"
+              className="rounded bg-[var(--navy-600)] px-3 py-1.5 text-sm font-medium text-white hover:bg-[var(--navy-700)] disabled:opacity-50"
             >
               {t('diff.acceptAll')}
             </button>
@@ -157,7 +157,7 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
                 type="button"
                 onClick={() => void generateCleanCopy('USE_DECISIONS')}
                 disabled={generating}
-                className="rounded bg-[var(--navy-600)] px-3 py-1.5 text-xs font-semibold text-white ring-2 ring-[var(--gold-400)] ring-offset-1 hover:bg-[var(--navy-700)] disabled:opacity-50"
+                className="rounded bg-[var(--navy-600)] px-3 py-1.5 text-sm font-semibold text-white ring-2 ring-[var(--gold-400)] ring-offset-1 hover:bg-[var(--navy-700)] disabled:opacity-50"
               >
                 {generating ? t('common.saving') : t('diff.generateCleanCopy')}
               </button>
@@ -167,12 +167,12 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
       </div>
 
       {pendingChanges > 0 && (
-        <p className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+        <p className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
           {t('diff.pendingDecisions', { count: pendingChanges })}
         </p>
       )}
 
-      <div className="overflow-hidden rounded-lg border border-[var(--slate-200)] font-mono text-sm shadow-sm">
+      <div className="overflow-hidden rounded-lg border border-[var(--slate-200)] font-mono text-base shadow-sm">
         {diff.changes.map((chunk) => (
           <div
             key={chunk.changeIndex}
@@ -185,7 +185,7 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
             } ${chunk.decision === 'REJECTED' ? 'opacity-40' : ''}`}
           >
             <span
-              className={`mt-0.5 w-4 shrink-0 text-xs font-bold ${
+              className={`mt-0.5 w-4 shrink-0 text-sm font-bold ${
                 chunk.type === 'INSERTED'
                   ? 'text-green-600'
                   : chunk.type === 'DELETED'
@@ -197,7 +197,7 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
             </span>
             <span className="flex-1 whitespace-pre-wrap">{chunk.text}</span>
             {chunk.authorName && (
-              <span className="shrink-0 text-right text-xs text-slate-400">{chunk.authorName}</span>
+              <span className="shrink-0 text-right text-sm text-slate-400">{chunk.authorName}</span>
             )}
             {chunk.type !== 'UNCHANGED' && (
               <RoleGuard allowedRoles={['SYSTEM_ADMIN', 'IC_DIVISION_HEAD', 'DELEGATION_LEADER']}>
@@ -205,7 +205,7 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
                   <button
                     type="button"
                     onClick={() => void recordDecision(chunk.changeIndex, 'ACCEPTED')}
-                    className={`rounded px-2 py-0.5 text-xs font-medium ${
+                    className={`rounded px-2 py-0.5 text-sm font-medium ${
                       chunk.decision === 'ACCEPTED'
                         ? 'bg-[var(--navy-600)] text-white'
                         : 'bg-[var(--navy-600)] text-white hover:bg-[var(--navy-700)]'
@@ -217,7 +217,7 @@ export function VersionDiffViewer({ documentId, fromVersion, toVersion }: Props)
                   <button
                     type="button"
                     onClick={() => void recordDecision(chunk.changeIndex, 'REJECTED')}
-                    className={`rounded border-2 px-2 py-0.5 text-xs font-medium ${
+                    className={`rounded border-2 px-2 py-0.5 text-sm font-medium ${
                       chunk.decision === 'REJECTED'
                         ? 'border-red-600 bg-red-600 text-white'
                         : 'border-red-400 bg-white text-red-700 hover:bg-red-50'

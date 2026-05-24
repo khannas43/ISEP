@@ -55,19 +55,24 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const logicalPath = getLogicalPathname(pathname);
 
-  // Never touch Next.js internals (chunks, HMR, devtools) — avoids rare cases where middleware interferes with asset serving.
-  if (pathname.startsWith('/_next/')) {
+  // Never touch Next.js internals (chunks, HMR, devtools). With basePath, assets live at /isep/_next/…
+  // so pathname.startsWith('/_next/') is not enough — use logical path after stripping basePath.
+  if (logicalPath.startsWith('/_next/')) {
     return NextResponse.next();
   }
 
-  // Avoid 308 from Next.js trailingSlash: true — rewrite so backend sees trailing slash and does not redirect (POST body would be lost)
-  if (request.method === 'POST' && pathname === '/api/auth/callback/credentials') {
-    const url = request.nextUrl.clone();
-    url.pathname = '/api/auth/callback/credentials/';
-    return NextResponse.rewrite(url);
+  // API routes are under basePath too (e.g. /isep/api/auth/…).
+  if (logicalPath.startsWith('/api/')) {
+    // Avoid 308 from Next.js trailingSlash: true — rewrite so backend sees trailing slash (POST body would be lost)
+    if (request.method === 'POST' && logicalPath === '/api/auth/callback/credentials') {
+      const url = request.nextUrl.clone();
+      if (!url.pathname.endsWith('/')) {
+        url.pathname += '/';
+        return NextResponse.rewrite(url);
+      }
+    }
+    return NextResponse.next();
   }
-
-  if (pathname.startsWith('/api/')) return NextResponse.next();
   if (isPublicPath(logicalPath)) return handlePublicPath(logicalPath, request);
 
   const token = await getToken({

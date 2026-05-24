@@ -3,10 +3,88 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@/lib/auth';
 import type { MeetingPreparednessDto } from '@/lib/api';
 
+/** Demo meeting — rich mock preparedness (aligned with DB seeds / UAT). */
+const DEMO_MEETING_ID = '00000000-0000-0000-0000-000000000001';
+
+const DEMO_AGENDA_ITEM_ID = '00000000-0000-0000-0000-000000000101';
+const DEMO_PAPER_ID = '00000000-0000-0000-0000-000000000501';
+const DEMO_TASK_ID = '00000000-0000-0000-0000-000000000401';
+
+function buildDemoMock(meetingId: string): MeetingPreparednessDto {
+  return {
+    meetingId,
+    meetingTitle: 'MSC 108',
+    daysToMeeting: 15,
+    score: 62,
+    riskLevel: 'AMBER',
+    executiveSummary:
+      'Meeting preparedness is at 62/100 (Amber). Three critical actions require resolution before the meeting: agenda item 4.1 has pending feedback from 3 members, the MARPOL Annex VI demo paper needs attention, and 4 tasks are overdue.',
+    criticalActions: [
+      {
+        severity: 'CRITICAL',
+        description:
+          'Agenda item 4.1 — No feedback received from 3 of 6 assigned members. Deadline passed 2 days ago.',
+        linkedEntityType: 'AGENDA_ITEM',
+        linkedEntityId: DEMO_AGENDA_ITEM_ID,
+        recommendedAction: 'View Item',
+      },
+      {
+        severity: 'CRITICAL',
+        description:
+          'Paper: "India — MARPOL Annex VI amendments (demo paper)" — stuck at IC Division approval for 8 days. Deadline: 3 days.',
+        linkedEntityType: 'PAPER',
+        linkedEntityId: DEMO_PAPER_ID,
+        recommendedAction: 'View Paper',
+      },
+      {
+        severity: 'WARNING',
+        description: 'Agenda Items 7.1, 7.2, 7.3 — Feedback consolidated but not yet reviewed by Delegation Leader.',
+        linkedEntityType: 'AGENDA_ITEM',
+        linkedEntityId: DEMO_AGENDA_ITEM_ID,
+        recommendedAction: 'View Items',
+      },
+      {
+        severity: 'WARNING',
+        description: '4 tasks overdue across 3 agenda items.',
+        linkedEntityType: 'TASK',
+        linkedEntityId: DEMO_TASK_ID,
+        recommendedAction: 'View Tasks',
+      },
+    ],
+    projectedScoreAtMeetingDate: 78,
+    keyStrengths: [
+      '11 of 14 agenda items: positions finalized.',
+      'All delegation participants confirmed.',
+      'All reference documents uploaded.',
+    ],
+    narrative:
+      'At current pace the delegation can reach 78/100 by meeting date with 3 items at risk. Resolving the two critical actions above would bring the score to approximately 90/100. The main gaps are pending member feedback on agenda item 4.1 and the MARPOL Annex VI paper awaiting IC Division approval.',
+    lastComputedAt: new Date().toISOString(),
+  };
+}
+
+function buildGenericMock(meetingId: string): MeetingPreparednessDto {
+  return {
+    meetingId,
+    meetingTitle: 'Meeting',
+    daysToMeeting: 0,
+    score: 55,
+    riskLevel: 'AMBER',
+    executiveSummary:
+      'Preparedness scoring for this meeting is not included in the demo mock. Use the demo meeting (MSC 108 sample) or connect the backend AI service for live scores.',
+    criticalActions: [],
+    projectedScoreAtMeetingDate: undefined,
+    keyStrengths: [],
+    narrative: '',
+    lastComputedAt: new Date().toISOString(),
+  };
+}
+
 /**
  * GET /api/ai/meeting-preparedness?meetingId=...
  * AI Feature 2 — Meeting Preparedness Intelligence. SA + CO only.
  * Returns mock preparedness until backend computation + Claude integration.
+ * Demo UUID `DEMO_MEETING_ID` returns linked entities aligned with DB seeds.
  */
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
@@ -24,51 +102,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'meetingId required' }, { status: 400 });
   }
 
-  // Mock response; replace with backend call when ready
-  const mock: MeetingPreparednessDto = {
-    meetingId,
-    meetingTitle: 'MSC 108',
-    daysToMeeting: 15,
-    score: 62,
-    riskLevel: 'AMBER',
-    executiveSummary:
-      'Meeting preparedness is at 62/100 (Amber). Three critical actions require resolution before the meeting: agenda item 4.3 has pending feedback from 3 members, one paper is stuck at IC Division approval, and 4 tasks are overdue.',
-    criticalActions: [
-      {
-        severity: 'CRITICAL',
-        description: 'Agenda Item 4.3 — No feedback received from 3 of 6 assigned members. Deadline passed 2 days ago.',
-        linkedEntityType: 'AGENDA_ITEM',
-        linkedEntityId: 'item-4-3',
-        recommendedAction: 'View Item',
-      },
-      {
-        severity: 'CRITICAL',
-        description: "Paper: \"India's Position on GHG Strategy\" stuck at IC Division approval for 8 days. Deadline: 3 days.",
-        linkedEntityType: 'PAPER',
-        linkedEntityId: 'paper-ghg',
-        recommendedAction: 'View Paper',
-      },
-      {
-        severity: 'WARNING',
-        description: 'Agenda Items 7.1, 7.2, 7.3 — Feedback consolidated but not yet reviewed by Delegation Leader.',
-        recommendedAction: 'View Items',
-      },
-      {
-        severity: 'WARNING',
-        description: '4 tasks overdue across 3 agenda items.',
-        recommendedAction: 'View Tasks',
-      },
-    ],
-    projectedScoreAtMeetingDate: 78,
-    keyStrengths: [
-      '11 of 14 agenda items: positions finalized.',
-      'All delegation participants confirmed.',
-      'All reference documents uploaded.',
-    ],
-    narrative:
-      'At current pace the delegation can reach 78/100 by meeting date with 3 items at risk. Resolving the two critical actions above would bring the score to approximately 90/100. The main gaps are pending member feedback on agenda item 4.3 and the GHG strategy paper awaiting IC Division approval.',
-    lastComputedAt: new Date().toISOString(),
-  };
+  const mock =
+    meetingId === DEMO_MEETING_ID ? buildDemoMock(meetingId) : buildGenericMock(meetingId);
 
   return NextResponse.json(mock);
 }

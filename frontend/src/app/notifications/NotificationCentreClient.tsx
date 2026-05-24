@@ -45,14 +45,14 @@ export function NotificationCentreClient({ notifications, unreadCount }: Props) 
       <div className="card-body">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           {unreadCount > 0 && (
-            <p className="text-sm text-slate-600">{unreadCount} unread</p>
+            <p className="text-base text-slate-600">{unreadCount} unread</p>
           )}
           {unreadCount > 0 && (
             <button
               type="button"
               onClick={handleMarkAllRead}
               disabled={markingAll}
-              className="btn-secondary text-sm"
+              className="btn-secondary text-base"
             >
               {markingAll ? 'Updating…' : 'Mark all as read'}
             </button>
@@ -71,12 +71,12 @@ export function NotificationCentreClient({ notifications, unreadCount }: Props) 
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <p className="font-medium text-slate-900">{n.title ?? n.notificationType}</p>
-                    <p className="mt-1 text-sm text-slate-600">{n.message ?? ''}</p>
-                    <p className="mt-1 text-xs text-slate-500">
+                    <p className="mt-1 text-base text-slate-600">{n.message ?? ''}</p>
+                    <p className="mt-1 text-sm text-slate-500">
                       {n.createdAt ? new Date(n.createdAt).toLocaleString() : ''}
                     </p>
                     {link && (
-                      <Link href={link} className="mt-2 inline-block text-sm text-blue-600 hover:underline">
+                      <Link href={link} className="mt-2 inline-block text-base text-blue-600 hover:underline">
                         View →
                       </Link>
                     )}
@@ -87,13 +87,13 @@ export function NotificationCentreClient({ notifications, unreadCount }: Props) 
                         type="button"
                         onClick={() => handleMarkRead(n.notificationId)}
                         disabled={markingId === n.notificationId}
-                        className="text-xs font-medium text-blue-600 hover:underline disabled:opacity-50"
+                        className="text-sm font-medium text-blue-600 hover:underline disabled:opacity-50"
                       >
                         {markingId === n.notificationId ? '…' : 'Mark read'}
                       </button>
                     )}
                     <span
-                      className={`rounded px-2 py-0.5 text-xs ${
+                      className={`rounded px-2 py-0.5 text-sm ${
                         n.isRead ? 'bg-slate-200 text-slate-600' : 'bg-blue-200 text-blue-800'
                       }`}
                     >

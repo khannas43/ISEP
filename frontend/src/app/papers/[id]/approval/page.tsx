@@ -60,14 +60,14 @@ export default async function PaperApprovalPage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/papers" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Papers list</Link>
+        <Link href="/papers" className="text-base font-medium text-slate-500 hover:text-slate-700">← Papers list</Link>
       </div>
       <div className="card">
         <div className="card-body">
           <h1 className="page-title">Approval workflow</h1>
           <p className="page-subtitle">{approval.paperTitle}</p>
           {status && (
-            <p className="mt-2 text-xs text-slate-500">
+            <p className="mt-2 text-sm text-slate-500">
               {status.submittedAt && (
                 <>
                   Submitted {formatDate(status.submittedAt)}
@@ -99,19 +99,19 @@ export default async function PaperApprovalPage({ params }: Props) {
                   stage.status === 'PENDING' ? 'border-amber-200 bg-amber-50/50' : 'border-slate-200'
                 }`}
               >
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-200 text-sm font-medium text-slate-700">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-200 text-base font-medium text-slate-700">
                   {i + 1}
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-slate-900">{stage.stageName}</p>
-                  <p className="text-sm text-slate-600">Approver: {stage.approverName ?? '—'}</p>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-base text-slate-600">Approver: {stage.approverName ?? '—'}</p>
+                  <p className="text-sm text-slate-500">
                     {stage.status === 'APPROVED' && `Approved ${formatDate(stage.actedAt)}`}
                     {stage.status === 'REJECTED' && `Rejected ${formatDate(stage.actedAt)}`}
                     {stage.status === 'PENDING' && 'Pending'}
                   </p>
                 </div>
-                <span className={`rounded px-2 py-0.5 text-xs font-medium ${
+                <span className={`rounded px-2 py-0.5 text-sm font-medium ${
                   stage.status === 'APPROVED' ? 'bg-emerald-100 text-emerald-800' :
                   stage.status === 'REJECTED' ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'
                 }`}>

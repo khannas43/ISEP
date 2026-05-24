@@ -33,10 +33,10 @@ export default function GlobalError({
             boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
           }}
         >
-          <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0f172a' }}>
+          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#0f172a' }}>
             Something went wrong
           </h1>
-          <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: '#475569' }}>
+          <p style={{ marginTop: '0.5rem', fontSize: '15px', lineHeight: 1.7, color: '#475569' }}>
             A critical error occurred. Please try again.
           </p>
           <button
@@ -45,7 +45,7 @@ export default function GlobalError({
             style={{
               marginTop: '1.5rem',
               padding: '0.625rem 1rem',
-              fontSize: '0.875rem',
+              fontSize: '15px',
               fontWeight: 500,
               color: '#fff',
               backgroundColor: '#2563eb',

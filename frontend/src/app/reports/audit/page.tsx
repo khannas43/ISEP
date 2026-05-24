@@ -29,14 +29,14 @@ export default async function AuditReportPage() {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/reports" className="text-sm font-medium text-slate-500 hover:text-slate-700">← Reports</Link>
+        <Link href="/reports" className="text-base font-medium text-slate-500 hover:text-slate-700">← Reports</Link>
       </div>
       <div className="card">
         <div className="card-body">
           <h1 className="page-title">Audit report</h1>
           <p className="page-subtitle">Searchable audit log. Filters: user, action type, entity, date range, IP. Export CSV/JSON. Immutable.</p>
           <div className="mt-6 overflow-x-auto">
-            <table className="min-w-full text-sm">
+            <table className="min-w-full text-base">
               <thead>
                 <tr>
                   <th className="table-header px-4 py-2 text-left">Time</th>

@@ -62,12 +62,12 @@ export default async function CalendarPage({ searchParams }: Props) {
       </div>
       <div className="card mb-6">
         <div className="card-header">
-          <h2 className="text-sm font-semibold text-slate-700">Search</h2>
+          <h2 className="text-base font-semibold text-slate-700">Search</h2>
         </div>
         <div className="card-body">
           <form method="get" action="/calendar" className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Meeting title or body</span>
+              <span className="text-sm font-medium text-slate-600">Meeting title or body</span>
               <input type="search" name="q" defaultValue={q} placeholder="Search meetings…" className="input-base min-w-[220px]" />
             </label>
             <button type="submit" className="btn-secondary">Search</button>
@@ -90,9 +90,9 @@ export default async function CalendarPage({ searchParams }: Props) {
                       <Link href={`/meetings/${m.meetingId}`} className="font-medium text-slate-900 hover:text-blue-600 hover:underline">
                         {m.title}
                       </Link>
-                      <p className="text-xs text-slate-500">{m.bodyName}</p>
+                      <p className="text-sm text-slate-500">{m.bodyName}</p>
                     </div>
-                    <span className="shrink-0 text-sm text-slate-600">{formatDisplayDate(m.startDate)}</span>
+                    <span className="shrink-0 text-base text-slate-600">{formatDisplayDate(m.startDate)}</span>
                   </li>
                 ))}
               </ul>
@@ -114,9 +114,9 @@ export default async function CalendarPage({ searchParams }: Props) {
                       <Link href={`/meetings/${m.meetingId}`} className="font-medium text-slate-900 hover:text-blue-600 hover:underline">
                         {m.title}
                       </Link>
-                      <p className="text-xs text-slate-500">{m.bodyName}</p>
+                      <p className="text-sm text-slate-500">{m.bodyName}</p>
                     </div>
-                    <span className="shrink-0 text-sm text-slate-500">{formatDisplayDate(m.startDate)}</span>
+                    <span className="shrink-0 text-base text-slate-500">{formatDisplayDate(m.startDate)}</span>
                   </li>
                 ))}
               </ul>
@@ -125,7 +125,7 @@ export default async function CalendarPage({ searchParams }: Props) {
         </div>
       </div>
       <div className="mt-4">
-        <Link href="/meetings" className="text-sm font-medium text-blue-600 hover:underline">
+        <Link href="/meetings" className="text-base font-medium text-blue-600 hover:underline">
           ← All meetings
         </Link>
       </div>

@@ -7,6 +7,7 @@ const DEFAULT_CALLBACK = '/dashboard';
 export function sanitizeCallbackUrl(value: string | null | undefined): string {
   if (value == null || value === '' || value === '#') return DEFAULT_CALLBACK;
   const trimmed = value.trim();
-  if (!trimmed.startsWith('/')) return DEFAULT_CALLBACK;
+  // Single leading slash only — reject protocol-relative "//host" (still starts with "/")
+  if (!trimmed.startsWith('/') || trimmed.startsWith('//')) return DEFAULT_CALLBACK;
   return trimmed;
 }

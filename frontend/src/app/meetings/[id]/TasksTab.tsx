@@ -34,7 +34,7 @@ export function TasksTab({ meetingId, tasks, canCreate }: Props) {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Tasks</h2>
-            <p className="mt-1 text-sm text-slate-500">Tasks linked to this meeting.</p>
+            <p className="mt-1 text-base text-slate-500">Tasks linked to this meeting.</p>
           </div>
           {canCreate && (
             <Link href={`/meetings/${meetingId}/tasks/new`} className="btn-primary">
@@ -46,7 +46,7 @@ export function TasksTab({ meetingId, tasks, canCreate }: Props) {
           <p className="mt-4 text-slate-500">No tasks linked to this meeting yet.</p>
         ) : (
           <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200">
-            <table className="min-w-full divide-y divide-slate-200 text-sm">
+            <table className="min-w-full divide-y divide-slate-200 text-base">
               <thead>
                 <tr>
                   <th className="table-header px-4 py-2.5 text-left">Title</th>
@@ -74,7 +74,7 @@ export function TasksTab({ meetingId, tasks, canCreate }: Props) {
                       <span className={statusBadge(t.status)}>{t.status.replace(/_/g, ' ')}</span>
                     </td>
                     <td className="table-cell text-right">
-                      <Link href={`/meetings/${meetingId}/tasks/${t.taskId}`} className="text-sm font-medium text-blue-600 hover:underline">
+                      <Link href={`/meetings/${meetingId}/tasks/${t.taskId}`} className="text-base font-medium text-blue-600 hover:underline">
                         View
                       </Link>
                     </td>

@@ -110,22 +110,22 @@ export function PaperUploadDropzone({ meetingId, agendaItemId, onUploadSuccess }
         <input {...getInputProps()} />
         {uploading ? (
           <div>
-            <p className="text-sm text-gray-600">{t('document.upload.uploading')}</p>
+            <p className="text-base text-gray-600">{t('document.upload.uploading')}</p>
             <div className="mt-2 h-2 rounded bg-gray-200">
               <div className="h-2 rounded bg-blue-500 transition-all" style={{ width: `${progress}%` }} />
             </div>
           </div>
         ) : (
-          <p className="text-sm text-gray-600">
+          <p className="text-base text-gray-600">
             {isDragActive ? t('document.upload.dropHere') : t('document.upload.dropzone')}
           </p>
         )}
-        <p className="mt-1 text-xs text-gray-400">
+        <p className="mt-1 text-sm text-gray-400">
           {t('document.upload.acceptedTypes')} · {t('document.upload.maxSize', { max: '100MB' })}
         </p>
       </div>
       {error && (
-        <p className="mt-2 text-sm text-red-600" role="alert">
+        <p className="mt-2 text-base text-red-600" role="alert">
           {error}
         </p>
       )}

@@ -227,8 +227,8 @@ function Card({ children, style = {}, pad = 20 }: { children: React.ReactNode; s
 function SectionTitle({ children, sub }: { children: React.ReactNode; sub?: string }) {
   return (
     <div style={{ marginBottom: 14 }}>
-      <div style={{ fontSize: 13, fontWeight: 700, color: T.text, letterSpacing: '-0.2px' }}>{children}</div>
-      {sub && <div style={{ fontSize: 11, color: T.muted, marginTop: 2 }}>{sub}</div>}
+      <div style={{ fontSize: 17, fontWeight: 600, color: T.text, letterSpacing: '-0.2px' }}>{children}</div>
+      {sub && <div style={{ fontSize: 15, fontWeight: 400, color: T.muted, marginTop: 2 }}>{sub}</div>}
     </div>
   );
 }
@@ -322,43 +322,46 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
         <div className="text-center max-w-md">
           <div className="text-4xl mb-4">⚓</div>
           <h2 className="text-lg font-semibold text-slate-800">Dashboard unavailable</h2>
-          <p className="mt-2 text-sm text-slate-600">Unable to load data for this meeting. Check the meeting ID and try again.</p>
+          <p className="mt-2 text-base text-slate-600">Unable to load data for this meeting. Check the meeting ID and try again.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen m-0 p-0 w-full" style={{ background: T.bg, color: T.text }}>
+    <div className="min-h-screen w-full overflow-visible m-0 p-0" style={{ background: T.bg, color: T.text }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
-        body { font-family: 'DM Sans', sans-serif; }
         button { cursor: pointer; }
       `}</style>
 
-      {/* Topbar — gradient */}
+      {/* Topbar — gradient (min-height only — fixed h-14 clipped multi-line meeting title) */}
       <header
-        className="sticky top-0 z-50 flex items-center justify-between px-6 h-14"
+        className="sticky top-0 z-50 flex scroll-mt-0 items-center justify-between overflow-visible px-6 py-2.5 sm:py-3"
         style={{
           background: `linear-gradient(135deg, ${T.navy} 0%, ${T.navyMid} 100%)`,
           boxShadow: '0 4px 20px rgba(14,35,72,0.25)',
+          minHeight: '3.5rem',
+          overflow: 'visible',
+          scrollMarginTop: 0,
         }}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 flex-1 items-center gap-3">
           <span className="text-2xl">⚓</span>
-          <div>
-            <div className="text-sm font-bold text-white">ISEP</div>
-            <div className="text-[10px] text-white/50 uppercase tracking-wider">IMO Strategic Engagement Platform</div>
+          <div className="shrink-0">
+            <div className="text-base font-bold text-white">ISEP</div>
+            <div className="text-[14px] text-white/50 uppercase tracking-wider">IMO Strategic Engagement Platform</div>
           </div>
-          <div className="w-px h-7 bg-white/20 ml-2" />
-          <div className="text-xs text-white/70">
-            <span className="text-white font-semibold">{summary.meeting.title}</span>
-            {' · '}
-            {summary.meeting.body} Session {summary.meeting.session} · {summary.meeting.startDate} – {summary.meeting.endDate} · {summary.meeting.location}
+          <div className="hidden h-7 w-px shrink-0 bg-white/20 sm:ml-2 sm:block" />
+          <div className="min-w-0 pt-[12px] text-white/70">
+            <span className="block text-[18px] font-bold leading-tight text-white">{summary.meeting.title}</span>
+            <span className="mt-0.5 block text-base">
+              {summary.meeting.body} Session {summary.meeting.session} · {summary.meeting.startDate} –{' '}
+              {summary.meeting.endDate} · {summary.meeting.location}
+            </span>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex rounded-lg bg-white/10 p-1 gap-0.5">
+        <div className="ml-2 flex shrink-0 items-center gap-3 overflow-visible">
+          <div className="flex shrink-0 rounded-lg bg-white/10 p-1 gap-0.5">
             {Object.entries(ROLES).map(([key, r]) => (
               <button
                 key={key}
@@ -370,7 +373,7 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                   border: 'none',
                   background: activeRole === key ? r.bg : 'transparent',
                   color: activeRole === key ? '#fff' : 'rgba(255,255,255,0.5)',
-                  fontSize: 10,
+                  fontSize: 14,
                   fontWeight: 700,
                 }}
               >
@@ -378,9 +381,14 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10">
-            <div className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span className="text-xs text-white/80">{roleInfo.label}</span>
+          <div className="flex shrink-0 items-center gap-2 overflow-visible rounded-full bg-white/10 px-3 py-1.5">
+            <div className="h-2 w-2 shrink-0 rounded-full bg-emerald-400" />
+            <span
+              className="whitespace-nowrap text-xs font-medium text-white/90"
+              style={{ whiteSpace: 'nowrap' }}
+            >
+              {roleInfo.label}
+            </span>
           </div>
           {summary.pendingActions > 0 && (
             <div className="relative">
@@ -398,21 +406,36 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
 
       {/* Status banner — vivid gradient */}
       <div
-        className="px-6 py-4 flex items-center justify-between flex-wrap gap-4"
+        className="scroll-mt-0 flex flex-wrap items-center justify-between gap-4 overflow-visible px-6 pb-4"
         style={{
           background: `linear-gradient(135deg, ${T.navy} 0%, #1e3a5f 50%, ${T.teal} 100%)`,
           boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)',
+          paddingTop: 16,
+          overflow: 'visible',
+          scrollMarginTop: 0,
         }}
       >
         <div className="flex flex-wrap gap-8 items-center">
           <div>
-            <div className="text-[10px] uppercase tracking-wider text-white/50 mb-1">Meeting Preparedness</div>
+            <div
+              className="mb-1 uppercase text-white/70"
+              style={{ fontSize: 15, fontWeight: 600, letterSpacing: '0.5px' }}
+            >
+              Meeting Preparedness
+            </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-extrabold" style={{ color: summary.preparedness.score >= 80 ? '#4ADE80' : '#FCD34D' }}>
+              <span
+                className="leading-none"
+                style={{
+                  fontSize: 28,
+                  fontWeight: 700,
+                  color: summary.preparedness.score >= 80 ? '#4ADE80' : '#FCD34D',
+                }}
+              >
                 {score}
               </span>
-              <span className="text-sm text-white/40">/ 100</span>
-              <span className="text-xs text-emerald-300 ml-1">↑ {summary.preparedness.trend} this week</span>
+              <span className="text-base text-white/50">/ 100</span>
+              <span className="text-base font-medium text-emerald-200 ml-1">↑ {summary.preparedness.trend} this week</span>
             </div>
           </div>
           <div className="w-px h-10 bg-white/10" />
@@ -423,8 +446,15 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
             { label: 'Days to Meeting', val: isPastMeeting ? 'Meeting over' : String(summary.meeting.daysToMeeting), color: isPastMeeting ? '#94A3B8' : '#F9A8D4' },
           ].map((s, i) => (
             <div key={i}>
-              <div className="text-[10px] uppercase text-white/40 mb-0.5">{s.label}</div>
-              <div className="text-xl font-bold" style={{ color: s.color }}>{s.val}</div>
+              <div
+                className="mb-0.5 uppercase text-white/65"
+                style={{ fontSize: 15, fontWeight: 600, letterSpacing: '0.5px' }}
+              >
+                {s.label}
+              </div>
+              <div className="leading-tight" style={{ fontSize: 28, fontWeight: 700, color: s.color }}>
+                {s.val}
+              </div>
             </div>
           ))}
         </div>
@@ -432,8 +462,8 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
           <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/20 border border-red-400/50">
             <span>⚠</span>
             <div>
-              <div className="text-xs font-bold text-red-200">{summary.criticalAlerts} Critical Alert</div>
-              <div className="text-[10px] text-white/60">Review high-priority items</div>
+              <div className="text-sm font-bold text-red-200">{summary.criticalAlerts} Critical Alert</div>
+              <div className="text-[14px] text-white/70">Review high-priority items</div>
             </div>
           </div>
         )}
@@ -458,7 +488,7 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
               background: 'transparent',
               borderBottom: activeTab === t.key ? `3px solid ${T.blue}` : '3px solid transparent',
               color: activeTab === t.key ? T.blue : T.muted,
-              fontSize: 13,
+              fontSize: 15,
               fontWeight: activeTab === t.key ? 700 : 500,
             }}
           >
@@ -468,7 +498,7 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
       </div>
 
       {/* Content */}
-      <main className="px-6 py-5 max-w-6xl mx-auto">
+      <main className="w-full max-w-none px-6 py-5">
         {activeTab === 'overview' && (
           <div className="flex flex-col gap-5">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -477,14 +507,14 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                 <ScoreRing score={summary.preparedness.score} size={130} />
                 <div className="w-full flex flex-col gap-2 mt-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-500 w-28">No. of Tasks</span>
+                    <span className="w-28 text-[15px] font-normal text-slate-600">No. of Tasks</span>
                     <ProgressBar value={summary.preparedness.tasksComplete} max={summary.preparedness.tasksTotal} color={T.green} height={6} />
-                    <span className="text-xs font-bold w-10 text-right" style={{ color: T.green }}>{summary.preparedness.tasksComplete}/{summary.preparedness.tasksTotal}</span>
+                    <span className="text-sm font-bold w-10 text-right" style={{ color: T.green }}>{summary.preparedness.tasksComplete}/{summary.preparedness.tasksTotal}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-500 w-28">Papers prepared/discussed</span>
+                    <span className="w-28 text-[15px] font-normal text-slate-600">Papers prepared/discussed</span>
                     <ProgressBar value={summary.preparedness.papersReady} max={summary.preparedness.papersTotal} color={T.amber} height={6} />
-                    <span className="text-xs font-bold w-10 text-right" style={{ color: T.amber }}>{summary.preparedness.papersReady}/{summary.preparedness.papersTotal}</span>
+                    <span className="text-sm font-bold w-10 text-right" style={{ color: T.amber }}>{summary.preparedness.papersReady}/{summary.preparedness.papersTotal}</span>
                   </div>
                 </div>
               </Card>
@@ -493,7 +523,7 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                 <SectionTitle sub="Items requiring formal submission">High Priority Agenda Items</SectionTitle>
                 <div className="flex flex-col gap-2">
                   {highPriorityItems.length === 0 ? (
-                    <p className="text-sm text-slate-500">No high-priority items</p>
+                    <p className="text-[15px] font-normal text-slate-600">No high-priority items</p>
                   ) : (
                     highPriorityItems.map((item, i) => (
                       <div
@@ -505,7 +535,7 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                         }}
                       >
                         <div className="flex justify-between items-start gap-2 mb-1">
-                          <span className="text-sm font-bold text-slate-900 flex-1">{item.title}</span>
+                          <span className="text-base font-bold text-slate-900 flex-1">{item.title}</span>
                           {!isPastMeeting && (
                             <div className="flex gap-1 flex-shrink-0">
                               {item.paperStatus === 'FINALIZED' && <Badge label="Paper Ready" color={T.green} bg={T.greenLight} small />}
@@ -514,8 +544,10 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                             </div>
                           )}
                         </div>
-                        <div className="flex items-center gap-3 text-xs text-slate-600">
-                          <span>Tasks: <b className="text-slate-800">{item.tasksComplete}/{item.tasksTotal}</b></span>
+                        <div className="flex items-center gap-3 text-[15px] font-normal text-slate-700">
+                          <span>
+                            Tasks: <b className="font-semibold text-slate-900">{item.tasksComplete}/{item.tasksTotal}</b>
+                          </span>
                           {!isPastMeeting && item.positionReady && <Badge label="Position Set" color={T.green} small />}
                           {!isPastMeeting && !item.positionReady && <Badge label="Pending" color={T.amber} small />}
                           {!isPastMeeting && item.daysLeft != null && item.daysLeft >= 0 && <span style={{ color: item.daysLeft < 10 ? T.red : T.amber, fontWeight: 600 }}>{item.daysLeft}d left</span>}
@@ -528,37 +560,47 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
 
               <Card style={{ background: `linear-gradient(145deg, ${T.navy} 0%, ${T.navyMid} 100%)`, border: 'none' }}>
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-sm">✦</div>
+                  <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-base">✦</div>
                   <div>
-                    <div className="text-sm font-bold text-white">AI Insight</div>
-                    <div className="text-[10px] text-white/40">Generated {aiInsights?.generatedAt}</div>
+                    <div className="text-[17px] font-semibold text-white">AI Insight</div>
+                    <div className="text-[14px] font-medium text-white/60">Generated {aiInsights?.generatedAt}</div>
                   </div>
                 </div>
                 {isPastMeeting ? (
                   <>
-                    <div className="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-2">Meeting minutes & points discussed</div>
-                    <div className="flex flex-col gap-2 text-xs text-white/80 leading-snug">
+                    <div className="mb-2 text-[14px] font-bold uppercase tracking-wider text-white/60">
+                      Meeting minutes & points discussed
+                    </div>
+                    <div className="flex flex-col gap-2 leading-snug text-white/90" style={{ fontSize: 15, fontWeight: 400 }}>
                       <p>Summary of discussions, decisions, and action items from this meeting. Minutes and outcomes can be viewed under the Meeting detail → Outcomes / Live tab.</p>
                       <p>Key points discussed and resolutions are captured in the agenda items and paper pipeline for this session.</p>
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="p-3 rounded-lg bg-red-500/15 border border-red-400/30 mb-3">
-                      <div className="text-xs font-bold text-red-200 mb-1">⚠ Key Risk</div>
-                      <div className="text-xs text-white/80 leading-snug">{aiInsights?.keyRisk}</div>
+                    <div className="mb-3 rounded-lg border border-red-400/30 bg-red-500/15 p-3">
+                      <div className="mb-1 text-sm font-bold text-red-200">⚠ Key Risk</div>
+                      <div className="leading-snug text-white/90" style={{ fontSize: 15, fontWeight: 400 }}>
+                        {aiInsights?.keyRisk}
+                      </div>
                     </div>
-                    <div className="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-2">Recommendations</div>
+                    <div className="mb-2 text-[14px] font-bold uppercase tracking-wider text-white/60">Recommendations</div>
                     <div className="flex flex-col gap-2">
                       {(aiInsights?.recommendations ?? []).map((r, i) => (
                         <div key={i} className="flex gap-2">
-                          <span className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-[9px] text-white/50 flex-shrink-0">{i + 1}</span>
-                          <span className="text-xs text-white/75 leading-snug">{r}</span>
+                          <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-white/10 text-[10px] text-white/50">
+                            {i + 1}
+                          </span>
+                          <span className="leading-snug text-white/90" style={{ fontSize: 15, fontWeight: 400 }}>
+                            {r}
+                          </span>
                         </div>
                       ))}
                     </div>
-                    <div className="mt-3 p-2 rounded-lg bg-emerald-500/15 border border-emerald-400/20">
-                      <span className="text-xs text-emerald-300">📈 {aiInsights?.preparednessProjection?.split(': ')[1] ?? '—'}</span>
+                    <div className="mt-3 rounded-lg border border-emerald-400/20 bg-emerald-500/15 p-2">
+                      <span className="text-emerald-200" style={{ fontSize: 15, fontWeight: 400 }}>
+                        📈 {aiInsights?.preparednessProjection?.split(': ')[1] ?? '—'}
+                      </span>
                     </div>
                   </>
                 )}
@@ -569,7 +611,7 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
               <SectionTitle sub="Actions requiring your attention">My Pending Actions</SectionTitle>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {actions.length === 0 ? (
-                  <p className="text-sm text-slate-500 col-span-2">No pending actions</p>
+                  <p className="col-span-2 text-[15px] font-normal text-slate-600">No pending actions</p>
                 ) : (
                   actions.map((a, i) => (
                     <button
@@ -584,11 +626,11 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                     >
                       <ActionTypeIcon type={a.type} />
                       <div className="flex-1 min-w-0">
-                        <div className="text-sm font-bold text-slate-900 truncate">{a.title}</div>
-                        <div className="text-xs text-slate-600 line-clamp-2 mt-0.5">{a.detail}</div>
+                        <div className="truncate text-base font-bold text-slate-900">{a.title}</div>
+                        <div className="mt-0.5 line-clamp-2 text-[15px] font-normal text-slate-700">{a.detail}</div>
                         <div className="flex gap-2 items-center mt-2">
                           <Badge label={a.priority} color={a.priority === 'HIGH' ? T.red : T.amber} small />
-                          <span className="text-[10px] text-slate-500">Due: {a.dueDate}</span>
+                          <span className="text-[14px] text-slate-600">Due: {a.dueDate}</span>
                         </div>
                       </div>
                       <span className="text-slate-400 self-center">›</span>
@@ -604,7 +646,7 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
           <Card>
             <SectionTitle sub="Readiness status of agenda items">Agenda Item Readiness</SectionTitle>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm border-collapse">
+              <table className="w-full text-base border-collapse">
                 <thead>
                   <tr className="border-b-2 border-slate-200">
                     {['Priority', 'Agenda Item', "India's Position", 'Paper Status', 'Tasks', 'Submission'].map((h) => (
@@ -618,12 +660,12 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                       <td className="py-3 px-3">
                         <div className="flex items-center gap-1.5">
                           <PriorityDot priority={item.priority} />
-                          <span className="text-xs font-semibold" style={{ color: item.priority === 'HIGH' ? T.red : item.priority === 'MEDIUM' ? T.amber : T.muted }}>{item.priority}</span>
+                          <span className="text-sm font-semibold" style={{ color: item.priority === 'HIGH' ? T.red : item.priority === 'MEDIUM' ? T.amber : T.muted }}>{item.priority}</span>
                         </div>
                       </td>
                       <td className="py-3 px-3">
                         <div className="font-semibold text-slate-900">{item.title}</div>
-                        <div className="text-xs text-slate-500 mt-0.5">{item.id}</div>
+                        <div className="text-sm text-slate-500 mt-0.5">{item.id}</div>
                       </td>
                       <td className="py-3 px-3">
                         {item.positionReady ? <Badge label="Consolidated" color={T.green} bg={T.greenLight} small /> : <Badge label="Pending" color={T.amber} bg={T.amberLight} small />}
@@ -632,12 +674,12 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                         {item.paperStatus ? (
                           <div>
                             <StageBar stage={item.paperStatus === 'FINALIZED' ? 8 : item.paperStatus === 'DRAFT' ? 1 : 4} />
-                            <div className="text-[10px] text-slate-500 mt-1">{item.paperStatus.replace(/_/g, ' ')}</div>
+                            <div className="mt-1 text-[14px] text-slate-600">{item.paperStatus.replace(/_/g, ' ')}</div>
                           </div>
                         ) : item.submissionRequired && !isPastMeeting ? (
                           <Badge label="Not Started" color={T.red} bg={T.redLight} small />
                         ) : (
-                          <span className="text-xs text-slate-500">{item.submissionRequired && isPastMeeting ? '—' : 'Not required'}</span>
+                          <span className="text-sm text-slate-500">{item.submissionRequired && isPastMeeting ? '—' : 'Not required'}</span>
                         )}
                       </td>
                       <td className="py-3 px-3">
@@ -647,7 +689,7 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                         </div>
                       </td>
                       <td className="py-3 px-3">
-                        {item.submissionRequired ? <span className="text-xs font-semibold text-red-600">Required</span> : <span className="text-xs text-slate-500">—</span>}
+                        {item.submissionRequired ? <span className="text-sm font-semibold text-red-600">Required</span> : <span className="text-sm text-slate-500">—</span>}
                       </td>
                     </tr>
                   ))}
@@ -667,8 +709,8 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
               ].map((s, i) => (
                 <div key={i} className="flex gap-2 items-center px-4 py-2 rounded-lg border border-slate-200 bg-white">
                   <div className="w-2 h-2 rounded-full" style={{ background: s.color }} />
-                  <span className="text-sm font-bold" style={{ color: s.color }}>{s.count}</span>
-                  <span className="text-sm text-slate-500">{s.label}</span>
+                  <span className="text-base font-bold" style={{ color: s.color }}>{s.count}</span>
+                  <span className="text-base text-slate-500">{s.label}</span>
                 </div>
               ))}
             </div>
@@ -677,9 +719,9 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                 <div className="flex justify-between items-start gap-4 mb-3">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-mono font-semibold text-slate-500">{p.id}</span>
+                      <span className="text-sm font-mono font-semibold text-slate-500">{p.id}</span>
                       <span className="text-slate-400">·</span>
-                      <span className="text-xs text-slate-500">{p.agendaItem}</span>
+                      <span className="text-sm text-slate-500">{p.agendaItem}</span>
                       {p.urgent && <Badge label="Action Needed" color={T.red} bg={T.redLight} small />}
                     </div>
                     <div className="font-bold text-slate-900">{p.title}</div>
@@ -690,11 +732,11 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                       color={p.stage >= 7 ? T.green : p.stage >= 4 ? T.blue : p.stage >= 2 ? T.purple : T.amber}
                       bg={p.stage >= 7 ? T.greenLight : p.stage >= 4 ? T.blueLight : T.purpleLight}
                     />
-                    <div className="text-[10px] text-slate-500 mt-1">Stage {Math.min(p.stage, 7)} of 7</div>
+                    <div className="mt-1 text-[14px] text-slate-600">Stage {Math.min(p.stage, 7)} of 7</div>
                   </div>
                 </div>
                 <StageBar stage={p.stage} />
-                <div className="flex justify-between mt-2 text-xs text-slate-500">
+                <div className="flex justify-between mt-2 text-sm text-slate-500">
                   <span>Last action: <span className="text-slate-700 font-medium">{p.lastAction}</span> — {p.lastActionDate}</span>
                   <span>Submitted by: <span className="text-slate-700 font-medium">{p.submittedBy}</span></span>
                 </div>
@@ -707,7 +749,7 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
           <Card>
             <SectionTitle sub="Contribution and readiness across delegation">Delegation Activity</SectionTitle>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm border-collapse">
+              <table className="w-full text-base border-collapse">
                 <thead>
                   <tr className="border-b-2 border-slate-200">
                     {['Organisation', 'Role', 'Tasks', 'Feedback', 'Papers', 'Status'].map((h) => (
@@ -741,9 +783,9 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
 
         {activeTab === 'actions' && (
           <div className="flex flex-col gap-4">
-            <p className="text-sm text-slate-500">Showing actions for <strong className="text-slate-800">{roleInfo.label}</strong></p>
+            <p className="text-base text-slate-500">Showing actions for <strong className="text-slate-800">{roleInfo.label}</strong></p>
             {actions.length === 0 ? (
-              <Card><p className="text-sm text-slate-500">No pending actions</p></Card>
+              <Card><p className="text-base text-slate-500">No pending actions</p></Card>
             ) : (
               actions.map((a, i) => (
                 <Card key={i} style={{ border: a.priority === 'HIGH' ? `2px solid ${T.red}40` : undefined }}>
@@ -759,14 +801,14 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
                         <div className="font-bold text-slate-900">{a.title}</div>
                         <div className="flex gap-2">
                           <Badge label={a.priority} color={a.priority === 'HIGH' ? T.red : T.amber} small />
-                          <span className="text-xs text-slate-500">Due: {a.dueDate}</span>
+                          <span className="text-sm text-slate-500">Due: {a.dueDate}</span>
                         </div>
                       </div>
-                      <p className="text-sm text-slate-600 leading-snug mb-2">{a.detail}</p>
+                      <p className="text-base text-slate-600 leading-snug mb-2">{a.detail}</p>
                       <button
                         type="button"
                         onClick={() => a.screen && router.push(a.screen)}
-                        className="px-4 py-2 rounded-lg text-sm font-semibold text-white border-0"
+                        className="px-4 py-2 rounded-lg text-base font-semibold text-white border-0"
                         style={{ background: T.navy }}
                       >
                         Take Action →
@@ -781,8 +823,8 @@ export function ISEPExecutiveDashboard({ meetingId, accessToken, initialRole }: 
       </main>
 
       <footer className="px-6 py-3 border-t border-slate-200 flex justify-between items-center flex-wrap gap-2 mt-6">
-        <div className="text-xs text-slate-500">ISEP · Directorate General of Shipping · MoPSW · Government of India</div>
-        <div className="text-xs text-slate-500">AI Insights advisory only</div>
+        <div className="text-sm text-slate-500">ISEP · Directorate General of Shipping · MoPSW · Government of India</div>
+        <div className="text-sm text-slate-500">AI Insights advisory only</div>
       </footer>
     </div>
   );

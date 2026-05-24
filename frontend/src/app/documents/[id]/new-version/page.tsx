@@ -40,13 +40,13 @@ export default async function DocumentNewVersionPage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href={`/documents/${id}`} className="text-sm font-medium text-slate-500 hover:text-slate-700">← Document detail</Link>
+        <Link href={`/documents/${id}`} className="text-base font-medium text-slate-500 hover:text-slate-700">← Document detail</Link>
       </div>
       <div className="card">
         <div className="card-body">
           <h1 className="page-title">Upload new version</h1>
           <p className="page-subtitle">{doc.title} (v{currentVersion})</p>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-2 text-base text-slate-600">
             Provide a change summary and upload the new file. The new version will become the current version; you can compare versions after upload.
           </p>
           <div className="mt-6">

@@ -50,7 +50,7 @@ function MFAContent() {
       <div className="flex flex-col items-center justify-center py-12 px-4">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-blue-600" />
         {sessionSlow && (
-          <p className="mt-6 max-w-sm text-center text-sm text-slate-600">
+          <p className="mt-6 max-w-sm text-center text-base text-slate-600">
             Session is slow to load.{' '}
             <Link href="/api/auth/signout?callbackUrl=/" className="font-medium text-blue-600 underline">
               Sign out
@@ -65,7 +65,7 @@ function MFAContent() {
   if (!session?.user) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
-        <p className="text-sm text-slate-600">Redirecting to sign in…</p>
+        <p className="text-base text-slate-600">Redirecting to sign in…</p>
       </div>
     );
   }
@@ -75,7 +75,7 @@ function MFAContent() {
   if (!needsMfa) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
-        <p className="text-sm text-slate-600">Redirecting…</p>
+        <p className="text-base text-slate-600">Redirecting…</p>
       </div>
     );
   }
@@ -118,17 +118,17 @@ function MFAContent() {
       <div className="w-full max-w-sm">
         <div className="card p-8">
           <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-slate-900">Two-step verification</h1>
-            <p className="mt-2 text-sm text-slate-600">
+            <h1 className="text-3xl font-bold text-slate-900">Two-step verification</h1>
+            <p className="mt-2 text-base text-slate-600">
               Enter the 6-digit code from your authenticator app.
             </p>
             {process.env.NODE_ENV === 'development' && (
-              <p className="mt-2 text-xs text-slate-500">Development: any 6-digit code is accepted.</p>
+              <p className="mt-2 text-sm text-slate-500">Development: any 6-digit code is accepted.</p>
             )}
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="mfa-code" className="block text-sm font-medium text-slate-700 mb-1">
+              <label htmlFor="mfa-code" className="block text-base font-medium text-slate-700 mb-1">
                 Verification code
               </label>
               <input
@@ -146,7 +146,7 @@ function MFAContent() {
               />
             </div>
             {error && (
-              <div className="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">
+              <div className="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-base text-red-700">
                 {error}
               </div>
             )}
@@ -154,10 +154,10 @@ function MFAContent() {
               {loading ? 'Verifying…' : 'Verify'}
             </button>
           </form>
-          <p className="mt-4 text-center text-xs text-slate-500">
+          <p className="mt-4 text-center text-sm text-slate-500">
             Use backup code option if you don’t have your device (coming soon).
           </p>
-          <p className="mt-4 text-center text-sm text-slate-600">
+          <p className="mt-4 text-center text-base text-slate-600">
             Not you?{' '}
             <Link href={`/api/auth/signout?callbackUrl=${encodeURIComponent(callbackUrl || '/dashboard')}`} className="font-medium text-slate-900 underline hover:no-underline">
               Sign out and use a different account

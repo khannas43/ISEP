@@ -55,13 +55,13 @@ export function CorrespondenceTab({ meetingId, groups, canEdit }: Props) {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Correspondence Groups</h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-base text-slate-500">
               {canEdit
                 ? 'Check the groups you want to link to this meeting, then click Save. Only groups for this meeting\'s body are shown.'
                 : 'Groups linked to this meeting.'}
             </p>
             {canEdit && groups.length > 0 && (
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-sm text-slate-500">
                 How to link: tick the box next to each group you want linked, then click <strong>Save</strong>.
               </p>
             )}
@@ -77,18 +77,18 @@ export function CorrespondenceTab({ meetingId, groups, canEdit }: Props) {
                 {saving ? 'Saving…' : 'Save'}
               </button>
             )}
-            <Link href="/correspondence-groups" className="text-sm font-medium text-blue-600 hover:underline">
+            <Link href="/correspondence-groups" className="text-base font-medium text-blue-600 hover:underline">
               View all →
             </Link>
           </div>
         </div>
         {error && (
-          <p className="mt-2 text-sm text-red-600" role="alert">
+          <p className="mt-2 text-base text-red-600" role="alert">
             {error}
           </p>
         )}
         {groups.length === 0 ? (
-          <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-slate-700">
+          <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-base text-slate-700">
             <p className="font-medium text-amber-800">No correspondence groups available for this meeting&apos;s body.</p>
             <p className="mt-1 text-slate-600">
               Create correspondence groups under <Link href="/correspondence-groups" className="text-blue-600 hover:underline">Correspondence Groups</Link> for the same body (committee) as this meeting; they will then appear here so you can link them.
@@ -96,7 +96,7 @@ export function CorrespondenceTab({ meetingId, groups, canEdit }: Props) {
           </div>
         ) : (
           <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200">
-            <table className="min-w-full divide-y divide-slate-200 text-sm">
+            <table className="min-w-full divide-y divide-slate-200 text-base">
               <thead>
                 <tr>
                   {canEdit && (
@@ -142,7 +142,7 @@ export function CorrespondenceTab({ meetingId, groups, canEdit }: Props) {
                       </span>
                     </td>
                     <td className="table-cell text-right">
-                      <Link href={`/correspondence-groups/${g.cgId}`} className="text-sm font-medium text-blue-600 hover:underline">
+                      <Link href={`/correspondence-groups/${g.cgId}`} className="text-base font-medium text-blue-600 hover:underline">
                         View
                       </Link>
                     </td>

@@ -96,12 +96,12 @@ export default async function UserListPage({ searchParams }: Props) {
 
       <div className="card mb-6">
         <div className="card-header">
-          <h2 className="text-sm font-semibold text-slate-700">Filters</h2>
+          <h2 className="text-base font-semibold text-slate-700">Filters</h2>
         </div>
         <div className="card-body">
           <form method="get" className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Search</span>
+              <span className="text-sm font-medium text-slate-600">Search</span>
               <input
                 type="search"
                 name="search"
@@ -111,7 +111,7 @@ export default async function UserListPage({ searchParams }: Props) {
               />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Role</span>
+              <span className="text-sm font-medium text-slate-600">Role</span>
               <select name="systemRole" defaultValue={systemRole ?? ''} className="input-base min-w-[160px]">
                 <option value="">All roles</option>
                 {Object.entries(SYSTEM_ROLE_LABELS).map(([value, label]) => (
@@ -122,7 +122,7 @@ export default async function UserListPage({ searchParams }: Props) {
               </select>
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-medium text-slate-600">Status</span>
+              <span className="text-sm font-medium text-slate-600">Status</span>
               <select name="activeOnly" defaultValue={activeOnlyDefault} className="input-base min-w-[120px]">
                 <option value="">All</option>
                 <option value="true">Active only</option>
@@ -154,7 +154,7 @@ export default async function UserListPage({ searchParams }: Props) {
                 <td colSpan={6} className="table-cell py-12 text-center">
                   <p className="text-slate-500">No users found. Try adjusting your filters.</p>
                   {!accessToken && (
-                    <p className="mt-2 text-sm text-amber-600">
+                    <p className="mt-2 text-base text-amber-600">
                       You may need to sign in again so the app can load data from the API.
                     </p>
                   )}
@@ -190,7 +190,7 @@ export default async function UserListPage({ searchParams }: Props) {
       </div>
 
       {usersPage.totalPages > 1 && (
-        <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
+        <div className="mt-4 flex flex-wrap items-center gap-4 text-base">
           {page > 0 && (
             <Link
               href={`/admin/users?${new URLSearchParams(

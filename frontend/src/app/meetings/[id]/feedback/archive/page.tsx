@@ -58,7 +58,7 @@ export default async function FeedbackArchivePage({ params }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link href={`/meetings/${id}`} className="text-sm font-medium text-slate-500 hover:text-slate-700">
+        <Link href={`/meetings/${id}`} className="text-base font-medium text-slate-500 hover:text-slate-700">
           ← Meeting
         </Link>
       </div>
