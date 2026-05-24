@@ -3,8 +3,17 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
 import { getApiUrl } from '@/lib/api';
+import { ApiUnavailableBanner } from '@/components/ApiUnavailableBanner';
 
-type TaskRow = { taskId: string; title: string; dueDate: string | null; status: string; assignedToName?: string | null; meetingId?: string | null };
+type TaskRow = {
+  taskId: string;
+  title: string;
+  dueDate: string | null;
+  status: string;
+  assignedTo?: string[];
+  assignedToNames?: string[];
+  meetingId?: string | null;
+};
 
 /**
  * SCR-TASK-04 — Team task dashboard. Data from API only.
@@ -15,9 +24,10 @@ export default async function TeamTasksPage() {
 
   const accessToken = (session as { accessToken?: string }).accessToken;
   let taskList: TaskRow[] = [];
+  let apiUnavailable = false;
   if (accessToken) {
     try {
-      const res = await fetch(`${getApiUrl()}/api/v1/tasks?size=200`, {
+      const res = await fetch(`${getApiUrl()}/api/v1/tasks/team`, {
         headers: { Authorization: `Bearer ${accessToken}` },
         cache: 'no-store',
       });
@@ -25,17 +35,25 @@ export default async function TeamTasksPage() {
         const data = await res.json();
         const content = data.content ?? data ?? [];
         taskList = Array.isArray(content) ? content : [];
+      } else {
+        apiUnavailable = true;
       }
     } catch {
-      // Leave empty when API unavailable
+      apiUnavailable = true;
     }
   }
 
   const byAssignee = new Map<string, { name: string; tasks: TaskRow[] }>();
   for (const t of taskList) {
-    const name = t.assignedToName ?? 'Unassigned';
-    if (!byAssignee.has(name)) byAssignee.set(name, { name, tasks: [] });
-    byAssignee.get(name)!.tasks.push(t);
+    const names = t.assignedToNames?.length
+      ? t.assignedToNames
+      : t.assignedTo?.length
+        ? t.assignedTo.map((id) => `User ${id.slice(0, 8)}`)
+        : ['Unassigned'];
+    for (const name of names) {
+      if (!byAssignee.has(name)) byAssignee.set(name, { name, tasks: [] });
+      byAssignee.get(name)!.tasks.push(t);
+    }
   }
 
   const today = new Date().toISOString().slice(0, 10);
@@ -57,6 +75,7 @@ export default async function TeamTasksPage() {
         <Link href="/tasks" className="btn-secondary text-base">Tasks by meeting</Link>
         <Link href="/tasks/my" className="btn-secondary text-base">My tasks</Link>
       </div>
+      {apiUnavailable && <ApiUnavailableBanner />}
 
       <div className="overflow-x-auto">
         <table className="min-w-full border-collapse overflow-hidden rounded-lg border border-[var(--slate-200)] text-base shadow-sm">
@@ -70,7 +89,13 @@ export default async function TeamTasksPage() {
             </tr>
           </thead>
           <tbody>
-            {Array.from(byAssignee.entries()).map(([name, { tasks: assigneeTasks }]) => {
+            {byAssignee.size === 0 ? (
+              <tr>
+                <td colSpan={5} className="border border-slate-200 px-4 py-8 text-center text-slate-500">
+                  No team tasks found.
+                </td>
+              </tr>
+            ) : Array.from(byAssignee.entries()).map(([name, { tasks: assigneeTasks }]) => {
               const overdueCount = assigneeTasks.filter((t) => t.dueDate && t.dueDate < today && t.status !== 'COMPLETED').length;
               const pending = assigneeTasks.filter((t) => getStatusGroup(t) === 'Pending');
               const inProgress = assigneeTasks.filter((t) => getStatusGroup(t) === 'IN_PROGRESS');

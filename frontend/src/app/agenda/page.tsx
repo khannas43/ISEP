@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth';
 import { getApiUrl, type MeetingDto } from '@/lib/api';
 import { ApiUnavailableBanner } from '@/components/ApiUnavailableBanner';
 import { formatDisplayDate } from '@/lib/format';
+import { getAppBasePath } from '@/lib/appBasePath';
 
 async function getMeetings(accessToken: string): Promise<MeetingDto[]> {
   const res = await fetch(`${getApiUrl()}/api/v1/meetings?size=50&status=ACTIVE`, {
@@ -47,6 +48,7 @@ export default async function AgendaPage({ searchParams }: Props) {
   const params = await searchParams;
   const q = params.q ?? '';
   const accessToken = (session as { accessToken?: string }).accessToken;
+  const basePath = getAppBasePath();
   let allMeetings: MeetingDto[] = [];
   let apiUnavailable = false;
   if (accessToken) {
@@ -72,7 +74,7 @@ export default async function AgendaPage({ searchParams }: Props) {
           <h2 className="text-base font-semibold text-slate-700">Search</h2>
         </div>
         <div className="card-body">
-          <form method="get" action="/agenda" className="flex flex-wrap gap-4 items-end">
+          <form method="get" action={`${basePath}/agenda`} className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-slate-600">Meeting title or body</span>
               <input type="search" name="q" defaultValue={q} placeholder="Search meetings…" className="input-base min-w-[220px]" />

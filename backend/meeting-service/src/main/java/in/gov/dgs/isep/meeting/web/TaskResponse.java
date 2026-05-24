@@ -19,5 +19,6 @@ public record TaskResponse(
         Instant createdAt,
         Boolean isOverdue,
         Instant escalatedAt,
-        String meetingTitle
+        String meetingTitle,
+        List<String> assignedToNames
 ) {}

@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth';
 import { getApiUrl, type CorrespondenceGroupDto } from '@/lib/api';
 import { ApiUnavailableBanner } from '@/components/ApiUnavailableBanner';
 import { formatDisplayDate } from '@/lib/format';
+import { getAppBasePath } from '@/lib/appBasePath';
 
 async function getCorrespondenceGroups(accessToken: string, bodyId?: string): Promise<CorrespondenceGroupDto[]> {
   const params = new URLSearchParams();
@@ -23,13 +24,13 @@ async function getCorrespondenceGroups(accessToken: string, bodyId?: string): Pr
 type SortKey = 'name' | 'parentBodyName' | 'indiaLeadName' | 'startDate' | 'status' | 'createdAt';
 type SortDir = 'asc' | 'desc';
 
-function buildSortUrl(current: { q?: string; sortBy?: string; sortDir?: string }, sortBy: SortKey): string {
+function buildSortUrl(current: { q?: string; sortBy?: string; sortDir?: string }, sortBy: SortKey, basePath: string): string {
   const dir: SortDir = current.sortBy === sortBy && current.sortDir === 'asc' ? 'desc' : 'asc';
   const params = new URLSearchParams();
   if (current.q) params.set('q', current.q);
   params.set('sortBy', sortBy);
   params.set('sortDir', dir);
-  return `/correspondence-groups?${params.toString()}`;
+  return `${basePath}/correspondence-groups?${params.toString()}`;
 }
 
 function sortGroups(groups: CorrespondenceGroupDto[], sortBy: SortKey, sortDir: SortDir): CorrespondenceGroupDto[] {
@@ -97,6 +98,7 @@ export default async function CorrespondenceGroupsPage({ searchParams }: Props) 
   const roles = (session as { roles?: string[] }).roles ?? [];
   const canCreate = roles.includes('SYSTEM_ADMIN') || roles.includes('COORDINATOR');
   const accessToken = (session as { accessToken?: string }).accessToken;
+  const basePath = getAppBasePath();
   let allGroups: CorrespondenceGroupDto[] = [];
   let apiUnavailable = false;
   if (accessToken) {
@@ -131,7 +133,7 @@ export default async function CorrespondenceGroupsPage({ searchParams }: Props) 
           <h2 className="text-base font-semibold text-slate-700">Search</h2>
         </div>
         <div className="card-body">
-          <form method="get" action="/correspondence-groups" className="flex flex-wrap gap-4 items-end">
+          <form method="get" action={`${basePath}/correspondence-groups`} className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-slate-600">Name, parent body, or India lead</span>
               <input
@@ -160,32 +162,32 @@ export default async function CorrespondenceGroupsPage({ searchParams }: Props) 
                 <thead>
                   <tr>
                     <th className="table-header px-4 py-2.5 text-left">
-                      <Link href={buildSortUrl(sortState, 'name')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
+                      <Link href={buildSortUrl(sortState, 'name', basePath)} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
                         Name {sortBy === 'name' && (sortDir === 'asc' ? '↑' : '↓')}
                       </Link>
                     </th>
                     <th className="table-header px-4 py-2.5 text-left">
-                      <Link href={buildSortUrl(sortState, 'parentBodyName')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
+                      <Link href={buildSortUrl(sortState, 'parentBodyName', basePath)} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
                         Parent body {sortBy === 'parentBodyName' && (sortDir === 'asc' ? '↑' : '↓')}
                       </Link>
                     </th>
                     <th className="table-header px-4 py-2.5 text-left">
-                      <Link href={buildSortUrl(sortState, 'indiaLeadName')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
+                      <Link href={buildSortUrl(sortState, 'indiaLeadName', basePath)} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
                         India lead {sortBy === 'indiaLeadName' && (sortDir === 'asc' ? '↑' : '↓')}
                       </Link>
                     </th>
                     <th className="table-header px-4 py-2.5 text-left">
-                      <Link href={buildSortUrl(sortState, 'startDate')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
+                      <Link href={buildSortUrl(sortState, 'startDate', basePath)} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
                         Period {sortBy === 'startDate' && (sortDir === 'asc' ? '↑' : '↓')}
                       </Link>
                     </th>
                     <th className="table-header px-4 py-2.5 text-left">
-                      <Link href={buildSortUrl(sortState, 'status')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
+                      <Link href={buildSortUrl(sortState, 'status', basePath)} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
                         Status {sortBy === 'status' && (sortDir === 'asc' ? '↑' : '↓')}
                       </Link>
                     </th>
                     <th className="table-header px-4 py-2.5 text-left">
-                      <Link href={buildSortUrl(sortState, 'createdAt')} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
+                      <Link href={buildSortUrl(sortState, 'createdAt', basePath)} className="inline-flex items-center gap-1 font-semibold text-slate-700 hover:text-slate-900">
                         Creation Date {sortBy === 'createdAt' && (sortDir === 'asc' ? '↑' : '↓')}
                       </Link>
                     </th>

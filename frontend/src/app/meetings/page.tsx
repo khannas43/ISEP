@@ -30,7 +30,7 @@ async function getMeetings(
   if (params.bodyId) searchParams.set('bodyId', params.bodyId);
   if (params.status) searchParams.set('status', params.status);
   if (params.page != null && params.page > 0) searchParams.set('page', String(params.page));
-  searchParams.set('size', '20');
+  searchParams.set('size', '100');
   const url = `${getApiUrl()}/api/v1/meetings?${searchParams.toString()}`;
   const res = await fetch(url, {
     headers: { Authorization: `Bearer ${accessToken}` },
@@ -38,7 +38,7 @@ async function getMeetings(
   });
   if (!res.ok) {
     console.error('[Meetings] API error:', res.status, res.statusText, url);
-    return { content: [], totalElements: 0, totalPages: 0, size: 20, number: 0 };
+    return { content: [], totalElements: 0, totalPages: 0, size: 100, number: 0 };
   }
   const data = await res.json();
   // Spring Page uses content, totalElements, totalPages, size, number
@@ -143,7 +143,7 @@ export default async function MeetingsListPage({ searchParams }: Props) {
   const sortDir = (params.sortDir === 'asc' || params.sortDir === 'desc' ? params.sortDir : 'desc') as SortDir;
 
   let bodies: BodyDto[] = [];
-  let meetingsPage: MeetingsPage = { content: [], totalElements: 0, totalPages: 0, size: 20, number: 0 };
+  let meetingsPage: MeetingsPage = { content: [], totalElements: 0, totalPages: 0, size: 100, number: 0 };
   let statusOptions: { value: string; label: string }[] = [{ value: '', label: 'All statuses' }];
   let meetingTypeOptions: { value: string; label: string }[] = [{ value: '', label: 'All types' }];
   let yearOptions: { value: string; label: string }[] = [{ value: '', label: 'All years' }];
@@ -224,7 +224,7 @@ export default async function MeetingsListPage({ searchParams }: Props) {
           <h2 className="text-base font-semibold text-slate-700">Filters</h2>
         </div>
         <div className="card-body">
-          <form method="get" action="/meetings" className="flex flex-wrap gap-4 items-end">
+          <form method="get" action={`${basePath}/meetings`} className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
               <span className="text-base font-medium text-slate-600">Search</span>
               <input

@@ -35,6 +35,15 @@ public class TaskApiController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping
+    public ResponseEntity<java.util.List<TaskResponse>> list(
+            @RequestParam(required = false) UUID meetingId,
+            Authentication authentication
+    ) {
+        UUID userId = SecurityUtils.resolveInternalUserId(authentication, userRepository);
+        return ResponseEntity.ok(taskApiService.listTeam(userId, meetingId, authentication));
+    }
+
     @PostMapping
     public ResponseEntity<TaskResponse> create(
             @Valid @RequestBody CreateTaskApiRequest request,

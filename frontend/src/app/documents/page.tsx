@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth';
 import { getApiUrl, type DocumentDto } from '@/lib/api';
 import { ApiUnavailableBanner } from '@/components/ApiUnavailableBanner';
 import { formatDisplayDate } from '@/lib/format';
+import { getAppBasePath } from '@/lib/appBasePath';
 
 async function getDocuments(accessToken: string, opts?: { meetingId?: string; q?: string }): Promise<{ content: DocumentDto[]; totalElements: number }> {
   const params = new URLSearchParams();
@@ -36,6 +37,7 @@ export default async function DocumentsPage({ searchParams }: Props) {
   const params = await searchParams;
   const q = params.q ?? '';
   const accessToken = (session as { accessToken?: string }).accessToken;
+  const basePath = getAppBasePath();
   let documents: DocumentDto[] = [];
   let totalElements = 0;
   let apiUnavailable = false;
@@ -62,7 +64,7 @@ export default async function DocumentsPage({ searchParams }: Props) {
           <h2 className="text-base font-semibold text-slate-700">Search</h2>
         </div>
         <div className="card-body">
-          <form method="get" action="/documents" className="flex flex-wrap gap-4 items-end">
+          <form method="get" action={`${basePath}/documents`} className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-slate-600">Title or file name</span>
               <input

@@ -21,13 +21,13 @@
 --   admin-sa     c1000000-0000-0000-0000-000000000000
 --   co-user      c1000000-0000-0000-0000-000000000001
 --   dl-user      c1000000-0000-0000-0000-000000000002
---   member-user  c1000000-0000-0000-0000-000000000004
+--   me-user      c1000000-0000-0000-0000-000000000004
 
 -- Re-running seed: keep keycloak_id in sync with Keycloak usernames (no-op if rows missing).
 UPDATE core.users SET keycloak_id = 'admin-sa' WHERE user_id = 'c1000000-0000-0000-0000-000000000000'::uuid;
 UPDATE core.users SET keycloak_id = 'co-user' WHERE user_id = 'c1000000-0000-0000-0000-000000000001'::uuid;
 UPDATE core.users SET keycloak_id = 'dl-user' WHERE user_id = 'c1000000-0000-0000-0000-000000000002'::uuid;
-UPDATE core.users SET keycloak_id = 'member-user' WHERE user_id = 'c1000000-0000-0000-0000-000000000004'::uuid;
+UPDATE core.users SET keycloak_id = 'me-user' WHERE user_id = 'c1000000-0000-0000-0000-000000000004'::uuid;
 
 -- Demo body (abbreviation MSC-DEMO to avoid clashing with real MSC rows)
 INSERT INTO core.international_bodies (body_id, name, abbreviation, body_type, is_active, created_at, updated_at)
@@ -54,6 +54,57 @@ INSERT INTO core.meetings (
   'PLANNED',
   NOW(), NOW()
 ) ON CONFLICT (meeting_id) DO NOTHING;
+
+INSERT INTO correspondence.correspondence_groups (
+  cg_id, parent_body_id, name, mandate, india_lead_id, start_date, end_date, status, imso_reference
+) VALUES
+(
+  '00000000-0000-0000-0000-000000000701'::uuid,
+  '00000000-0000-0000-0000-000000000010'::uuid,
+  'CG on MARPOL Annex VI Amendments',
+  'Coordinate India inputs on proposed air-pollution prevention amendments.',
+  'c1000000-0000-0000-0000-000000000001'::uuid,
+  CURRENT_DATE - 30,
+  CURRENT_DATE + 90,
+  'ACTIVE',
+  'MSC108-CG-ENV-01'
+),
+(
+  '00000000-0000-0000-0000-000000000702'::uuid,
+  '00000000-0000-0000-0000-000000000010'::uuid,
+  'CG on Onboard Carbon Capture Guidelines',
+  'Review technical and policy inputs for onboard carbon capture systems.',
+  'c1000000-0000-0000-0000-000000000001'::uuid,
+  CURRENT_DATE - 20,
+  CURRENT_DATE + 120,
+  'ACTIVE',
+  'MSC108-CG-CCS-02'
+),
+(
+  '00000000-0000-0000-0000-000000000703'::uuid,
+  '00000000-0000-0000-0000-000000000010'::uuid,
+  'CG on Maritime Safety Digitalisation',
+  'Track delegation inputs on digital reporting and safety data exchange.',
+  'c1000000-0000-0000-0000-000000000002'::uuid,
+  CURRENT_DATE - 60,
+  CURRENT_DATE + 45,
+  'ACTIVE',
+  'MSC108-CG-DIGI-03'
+)
+ON CONFLICT (cg_id) DO UPDATE SET
+  name = EXCLUDED.name,
+  mandate = EXCLUDED.mandate,
+  india_lead_id = EXCLUDED.india_lead_id,
+  start_date = EXCLUDED.start_date,
+  end_date = EXCLUDED.end_date,
+  status = EXCLUDED.status,
+  imso_reference = EXCLUDED.imso_reference;
+
+INSERT INTO core.meeting_correspondence_groups (meeting_id, cg_id)
+VALUES
+  ('00000000-0000-0000-0000-000000000001'::uuid, '00000000-0000-0000-0000-000000000701'::uuid),
+  ('00000000-0000-0000-0000-000000000001'::uuid, '00000000-0000-0000-0000-000000000702'::uuid)
+ON CONFLICT (meeting_id, cg_id) DO NOTHING;
 
 INSERT INTO core.agenda_items (
   agenda_item_id, meeting_id, item_number, title, description, category, status, created_at, updated_at
@@ -140,7 +191,7 @@ SELECT
 FROM (SELECT user_id FROM core.users WHERE is_active = true ORDER BY created_at LIMIT 1) u
 ON CONFLICT (version_id) DO NOTHING;
 
--- Task: assigned_to = member-user, assigned_by = co-user (both NOT NULL per core.tasks schema).
+-- Task: assigned_to = me-user, assigned_by = co-user (both NOT NULL per core.tasks schema).
 INSERT INTO core.tasks (
   task_id, title, description, agenda_item_id, meeting_id, assigned_to, assigned_by,
   priority, due_date, status, created_at, updated_at

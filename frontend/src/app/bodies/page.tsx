@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
 import { getApiUrl, type BodyDto } from '@/lib/api';
 import { ApiUnavailableBanner } from '@/components/ApiUnavailableBanner';
+import { getAppBasePath } from '@/lib/appBasePath';
 
 async function getBodies(accessToken: string): Promise<BodyDto[]> {
   const res = await fetch(`${getApiUrl()}/api/v1/bodies`, {
@@ -33,6 +34,7 @@ export default async function BodiesListPage({ searchParams }: Props) {
   const params = await searchParams;
   const q = params.q ?? '';
   const accessToken = (session as { accessToken?: string }).accessToken;
+  const basePath = getAppBasePath();
   let allBodies: BodyDto[] = [];
   let apiUnavailable = false;
   if (accessToken) {
@@ -67,7 +69,7 @@ export default async function BodiesListPage({ searchParams }: Props) {
           <h2 className="text-base font-semibold text-slate-700">Search</h2>
         </div>
         <div className="card-body">
-          <form method="get" action="/bodies" className="flex flex-wrap gap-4 items-end">
+          <form method="get" action={`${basePath}/bodies`} className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-slate-600">Name or abbreviation</span>
               <input

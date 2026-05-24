@@ -388,6 +388,13 @@ public class TaskApiService {
         if (t.getMeeting() != null) {
             meetingTitle = t.getMeeting().getTitle();
         }
+        Map<UUID, String> namesById = new HashMap<>();
+        if (!assigneeIds.isEmpty()) {
+            userRepository.findAllById(assigneeIds).forEach(u -> namesById.put(u.getUserId(), u.getFullName()));
+        }
+        List<String> assigneeNames = assigneeIds.stream()
+                .map(id -> namesById.getOrDefault(id, id.toString()))
+                .toList();
         return new TaskResponse(
                 t.getTaskId(),
                 t.getTitle(),
@@ -403,7 +410,8 @@ public class TaskApiService {
                 t.getCreatedAt(),
                 overdue,
                 t.getEscalatedAt(),
-                meetingTitle
+                meetingTitle,
+                assigneeNames
         );
     }
 

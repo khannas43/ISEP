@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth';
 import { getPapers, type PaperListItem } from '@/lib/api';
 import { ApiUnavailableBanner } from '@/components/ApiUnavailableBanner';
 import { PaperStatusBadge } from '@/components/papers/PaperStatusBadge';
+import { getAppBasePath } from '@/lib/appBasePath';
 
 type Props = { searchParams: Promise<{ status?: string; meetingId?: string }> };
 
@@ -20,6 +21,7 @@ export default async function PapersPage({ searchParams }: Props) {
 
   const params = await searchParams;
   const accessToken = (session as { accessToken?: string }).accessToken;
+  const basePath = getAppBasePath();
   let papers: PaperRow[] = [];
   let apiUnavailable = false;
   if (accessToken) {
@@ -35,6 +37,7 @@ export default async function PapersPage({ searchParams }: Props) {
   if (params.meetingId) {
     papers = papers.filter((p) => p.meetingId === params.meetingId);
   }
+  papers = papers.sort((a, b) => (b.lastUpdated ?? '').localeCompare(a.lastUpdated ?? ''));
 
   return (
     <div>
@@ -47,10 +50,10 @@ export default async function PapersPage({ searchParams }: Props) {
       </div>
       <div className="card mb-6">
         <div className="card-body">
-          <form method="get" action="/papers" className="flex flex-wrap gap-4 items-end">
+          <form method="get" action={`${basePath}/papers`} className="flex flex-wrap gap-4 items-end">
             <label className="flex flex-col gap-1.5">
               <span className="text-base font-medium text-slate-600">Status</span>
-              <select name="status" className="input-base min-w-[160px]">
+              <select name="status" defaultValue={params.status ?? ''} className="input-base min-w-[160px]">
                 <option value="">All</option>
                 <option value="DRAFT">Draft</option>
                 <option value="IN_APPROVAL">In approval</option>
@@ -78,7 +81,7 @@ export default async function PapersPage({ searchParams }: Props) {
               {papers.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
-                    No papers match the filter.
+                    {params.status || params.meetingId ? 'No papers match the filter.' : 'No papers found.'}
                   </td>
                 </tr>
               ) : (

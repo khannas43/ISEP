@@ -360,6 +360,7 @@ export type TaskV1Response = {
   isOverdue: boolean | null;
   escalatedAt: string | null;
   meetingTitle?: string | null;
+  assignedToNames?: string[];
 };
 
 // ========== Correspondence groups ==========
