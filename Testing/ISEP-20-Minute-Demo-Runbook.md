@@ -88,6 +88,7 @@ Optional quick action:
 ### 4. Position Paper Drafting - 3 minutes
 
 Open the paper draft:
+India — MARPOL Annex VI amendments (demo paper) -- Draft Stage
 
 `/papers/00000000-0000-0000-0000-000000000501/draft/`
 
@@ -129,6 +130,7 @@ If there is time, log in separately as `moefcc-rep` / `Agency@12345!` to show th
 ### 6. Live Meeting Collaboration - 2 minutes
 
 Open:
+meetings >> Maritime Safety Committee — 108th Session >> Live Meeting >> Open Live Lobby
 
 `/meetings/00000000-0000-0000-0000-000000000001/live/`
 
@@ -147,6 +149,7 @@ Do not create many posts; one quick comment is enough if needed.
 ### 7. Minutes of Meeting and Closure - 3 minutes
 
 Open:
+meetings >> Maritime Safety Committee — 108th Session >> Ourcomes >> Minutes of Meetings
 
 `/meetings/00000000-0000-0000-0000-000000000001/mom/`
 
