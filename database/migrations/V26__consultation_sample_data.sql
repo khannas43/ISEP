@@ -12,9 +12,9 @@
 --   MoS         → PENDING             (not yet opened)
 --   MoPNG       → PENDING             (not yet opened)
 --
--- Run:
+-- Run (from database/):
 --   PGPASSWORD=isep_dev_password psql -h localhost -p 5433 \
---     -U isep_app -d isep -f V26__consultation_sample_data.sql
+--     -U isep_app -d isep -f migrations/V26__consultation_sample_data.sql
 -- =============================================================================
 
 BEGIN;

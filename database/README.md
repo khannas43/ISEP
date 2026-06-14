@@ -4,6 +4,31 @@ PostgreSQL 15+ migrations and seeds per SRS-06.
 
 **Push local data to hosted DB:** See **[DATA-PUSH-TO-HOSTED.md](./DATA-PUSH-TO-HOSTED.md)** for steps to copy your local PostgreSQL data to the production server (pg_dump → transfer → pg_restore) or to load sample data on the host (migrations + seeds).
 
+## What is in GitHub (schema + data)
+
+| Location | Contents |
+|----------|----------|
+| **`database/migrations/`** | **Schema** — Flyway-style SQL `V1`…`V27` (tables, constraints, indexes, some reference rows) |
+| **`database/seeds/`** | **Sample data** — bodies, ~70 meetings, users, agenda, tasks, papers, notifications, audit (run after migrations) |
+| **`scripts/demo-seed.sql`** | Fixed-UUID demo rows (MSC 108, document versions, task) for smoke tests |
+| **`database/migrations/V26__consultation_sample_data.sql`** | Consultation demo data (MoEFCC / external agencies clip) |
+| **`isep_dump.sql`** (repo root) | **Full DB dump** — schema + all data (plain SQL; restore with `psql`) |
+| **`isep_data_only.sql`** (repo root) | **Data-only dump** — use when hosted DB already has schema from migrations |
+| **`isep_dump.dump`** (repo root) | Custom-format dump for `pg_restore` (Postgres versions must match) |
+
+**Refresh dumps from your local DB** (ISEP Postgres must be running on port 5433):
+
+```bash
+chmod +x database/scripts/export-db-dumps.sh
+PGPASSWORD=isep_dev_password ./database/scripts/export-db-dumps.sh localhost 5433
+git add isep_dump.sql isep_data_only.sql isep_dump.dump
+git commit -m "Refresh PostgreSQL dumps"
+git push
+```
+
+If port 5433 is in use by another container, stop it or start ISEP stack:  
+`cd infrastructure/docker && docker compose -f docker-compose.dev.yml up -d postgresql`
+
 ## Migrations
 
 - **migrations/** — Versioned SQL (Flyway-style naming: `V{n}__description.sql`).
